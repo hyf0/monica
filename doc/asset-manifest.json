@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/monica/static/css/main.8ef93899.chunk.css",
+    "main.js": "/monica/static/js/main.bc6fb240.chunk.js",
+    "main.js.map": "/monica/static/js/main.bc6fb240.chunk.js.map",
+    "runtime~main.js": "/monica/static/js/runtime~main.654b4799.js",
+    "runtime~main.js.map": "/monica/static/js/runtime~main.654b4799.js.map",
+    "static/js/2.a6ceb993.chunk.js": "/monica/static/js/2.a6ceb993.chunk.js",
+    "static/js/2.a6ceb993.chunk.js.map": "/monica/static/js/2.a6ceb993.chunk.js.map",
+    "index.html": "/monica/index.html",
+    "precache-manifest.ee1bba16c935c9d00ddcf7e40758220e.js": "/monica/precache-manifest.ee1bba16c935c9d00ddcf7e40758220e.js",
+    "service-worker.js": "/monica/service-worker.js",
+    "static/css/main.8ef93899.chunk.css.map": "/monica/static/css/main.8ef93899.chunk.css.map"
+  }
+}

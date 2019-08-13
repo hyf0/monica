@@ -1,62 +1,40 @@
 import React, { useCallback } from 'react';
-// import { css } from 'emotion';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { hideSideMenu, createNewTask } from '../../store/actions';
-import SideMenu from '../../components/SideMenu';
-import { uniqueId } from '../../helper';
+import { hideSideMenu } from '../../store/actions';
 
-SideMenuContainer.propTypes = {
-    onClickMask: PropTypes.func,
-    children: PropTypes.element,
-    tasks: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired
-};
-
-SideMenuContainer.defaultProps = {
-    // onClickMask: () => {},
-    // children: <div>default menu content</div>
-};
+import TaskListContainer from '../TaskListContainer';
+import MenuListContainer from '../MenuListContainer';
+import RightSlidePage from '../../components/RightSlidePage';
 
 function SideMenuContainer(props) {
-    const { dispatch, tasks } = props;
-    const onClickSideMenuMask = useCallback(() => {
-        dispatch(hideSideMenu());
-    }, [dispatch]);
+  const { dispatch, showSideMenu } = props;
+  const onClickSideMenuMask = useCallback(() => {
+    dispatch(hideSideMenu());
+  }, [dispatch]);
 
-    const onCreateTask = useCallback(
-        taskTitle => {
-            dispatch(
-                createNewTask({
-                    title: taskTitle,
-                    id: uniqueId(),
-                    items: []
-                })
-            );
-        },
-        [dispatch]
-    );
-
-    const onClickTask = useCallback(() => {
-        dispatch(hideSideMenu());
-    }, [dispatch]);
-
-    return (
-        <SideMenu
-            onClickTask={onClickTask}
-            onCreateTask={onCreateTask}
-            tasks={tasks}
-            onClickMask={onClickSideMenuMask}
-        />
-    );
+  return (
+    <RightSlidePage show={showSideMenu} onClickMask={onClickSideMenuMask}>
+      <TaskListContainer />
+      <MenuListContainer />
+    </RightSlidePage>
+  );
 }
 
-const mapState = ({ showSideMenu, tasks }) => ({
-    showSideMenu,
-    tasks
+SideMenuContainer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  showSideMenu: PropTypes.bool.isRequired,
+};
+
+// SideMenuContainer.defaultProps = {
+//   showSideMenu: true,
+// };
+
+const mapState = ({ $global }) => ({
+  showSideMenu: $global.get('showSideMenu'),
 });
 
 export default connect(
-    mapState,
-    null
+  mapState,
+  null,
 )(SideMenuContainer);

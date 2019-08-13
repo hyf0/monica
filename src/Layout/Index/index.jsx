@@ -1,64 +1,50 @@
-import React, { useCallback } from 'react';
-import AppBar from '../../components/AppBar';
-// import Home from '../../containers/Home';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import { css } from 'emotion';
+import { Switch, Route } from 'react-router-dom';
+import AppBarContainer from '../../containers/AppBarContainer';
 
-import { showSideMenu } from '../../store/actions';
 import SideMenuContainer from '../../containers/SideMenuContainer';
+import TodoListContainer from '../../containers/TodoListContainer';
+import TaskListContainer from '../../containers/TaskListContainer';
 
-Index.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    showSideMenu: PropTypes.bool.isRequired,
-    children: PropTypes.node
-};
-
-Index.defaultProps = {
-    dispatch: PropTypes.func.isRequired,
-    showSideMenu: PropTypes.bool.isRequired,
-    children: ''
-};
-
-function Index(props) {
-    const { dispatch } = props;
-    const onClickMenuButton = useCallback(() => {
-        dispatch(showSideMenu());
-    }, [dispatch]);
-
-    return (
-        <div
-            className={css`
-                position: relative;
-                height: 100vh;
-                display: flex;
-                flex-flow: column nowrap;
-            `}
-        >
-            <div
-                className={css`
-                    position: relative;
-                    flex: 1;
-                `}
-            >
-                {props.children}
-            </div>
-            <AppBar
-                className={css`
-                    flex: 0 0 60px;
-                `}
-                onClickMenuButton={onClickMenuButton}
-            />
-            {props.showSideMenu ? <SideMenuContainer /> : null}
-        </div>
-    );
+function Index() {
+  return (
+    <div
+      className={css`
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-flow: column nowrap;
+      `}
+    >
+      <div
+        className={css`
+          position: relative;
+          flex: 1;
+          overflow-y: scroll;
+          overflow-x: hidden;
+        `}
+      >
+        <Switch>
+          <Route path="/:action/:id" component={TodoListContainer} />
+          <Route component={TaskListContainer} />
+        </Switch>
+      </div>
+      <AppBarContainer />
+      <SideMenuContainer />
+    </div>
+  );
 }
 
-const mapState = ({ showSideMenu }) => ({
-    showSideMenu
-});
+// Index.propTypes = {
+//   // dispatch: PropTypes.func.isRequired,
+//   // children: PropTypes.node,
+// };
 
-export default connect(
-    mapState,
-    null
-)(Index);
+// Index.defaultProps = {
+//   // children: '',
+// };
+
+export default Index;

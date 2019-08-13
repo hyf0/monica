@@ -1,26 +1,23 @@
 import React from 'react';
-import { Router } from '@reach/router';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import Index from './Layout/Index';
-import TodoListContainer from './containers/TodoListContainer';
-import { store } from './store';
+// import TodoListContainer from './containers/TodoListContainer';
 
-const Default = () => <div default>选择一个任务</div>;
+import { store, persistor } from './store';
 
 function App() {
-    return (
-        <Provider store={store}>
-            <div className="App">
-                <Router>
-                    <Index path="/">
-                        <Default default />
-                        <TodoListContainer path=":action/:id" />
-                    </Index>
-                </Router>
-            </div>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<div>loding...</div>}>
+        <Router>
+          <Route path="/" component={Index} />
+        </Router>
+      </PersistGate>
+    </Provider>
+  );
 }
 
 export default App;
