@@ -2,7 +2,7 @@
   "name": "monica",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://myname.github.io/monica",
+  "homepage": "http://myname.github.io/monica/",
   "dependencies": {
     "@material-ui/core": "^4.3.1",
     "@material-ui/icons": "^4.2.1",
