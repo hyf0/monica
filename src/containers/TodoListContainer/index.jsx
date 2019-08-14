@@ -14,7 +14,6 @@ import {
   resetIsEditngTaskEdited,
   toggleTaskItemChecked,
 } from '../../store/actions';
-import { ROOT_URL } from '../../utils/constants';
 
 const FOR_EDITING = 'edit'; // 编辑模式
 const FOR_TODO = 'todo'; // 任务模式
