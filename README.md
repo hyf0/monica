@@ -2,7 +2,7 @@
 
 Monica 是一个类 TodoList 应用，其目的在于在做某件事情前，做好各种准备。对于各种例行流程的事情，实现记录好其准备工作，于是乎，凡是经过记录的事情，你再也不用费心去记忆了，唯一需要你记忆的就是在做事情前先想想，这件事 monica 上有没有。
 
-应用地址：http://myname.github.io/monica
+应用地址：http://iheyunfei.com/monica/
 
 # 使用场景
 
