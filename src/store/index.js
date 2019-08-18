@@ -16,13 +16,13 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-// const store = createStore(
-//   persistedReducer,
-//   /* eslint-disable */
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-// );
+const store = createStore(
+  persistedReducer,
+  /* eslint-disable */
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
 
-const store = createStore(persistedReducer);
+// const store = createStore(persistedReducer);
 
 export const persistor = persistStore(store);
 

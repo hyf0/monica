@@ -1,10 +1,10 @@
 export const uniqueId = (function saveNextId() {
-  let nextId = -1;
-  const date = 'develoopment' || new Date().toISOString();
+  let curID = -1;
+  const date = Date.now().toString();
   return function generatorOfUniqueId(prefix = '') {
-    nextId += 1;
-    if (prefix.length === 0) return `${date} - ${nextId}`;
-    return `${prefix} - ${date} - ${nextId}`;
+    curID += 1;
+    if (prefix.length === 0) return `${date}-${curID}`;
+    return `${prefix}-${date}-${curID}`;
   };
 }());
 
