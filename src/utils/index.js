@@ -18,3 +18,23 @@ export function withStopEventtPropagation(func) {
     return func(...args);
   };
 }
+
+/**
+ *
+ * @param {Array} arr
+ * @param {String} key
+ */
+export function normalize(arr, name = 'entity', key = 'id') {
+  const result = {};
+  const entity = {};
+  const refs = [];
+  const refsName = 'refs';
+  result[name] = entity;
+  result[refsName] = refs;
+  arr.forEach((oriObj) => {
+    const identityKey = oriObj[key];
+    refs.push(identityKey);
+    entity[identityKey] = oriObj;
+  });
+  return result;
+}

@@ -3,29 +3,31 @@ import Fab from '@material-ui/core/Fab';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { COLOR_ORANGE, COLOR_GREEN } from '../utils/constants';
-import { completeTheFirstUncheckedTaskItem } from '../store/actions';
+import { taskActions } from '../store/actions';
 
 const CompleteTaskButton = (props) => {
-  const { $tasksItems, dispatch, history } = props;
+  const {
+    $tasksItemsEntity, $tasksItemsRefs, dispatch, history,
+  } = props;
 
-  const numOfAllTaskItem = $tasksItems.size;
+  const numOfAllTaskItem = $tasksItemsRefs.size;
   const numOfUncheckedItem = useMemo(
-    () => $tasksItems.count($taskItem => $taskItem.get('checked')),
-    [$tasksItems],
+    () => $tasksItemsRefs.count(taskId => $tasksItemsEntity.getIn([taskId, 'checked'])),
+    [$tasksItemsEntity, $tasksItemsRefs],
   );
   const isAllComleted = numOfAllTaskItem === numOfUncheckedItem;
 
   const onClickCompleteButton = useCallback(() => {
     if (!isAllComleted) {
-      dispatch(completeTheFirstUncheckedTaskItem());
+      dispatch(taskActions.checkTaskItemInTaskItemsByIndex(numOfUncheckedItem));
     } else {
       /* 全部完成，进行跳转 */
       history.push('/');
     }
-  }, [dispatch, isAllComleted, history]);
+  }, [dispatch, isAllComleted, history, numOfUncheckedItem]);
 
   const buttonText = isAllComleted
     ? `全部完成(${numOfUncheckedItem}/${numOfAllTaskItem})`
@@ -51,7 +53,8 @@ const CompleteTaskButton = (props) => {
 };
 
 CompleteTaskButton.propTypes = {
-  $tasksItems: Proptypes.instanceOf(List),
+  $tasksItemsEntity: Proptypes.instanceOf(Map),
+  $tasksItemsRefs: Proptypes.instanceOf(List),
   dispatch: Proptypes.func.isRequired,
   history: Proptypes.shape({
     push: Proptypes.func.isRequired,
@@ -59,12 +62,14 @@ CompleteTaskButton.propTypes = {
 };
 
 CompleteTaskButton.defaultProps = {
-  $tasksItems: new List(),
+  $tasksItemsRefs: new List(),
+  $tasksItemsEntity: new Map(),
 };
 
-const mapState = ({ $global }) => ({
-  isEditingTaskEdited: $global.get('isEditingTaskEdited'),
-  $tasksItems: $global.getIn(['$currentTask', '$items']),
+const mapState = ({ $Task }) => ({
+  // isEditingTaskEdited: $Task.get('isEditingTaskEdited'),
+  $tasksItemsEntity: $Task.getIn(['currentTodoTask', 'items', 'entity']),
+  $tasksItemsRefs: $Task.getIn(['currentTodoTask', 'items', 'refs']),
 });
 
 export default connect(

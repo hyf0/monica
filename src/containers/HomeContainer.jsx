@@ -1,45 +1,39 @@
 import React, { useCallback, useMemo } from 'react';
 
 import PropTypes from 'prop-types';
-import { List as ImmutableList } from 'immutable';
+import { List as ImmutableList, Map } from 'immutable';
 import { connect } from 'react-redux';
 
 import PinnedTaskList from '../components/PinnedTaskList';
 
-import {
-  addTaskIdToPinnedTaskIds,
-  removeTaskIdInPinnedTaskIds,
-  addTaskIdToRecentTaskIds,
-  changeCurrentTaskById,
-} from '../store/actions';
+import { taskActions } from '../store/actions';
 import RecentTaskList from '../components/RecentTaskList';
 
 function HomeContainer(props) {
   const {
-    $recentTaskIds, dispatch, history, $tasks, $pinnedTaskIds,
+    $recentTaskIds, dispatch, history, $tasksEntity, $pinnedTaskIds,
   } = props;
+  const $recentTasks = useMemo(() => $recentTaskIds.map(taskId => $tasksEntity.get(taskId)), [
+    $recentTaskIds,
+    $tasksEntity,
+  ]);
 
-  const $recentTasks = useMemo(
-    () => $recentTaskIds.map(taskId => $tasks.find($task => $task.get('id') === taskId)),
-    [$recentTaskIds, $tasks],
-  );
-
-  const $pinnedTasks = useMemo(
-    () => $pinnedTaskIds.map(taskId => $tasks.find($task => $task.get('id') === taskId)),
-    [$pinnedTaskIds, $tasks],
-  );
+  const $pinnedTasks = useMemo(() => $pinnedTaskIds.map(taskId => $tasksEntity.get(taskId)), [
+    $pinnedTaskIds,
+    $tasksEntity,
+  ]);
 
   const pinOneTask = useCallback(
     ($task) => {
       const id = $task.get('id');
-      dispatch(addTaskIdToPinnedTaskIds(id));
+      dispatch(taskActions.addTaskIdToPinnedTaskIds(id));
     },
     [dispatch],
   );
 
   const unpinOneTask = useCallback(
     ($task) => {
-      dispatch(removeTaskIdInPinnedTaskIds($task.get('id')));
+      dispatch(taskActions.removeTaskIdInPinnedTaskIds($task.get('id')));
     },
     [dispatch],
   );
@@ -47,8 +41,7 @@ function HomeContainer(props) {
   const onClickTask = useCallback(
     ($task) => {
       const id = $task.get('id');
-      dispatch(changeCurrentTaskById(id));
-      dispatch(addTaskIdToRecentTaskIds(id));
+      dispatch(taskActions.addTaskIdToRecentTaskIds(id));
       history.push(`/todo/${$task.get('id')}`);
     },
     [dispatch, history],
@@ -73,7 +66,7 @@ function HomeContainer(props) {
 HomeContainer.propTypes = {
   $recentTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
   $pinnedTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
-  $tasks: PropTypes.instanceOf(ImmutableList).isRequired,
+  $tasksEntity: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -82,10 +75,10 @@ HomeContainer.propTypes = {
 
 HomeContainer.defaultProps = {};
 
-const mapState = ({ $global }) => ({
-  $recentTaskIds: $global.get('$recentTaskIds'),
-  $pinnedTaskIds: $global.get('$pinnedTaskIds'),
-  $tasks: $global.get('$tasks'),
+const mapState = ({ $Task }) => ({
+  $recentTaskIds: $Task.get('recentTaskIds'),
+  $pinnedTaskIds: $Task.get('pinnedTaskIds'),
+  $tasksEntity: $Task.getIn(['tasks', 'entity']),
 });
 
 export default connect(

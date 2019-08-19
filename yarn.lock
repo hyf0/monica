@@ -6825,6 +6825,11 @@ normalize-url@^3.0.0:
   resolved "http://r.cnpmjs.org/normalize-url/download/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha1-suHE3E98bVd0PfczpPWXjRhlBVk=
 
+normalizr@^3.4.1:
+  version "3.4.1"
+  resolved "http://r.cnpmjs.org/normalizr/download/normalizr-3.4.1.tgz#cf4f8ac7a4a0dd7fe504b77cbe9dd533cb3e45b5"
+  integrity sha1-z0+Kx6Sg3X/lBLd8vp3VM8s+RbU=
+
 npm-bundled@^1.0.1:
   version "1.0.6"
   resolved "http://r.cnpmjs.org/npm-bundled/download/npm-bundled-1.0.6.tgz#e7ba9aadcef962bb61248f91721cd932b3fe6bdd"
@@ -8545,10 +8550,10 @@ recursive-readdir@2.2.2:
   dependencies:
     minimatch "3.0.4"
 
-redux-immutable@^4.0.0:
-  version "4.0.0"
-  resolved "http://r.cnpmjs.org/redux-immutable/download/redux-immutable-4.0.0.tgz#3a1a32df66366462b63691f0e1dc35e472bbc9f3"
-  integrity sha1-Ohoy32Y2ZGK2NpHw4dw15HK7yfM=
+redux-observable@^1.1.0:
+  version "1.1.0"
+  resolved "http://r.cnpmjs.org/redux-observable/download/redux-observable-1.1.0.tgz#323a8fe53e89fdb519be2807b55f08e21c13e6f1"
+  integrity sha1-MjqP5T6J/bUZvigHtV8I4hwT5vE=
 
 redux-persist-transform-immutable@^5.0.0:
   version "5.0.0"
@@ -8854,7 +8859,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.4.0:
+rxjs@^6.4.0, rxjs@^6.5.2:
   version "6.5.2"
   resolved "http://r.cnpmjs.org/rxjs/download/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
   integrity sha1-LjXOgVzUbYTQKiCftOWSHgUdvsc=

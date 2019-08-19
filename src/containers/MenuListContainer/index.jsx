@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Map, List } from 'immutable';
+import { fromJS } from 'immutable';
 import MenuList from '../../components/MenuList';
-import { uniqueId } from '../../utils';
-import { createNewTask } from '../../store/actions';
+import { uniqueId, normalize } from '../../utils';
+import { taskActions } from '../../store/actions';
 
 function MenuListContainer(props) {
   const { dispatch } = props;
@@ -12,11 +12,11 @@ function MenuListContainer(props) {
   const onCreateTask = useCallback(
     (taskTitle) => {
       dispatch(
-        createNewTask(
-          Map({
+        taskActions.addTaskToTasks(
+          fromJS({
             title: taskTitle,
             id: uniqueId(),
-            $items: new List(),
+            items: normalize([]),
           }),
         ),
       );

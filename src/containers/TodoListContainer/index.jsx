@@ -2,75 +2,42 @@ import React, { useCallback } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 // import { Map, List } from 'immutable';
 import { Map } from 'immutable';
 
 import TaskItemList from '../../components/TaskItemList';
-import {
-  addNewTaskItemInCurrentEditingTask,
-  removeTaskItemInCurrentEditingTask,
-  // changeCurrentEditingTask,
-  resetIsEditngTaskEdited,
-  toggleTaskItemChecked,
-} from '../../store/actions';
-
-const FOR_EDITING = 'edit'; // 编辑模式
-const FOR_TODO = 'todo'; // 任务模式
+import { taskActions } from '../../store/actions';
 
 function TodoListContainer(props) {
   const {
-    // match: {
-    //   params: { id: currentEditingTaskId, action },
-    // },
     match: {
-      params: { action },
+      params: { id: taskId },
     },
-    // $tasks,
+    $tasksEntity,
+    $currentTodoTask,
     dispatch,
   } = props;
-  let $task;
-  if (action === FOR_EDITING) {
-    $task = props.$currentEditingTask;
-  } else if (action === FOR_TODO) {
-    $task = props.$currentTask;
+
+  const $targetTask = $tasksEntity.get(taskId);
+  if ($currentTodoTask == null) {
+    dispatch(taskActions.changeCurrentTodoTask($targetTask));
   }
-  const isEditable = action === FOR_EDITING;
-
-  const onCreateNewTaskItem = useCallback(
-    ($newTaskItem) => {
-      dispatch(addNewTaskItemInCurrentEditingTask($newTaskItem));
-      dispatch(resetIsEditngTaskEdited(true));
-    },
-    [dispatch],
-  );
-
-  const onClickRemoveButton = useCallback(
-    ($taskItem) => {
-      dispatch(removeTaskItemInCurrentEditingTask($taskItem));
-      dispatch(resetIsEditngTaskEdited(true));
-    },
-    [dispatch],
-  );
 
   const toggleTaskItemPropChecked = useCallback(
     ($taskItem) => {
-      // 编辑模式不可用
-      if (isEditable) return;
-      dispatch(toggleTaskItemChecked($taskItem));
+      dispatch(taskActions.toggleTaskItemPropChecked($taskItem));
     },
-    [dispatch, isEditable],
+    [dispatch],
   );
 
-  if ($task == null) return <Redirect to="/" />;
+  if ($currentTodoTask == null) return <div />;
 
   return (
     <TaskItemList
-      onCreateNewTaskItem={onCreateNewTaskItem}
-      onClickRemoveButton={onClickRemoveButton}
       onClickCheckbox={toggleTaskItemPropChecked}
-      $task={$task}
-      isEditable={isEditable}
+      $task={$currentTodoTask}
+      isEditable={false}
     />
   );
 }
@@ -83,21 +50,19 @@ TodoListContainer.propTypes = {
     }),
   }).isRequired,
   // $tasks: PropTypes.instanceOf(List).isRequired,
-  $currentEditingTask: PropTypes.instanceOf(Map),
-  $currentTask: PropTypes.instanceOf(Map),
+  $tasksEntity: PropTypes.instanceOf(Map).isRequired,
+  $currentTodoTask: PropTypes.instanceOf(Map),
   dispatch: PropTypes.func.isRequired,
 };
 
 TodoListContainer.defaultProps = {
-  $currentEditingTask: new Map(),
-  $currentTask: new Map(),
+  $currentTodoTask: new Map(),
 };
 
-const mapState = ({ $global }) => ({
+const mapState = ({ $global, $Task }) => ({
   showSideMenu: $global.get('showSideMenu'),
-  $currentEditingTask: $global.get('$currentEditingTask'),
-  $currentTask: $global.get('$currentTask'),
-  $tasks: $global.get('$tasks'),
+  $tasksEntity: $Task.getIn(['tasks', 'entity']),
+  $currentTodoTask: $Task.get('currentTodoTask'),
 });
 
 export default connect(

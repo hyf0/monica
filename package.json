@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.2.1",
     "emotion": "^10.0.14",
     "immutable": "^4.0.0-rc.12",
+    "normalizr": "^3.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -16,9 +17,10 @@
     "react-scripts": "3.0.1",
     "react-transition-group": "^4.2.2",
     "redux": "^4.0.4",
-    "redux-immutable": "^4.0.0",
+    "redux-observable": "^1.1.0",
     "redux-persist": "^5.10.0",
-    "redux-persist-transform-immutable": "^5.0.0"
+    "redux-persist-transform-immutable": "^5.0.0",
+    "rxjs": "^6.5.2"
   },
   "scripts": {
     "start": "react-scripts start",

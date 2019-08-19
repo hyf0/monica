@@ -11,38 +11,30 @@ import { connect } from 'react-redux';
 import { css } from 'emotion';
 import { Switch, Route, withRouter } from 'react-router-dom';
 
-import {
-  showSideMenu,
-  syncCurrentEdtingTaskToTasks,
-  resetIsEditngTaskEdited,
-} from '../../store/actions';
-import { COLOR_BLUE, COLOR_GREY } from '../../utils/constants';
+import { showSideMenu } from '../../store/actions';
+import { COLOR_BLUE } from '../../utils/constants';
 import CompleteTaskButtonContainer from '../CompleteTaskButtonContainer';
 
-const SaveChangeButton = (props) => {
-  const { onClick, isEditingTaskEdited } = props;
-  return (
-    <Fab
-      disabled={!isEditingTaskEdited}
-      style={{
-        flex: '1',
-        backgroundColor: !isEditingTaskEdited ? COLOR_GREY : COLOR_BLUE,
-        color: '#fff',
-      }}
-      variant="extended"
-      size="medium"
-      aria-label="add"
-      onClick={onClick}
-    >
-      {'保存修改'}
-    </Fab>
-  );
-};
-
-SaveChangeButton.propTypes = {
-  onClick: Proptypes.func.isRequired,
-  isEditingTaskEdited: Proptypes.bool.isRequired,
-};
+const SaveChangeButton = () => (
+  // const { onClick, isEditingTaskEdited } = props;
+  <Fab
+    // disabled={!isEditingTaskEdited}
+    style={{
+      flex: '1',
+      // backgroundColor: !isEditingTaskEdited ? COLOR_GREY : COLOR_BLUE,
+      color: '#fff',
+    }}
+    variant="extended"
+    size="medium"
+    aria-label="add"
+  >
+    {'占位按钮，已经实现自动保存'}
+  </Fab>
+);
+// SaveChangeButton.propTypes = {
+//   onClick: Proptypes.func.isRequired,
+//   isEditingTaskEdited: Proptypes.bool.isRequired,
+// };
 
 const StartOneTaskButton = (props) => {
   const { onClick } = props;
@@ -65,15 +57,15 @@ StartOneTaskButton.propTypes = {
 };
 
 function AppBarContainer(props) {
-  const { dispatch, isEditingTaskEdited, history } = props;
+  const { dispatch, history } = props;
   const onClickMenuButton = useCallback(() => {
     dispatch(showSideMenu());
   }, [dispatch]);
 
   const onClickSaveChangeButton = useCallback(() => {
-    dispatch(syncCurrentEdtingTaskToTasks());
-    dispatch(resetIsEditngTaskEdited(false));
-  }, [dispatch]);
+    // eslint-disable-next-line no-console
+    console.log('onClickSaveChangeButton');
+  }, []);
 
   const onClickStartOneTaskButton = useCallback(() => {
     dispatch(showSideMenu());
@@ -102,7 +94,7 @@ function AppBarContainer(props) {
             path="/edit"
             render={() => (
               <SaveChangeButton
-                isEditingTaskEdited={isEditingTaskEdited}
+                // isEditingTaskEdited={isEditingTaskEdited}
                 onClick={onClickSaveChangeButton}
               />
             )}
@@ -120,7 +112,6 @@ function AppBarContainer(props) {
 }
 AppBarContainer.propTypes = {
   dispatch: Proptypes.func.isRequired,
-  isEditingTaskEdited: Proptypes.bool.isRequired,
   history: Proptypes.shape({
     push: Proptypes.func.isRequired,
   }).isRequired,
@@ -132,7 +123,6 @@ AppBarContainer.defaultProps = {
 };
 
 const mapState = ({ $global }) => ({
-  isEditingTaskEdited: $global.get('isEditingTaskEdited'),
   $currentTaskItems: $global.getIn(['$currentTask', '$items']),
 });
 export default connect(

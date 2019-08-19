@@ -69,26 +69,29 @@ function TaskItemList(props) {
         </Typography>
       </ListItem>
       <TransitionGroup className={slowFade}>
-        {$task.get('$items').map($item => (
-          <CSSTransition key={$item.get('id')} timeout={300} classNames="slow-fade">
-            <React.Fragment key={$item.get('id')}>
-              <ListItem>
-                <Checkbox
-                  onClick={() => onClickCheckbox($item)}
-                  edge="start"
-                  checked={$item.get('checked')}
-                />
-                <ListItemText primary={$item.get('title')} />
-                {isEditable ? (
-                  <IconButton onClick={() => onClickRemoveButton($item)}>
-                    <DeleteIcon />
-                  </IconButton>
-                ) : null}
-              </ListItem>
-              <Divider variant="middle" />
-            </React.Fragment>
-          </CSSTransition>
-        ))}
+        {$task.getIn(['items', 'refs']).map((taskItemId) => {
+          const $item = $task.getIn(['items', 'entity', taskItemId]);
+          return (
+            <CSSTransition key={$item.get('id')} timeout={300} classNames="slow-fade">
+              <React.Fragment key={$item.get('id')}>
+                <ListItem>
+                  <Checkbox
+                    onClick={() => onClickCheckbox($item)}
+                    edge="start"
+                    checked={$item.get('checked')}
+                  />
+                  <ListItemText primary={$item.get('title')} />
+                  {isEditable ? (
+                    <IconButton onClick={() => onClickRemoveButton($item)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : null}
+                </ListItem>
+                <Divider variant="middle" />
+              </React.Fragment>
+            </CSSTransition>
+          );
+        })}
       </TransitionGroup>
       {isEditable ? (
         <ListItem button>
