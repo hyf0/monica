@@ -3,12 +3,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Fab from '@material-ui/core/Fab';
 import Proptypes from 'prop-types';
-import MoreIcon from '@material-ui/icons/MoreVert';
+// import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import { css } from 'emotion';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import {
   showSideMenu,
@@ -64,7 +65,7 @@ StartOneTaskButton.propTypes = {
 };
 
 function AppBarContainer(props) {
-  const { dispatch, isEditingTaskEdited } = props;
+  const { dispatch, isEditingTaskEdited, history } = props;
   const onClickMenuButton = useCallback(() => {
     dispatch(showSideMenu());
   }, [dispatch]);
@@ -77,6 +78,10 @@ function AppBarContainer(props) {
   const onClickStartOneTaskButton = useCallback(() => {
     dispatch(showSideMenu());
   }, [dispatch]);
+
+  const onClickHomeButton = useCallback(() => {
+    history.push('/');
+  }, [history]);
 
   return (
     <AppBar
@@ -106,8 +111,8 @@ function AppBarContainer(props) {
           <Route render={() => <StartOneTaskButton onClick={onClickStartOneTaskButton} />} />
         </Switch>
 
-        <IconButton edge="end">
-          <MoreIcon />
+        <IconButton onClick={onClickHomeButton} edge="end">
+          <HomeIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
@@ -116,6 +121,9 @@ function AppBarContainer(props) {
 AppBarContainer.propTypes = {
   dispatch: Proptypes.func.isRequired,
   isEditingTaskEdited: Proptypes.bool.isRequired,
+  history: Proptypes.shape({
+    push: Proptypes.func.isRequired,
+  }).isRequired,
   // $currentTaskItems: Proptypes.instanceOf(List),
 };
 
@@ -130,4 +138,4 @@ const mapState = ({ $global }) => ({
 export default connect(
   mapState,
   null,
-)(AppBarContainer);
+)(withRouter(AppBarContainer));

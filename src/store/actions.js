@@ -28,6 +28,11 @@ export const changeCurrentTask = task => ({
   payload: task,
 });
 
+export const changeCurrentTaskById = taskId => ({
+  type: constants.CHANGE_CURRENT_TASK_BY_ID,
+  payload: taskId,
+});
+
 export const changeCurrentEditingTask = task => ({
   type: constants.CHANGE_CURRENT_CURRENT_EDITING_TASK,
   payload: task,
@@ -63,4 +68,24 @@ export const completeAllUncheckedTaskItem = () => ({
 export const toggleTaskItemChecked = $taskItem => ({
   type: constants.TOGGLE_TASK_ITEM_CHECKED,
   payload: $taskItem,
+});
+
+export const addTaskIdToRecentTaskIds = $taskId => ({
+  type: constants.ADD_TASK_ID_TO_RECENT_TASK_IDS,
+  payload: $taskId,
+});
+
+export const removeTaskIdInRecentTaskIds = $taskId => ({
+  type: constants.REMOVE_TASK_ID_IN_RECENT_TASK_IDS,
+  payload: $taskId,
+});
+
+export const addTaskIdToPinnedTaskIds = $taskId => ({
+  type: constants.ADD_TASK_ID_TO_PINNED_TASK_IDS,
+  payload: $taskId,
+});
+
+export const removeTaskIdInPinnedTaskIds = $taskId => ({
+  type: constants.REMOVE_TASK_ID_IN_PINNED_TASK_IDS,
+  payload: $taskId,
 });

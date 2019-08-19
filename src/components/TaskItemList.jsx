@@ -1,16 +1,16 @@
 import React, { useState, useCallback } from 'react';
 import List from '@material-ui/core/List';
+import Input from '@material-ui/core/Input';
+import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import { css } from 'emotion';
-import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Divider, Input } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteForever';
-// import EditIcon from '@material-ui/icons/BorderColor';
 import IconButton from '@material-ui/core/IconButton';
+import ListItemText from '@material-ui/core/ListItemText';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { css } from 'emotion';
+import PropTypes from 'prop-types';
 
 import { Map } from 'immutable';
 import { uniqueId } from '../utils';

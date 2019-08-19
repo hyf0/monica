@@ -8,7 +8,9 @@ import {
   removeTask,
   changeCurrentEditingTask,
   resetIsEditngTaskEdited,
-  changeCurrentTask,
+  addTaskIdToRecentTaskIds,
+  removeTaskIdInRecentTaskIds,
+  changeCurrentTaskById,
 } from '../../store/actions';
 
 import TaskList from '../../components/TaskList';
@@ -36,6 +38,7 @@ function TaskListContainer(props) {
   const onClickRemoveTaskButton = useCallback(
     ($task) => {
       dispatch(removeTask($task));
+      dispatch(removeTaskIdInRecentTaskIds($task.get('id')));
     },
     [dispatch],
   );
@@ -46,7 +49,8 @@ function TaskListContainer(props) {
       if (isEditable) return;
 
       dispatch(hideSideMenu());
-      dispatch(changeCurrentTask($task));
+      dispatch(changeCurrentTaskById($task.get('id')));
+      dispatch(addTaskIdToRecentTaskIds($task.get('id')));
       history.push(`/todo/${$task.get('id')}`);
     },
     [dispatch, history, isEditable],

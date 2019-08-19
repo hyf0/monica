@@ -7,7 +7,7 @@ import AppBarContainer from '../../containers/AppBarContainer';
 
 import SideMenuContainer from '../../containers/SideMenuContainer';
 import TodoListContainer from '../../containers/TodoListContainer';
-import TaskListContainer from '../../containers/TaskListContainer';
+import HomeContainer from '../../containers/HomeContainer';
 
 function Index() {
   return (
@@ -29,7 +29,7 @@ function Index() {
       >
         <Switch>
           <Route path="/:action/:id" component={TodoListContainer} />
-          <Route component={TaskListContainer} />
+          <Route component={HomeContainer} />
         </Switch>
       </div>
       <AppBarContainer />

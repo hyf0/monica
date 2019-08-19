@@ -44,6 +44,8 @@ const defaultState = fromJS({
       ],
     },
   ],
+  $recentTaskIds: [],
+  $pinnedTaskIds: [],
   $currentTask: null,
   $currentEditingTask: null,
   isEditingTaskEdited: false,
@@ -80,6 +82,13 @@ const globalReducer = (state = defaultState, action) => {
       const { payload: $task } = action;
       return state.set('$currentTask', $task);
     }
+    case constants.CHANGE_CURRENT_TASK_BY_ID: {
+      const { payload: taskId } = action;
+      return state.set(
+        '$currentTask',
+        state.get('$tasks').find($task => $task.get('id') === taskId),
+      );
+    }
     case constants.CHANGE_CURRENT_CURRENT_EDITING_TASK: {
       const { payload: $task } = action;
       return state.set('$currentEditingTask', $task);
@@ -100,12 +109,14 @@ const globalReducer = (state = defaultState, action) => {
       );
     }
     case constants.SYNC_CURRENT_EDITING_TASK_TO_TASKS: {
+      const currentEdtingTask = state.get('$currentEditingTask');
+      const id = currentEdtingTask.get('id');
       return state.set(
         '$tasks',
         state
           .get('$tasks')
-          .filter($task => $task.id !== state.getIn(['$currentEditingTask', 'id']))
-          .concat([state.get('$currentEditingTask')]),
+          .filter($task => $task.get('id') !== id)
+          .concat([currentEdtingTask]),
       );
     }
     case constants.RESET_IS_EDITING_TASK_EDITED: {
@@ -135,6 +146,36 @@ const globalReducer = (state = defaultState, action) => {
         .findKey($taskItem => $taskItem.get('id') === $targetTaskItem.get('id'));
       const targetPropPath = propPath.concat([targetKey, 'checked']);
       return state.setIn(targetPropPath, !state.getIn(targetPropPath));
+    }
+    case constants.ADD_TASK_ID_TO_RECENT_TASK_IDS: {
+      const { payload: targetTaskId } = action;
+      const $updatedrecentTasks = state
+        .get('$recentTaskIds')
+        .filter(taskId => targetTaskId !== taskId) // remove self if exist
+        .unshift(targetTaskId);
+      return state.set('$recentTaskIds', $updatedrecentTasks);
+    }
+    case constants.REMOVE_TASK_ID_IN_RECENT_TASK_IDS: {
+      const { payload: targetTaskId } = action;
+      const $updatedrecentTasks = state
+        .get('$recentTaskIds')
+        .filter(taskId => targetTaskId !== taskId); // remove self if exist
+      return state.set('$recentTaskIds', $updatedrecentTasks);
+    }
+    case constants.ADD_TASK_ID_TO_PINNED_TASK_IDS: {
+      const { payload: targetTaskId } = action;
+      const $updatedrecentTasks = state
+        .get('$pinnedTaskIds')
+        .filter(taskId => targetTaskId !== taskId) // remove self if exist
+        .unshift(targetTaskId);
+      return state.set('$pinnedTaskIds', $updatedrecentTasks);
+    }
+    case constants.REMOVE_TASK_ID_IN_PINNED_TASK_IDS: {
+      const { payload: targetTaskId } = action;
+      const $updatedrecentTasks = state
+        .get('$pinnedTaskIds')
+        .filter(taskId => targetTaskId !== taskId); // remove self if exist
+      return state.set('$pinnedTaskIds', $updatedrecentTasks);
     }
     default:
       return state;

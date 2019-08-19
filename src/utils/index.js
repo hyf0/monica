@@ -11,3 +11,10 @@ export const uniqueId = (function saveNextId() {
 export function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
+
+export function withStopEventtPropagation(func) {
+  return (evt, ...args) => {
+    evt.stopPropagation();
+    return func(...args);
+  };
+}
