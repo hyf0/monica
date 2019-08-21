@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,15 +14,13 @@ function TodoListContainer(props) {
     match: {
       params: { id: taskId },
     },
-    $tasksEntity,
     $currentTodoTask,
     dispatch,
   } = props;
 
-  const $targetTask = $tasksEntity.get(taskId);
-  if ($currentTodoTask == null) {
-    dispatch(taskActions.changeCurrentTodoTask($targetTask));
-  }
+  useEffect(() => {
+    dispatch(taskActions.changeCurrentTodoTaskById(taskId));
+  }, [taskId, dispatch]);
 
   const toggleTaskItemPropChecked = useCallback(
     ($taskItem) => {
@@ -31,7 +29,7 @@ function TodoListContainer(props) {
     [dispatch],
   );
 
-  if ($currentTodoTask == null) return <div />;
+  if ($currentTodoTask == null) return <div>Loading...</div>;
 
   return (
     <TaskItemList
@@ -50,7 +48,7 @@ TodoListContainer.propTypes = {
     }),
   }).isRequired,
   // $tasks: PropTypes.instanceOf(List).isRequired,
-  $tasksEntity: PropTypes.instanceOf(Map).isRequired,
+  // $tasksEntity: PropTypes.instanceOf(Map).isRequired,
   $currentTodoTask: PropTypes.instanceOf(Map),
   dispatch: PropTypes.func.isRequired,
 };

@@ -47,37 +47,19 @@ export const checkTaskItemInTaskItemsByIndex = index => ({
   payload: index,
 });
 
+export const checkTaskItemInTaskItemsByTaskId = taskId => ({
+  type: actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_TASK_ID,
+  payload: taskId,
+});
+
 export const toggleTaskItemPropChecked = $taskItem => ({
   type: actionTypes.TOGGLE_TASK_ITEM_CHECKED,
   payload: $taskItem,
 });
 
-// -- tobe remobed
+// edting task
 
-export const syncCurrentEdtingTaskToTasks = $task => ({
-  type: actionTypes.SYNC_CURRENT_EDITING_TASK_TO_TASKS,
+export const updateTaskFromEdting = $task => ({
+  type: actionTypes.UPDARE_TASK_FROM_EDTING,
   payload: $task,
 });
-
-// export const addNewTaskItemInCurrentEditingTask = taskItem => ({
-//   type: actionTypes.ADD_NEW_TASK_ITEM_IN_CURRENT_EDITING_TASK,
-//   payload: taskItem,
-// });
-
-// export const removeTaskItemInCurrentEditingTask = taskItem => ({
-//   type: actionTypes.REMOVE_TASK_ITEM_IN_CURRENT_EDITING_TASK,
-//   payload: taskItem,
-// });
-
-// export const resetIsEditngTaskEdited = (flag = false) => ({
-//   type: actionTypes.RESET_IS_EDITING_TASK_EDITED,
-//   payload: flag,
-// });
-
-// export const completeTheFirstUncheckedTaskItem = () => ({
-//   type: actionTypes.COMPLETE_THE_FIRST_UNCHECKED_TASK_ITEM,
-// });
-
-// export const completeAllUncheckedTaskItem = () => ({
-//   type: actionTypes.COMPLETE_ALL_UNCHECKED_TASK_ITEM,
-// });

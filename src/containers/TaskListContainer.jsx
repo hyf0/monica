@@ -47,13 +47,7 @@ function TaskListContainer(props) {
       const taskId = $task.get('id');
       dispatch(globalActions.hideSideMenu());
       dispatch(taskActions.addTaskIdToRecentTaskIds(taskId));
-      // history.push(`/todo/${$task.get('id')}`);
-      dispatch(
-        globalActions.changeCurrentPath(`/todo/${taskId}`, {
-          history,
-          id: taskId,
-        }),
-      );
+      history.push(`/todo/${$task.get('id')}`);
     },
     [dispatch, history, isEditable],
   );

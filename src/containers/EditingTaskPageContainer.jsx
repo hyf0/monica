@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useReducer, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -60,6 +60,10 @@ function EditingTaskPageContainer(props) {
   const $targetTask = $tasksEntity.get(taskId);
 
   const [$task, $taskDispatch] = useReducer(taskReducer, $targetTask);
+
+  useEffect(() => {
+    dispatch(taskActions.updateTaskFromEdting($task));
+  }, [$task, dispatch]);
 
   const onCreateNewTaskItem = useCallback(
     ($newTaskItem) => {

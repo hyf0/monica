@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { css } from 'emotion';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
@@ -17,23 +16,6 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import List from './List';
 
-const slowFade = css`
-  .slow-fade-enter {
-    opacity: 0;
-  }
-  .slow-fade-enter-active {
-    opacity: 1;
-    transition: all 600ms ease-out;
-  }
-  .slow-fade-exit {
-    opacity: 1;
-  }
-  .slow-fade-exit-active {
-    opacity: 0;
-    transition: all 600ms ease-out;
-  }
-`;
-
 /* eslint-disable */
 const renderTask = ({
   $task,
@@ -42,22 +24,20 @@ const renderTask = ({
   onClickRemoveTaskButton,
   isEditable,
 }) => (
-  <CSSTransition key={$task.get('id')} timeout={600} classNames="slow-fade">
-    <React.Fragment>
-      <ListItem style={{ height: '48px' }} onClick={() => onClickTask($task)} button={!isEditable}>
-        <ListItemText primary={$task.get('title')} />
-        {isEditable ? (
-          <React.Fragment>
-            <IconButton onClick={(evt) => onClickEditTaskButton(evt, $task)}>
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={(evt) => onClickRemoveTaskButton(evt, $task)}>
-              <DeleteIcon />
-            </IconButton>
-          </React.Fragment>
-        ) : null}
-      </ListItem>
-    </React.Fragment>
+  <CSSTransition key={$task.get('id')} timeout={300} classNames="fade">
+    <ListItem style={{ height: '48px' }} onClick={() => onClickTask($task)} button={!isEditable}>
+      <ListItemText primary={$task.get('title')} />
+      {isEditable ? (
+        <React.Fragment>
+          <IconButton onClick={(evt) => onClickEditTaskButton(evt, $task)}>
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={(evt) => onClickRemoveTaskButton(evt, $task)}>
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ) : null}
+    </ListItem>
   </CSSTransition>
 );
 /* eslint-enable */
@@ -82,11 +62,11 @@ function TaskList(props) {
 
   const subHeader = (
     <div
-      className={css`
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      `}
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
     >
       <div className="left">
         <Typography>任务列表</Typography>
@@ -103,7 +83,7 @@ function TaskList(props) {
   return (
     <List title={subHeader}>
       <Divider />
-      <TransitionGroup className={slowFade}>
+      <TransitionGroup className="transition-fade">
         {$tasks.map($task => renderTask({
           $task,
           isEditable,

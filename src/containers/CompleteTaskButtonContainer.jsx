@@ -14,24 +14,29 @@ const CompleteTaskButton = (props) => {
   } = props;
 
   const numOfAllTaskItem = $tasksItemsRefs.size;
-  const numOfUncheckedItem = useMemo(
-    () => $tasksItemsRefs.count(taskId => $tasksItemsEntity.getIn([taskId, 'checked'])),
+  const $unchckedTaskItems = useMemo(
+    () => $tasksItemsRefs
+      .filter(taskId => !$tasksItemsEntity.getIn([taskId, 'checked']))
+      .map(taskId => $tasksItemsEntity.get(taskId)),
     [$tasksItemsEntity, $tasksItemsRefs],
   );
-  const isAllComleted = numOfAllTaskItem === numOfUncheckedItem;
+  const numOfUncheckedItem = $unchckedTaskItems.size;
+  const numOfCheckedItem = numOfAllTaskItem - numOfUncheckedItem;
+  const isAllComleted = numOfAllTaskItem === numOfCheckedItem;
 
   const onClickCompleteButton = useCallback(() => {
     if (!isAllComleted) {
-      dispatch(taskActions.checkTaskItemInTaskItemsByIndex(numOfUncheckedItem));
+      // dispatch(taskActions.checkTaskItemInTaskItemsByIndex(numOfUncheckedItem));
+      dispatch(taskActions.checkTaskItemInTaskItemsByTaskId($unchckedTaskItems.getIn(['0', 'id'])));
     } else {
       /* 全部完成，进行跳转 */
       history.push('/');
     }
-  }, [dispatch, isAllComleted, history, numOfUncheckedItem]);
+  }, [isAllComleted, $unchckedTaskItems, history, dispatch]);
 
   const buttonText = isAllComleted
-    ? `全部完成(${numOfUncheckedItem}/${numOfAllTaskItem})`
-    : `完成一个任务项(${numOfUncheckedItem}/${numOfAllTaskItem})`;
+    ? `全部完成(${numOfCheckedItem}/${numOfAllTaskItem})`
+    : `完成一个任务项(${numOfCheckedItem}/${numOfAllTaskItem})`;
 
   const buttonColor = isAllComleted ? COLOR_GREEN : COLOR_ORANGE;
 
@@ -67,7 +72,6 @@ CompleteTaskButton.defaultProps = {
 };
 
 const mapState = ({ $Task }) => ({
-  // isEditingTaskEdited: $Task.get('isEditingTaskEdited'),
   $tasksItemsEntity: $Task.getIn(['currentTodoTask', 'items', 'entity']),
   $tasksItemsRefs: $Task.getIn(['currentTodoTask', 'items', 'refs']),
 });

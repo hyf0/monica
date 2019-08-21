@@ -20,20 +20,20 @@ function MenuList(props) {
     (evt) => {
       const KEY_ENTER = 13;
       const { keyCode: keyUp = -1 } = evt;
-      if (newTaskTitle.length !== 0 && keyUp === KEY_ENTER) {
-        onCreateTask(newTaskTitle);
+      const taskTitle = evt.target.value;
+      if (taskTitle.length !== 0 && keyUp === KEY_ENTER) {
+        onCreateTask(taskTitle);
         setNewTaskTitle('');
       }
     },
-    [newTaskTitle, setNewTaskTitle, onCreateTask],
+    [setNewTaskTitle, onCreateTask],
   );
   return (
     <List title="菜单项">
       <Divider />
-      <ListItem button>
+      <ListItem>
         <TextField
           label="创建新任务"
-          // className={classes.textField}
           onChange={onInputCreateTask}
           onKeyUp={onKeyEnterUp}
           type="text"

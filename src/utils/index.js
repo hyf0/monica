@@ -1,6 +1,9 @@
+import { isDev } from '../env';
+
 export const uniqueId = (function saveNextId() {
   let curID = -1;
-  const date = Date.now().toString();
+  let date = Date.now().toString();
+  if (isDev) date = 1566347293201; // 固定时间，防止每次刷新改变时间，导致程序无法根据id找到对应任务
   return function generatorOfUniqueId(prefix = '') {
     curID += 1;
     if (prefix.length === 0) return `${date}-${curID}`;
@@ -22,6 +25,7 @@ export function withStopEventtPropagation(func) {
 /**
  *
  * @param {Array} arr
+ * @param {String} name
  * @param {String} key
  */
 export function normalize(arr, name = 'entity', key = 'id') {

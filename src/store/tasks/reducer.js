@@ -141,12 +141,15 @@ const TasksReducer = (state = defaultState, action) => {
       return state.setIn(['currentTodoTask', 'items', 'entity', targetTaskItemId, 'checked'], true);
     }
 
-    // -- to be removed
+    case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_TASK_ID: {
+      const taskId = payload;
+      return state.setIn(['currentTodoTask', 'items', 'entity', taskId, 'checked'], true);
+    }
 
-    case actionTypes.SYNC_CURRENT_EDITING_TASK_TO_TASKS: {
-      const currentEdtingTask = state.get('currentEditingTask');
-      const id = currentEdtingTask.get('id');
-      return state.setIn(['tasks', 'entity', id], currentEdtingTask);
+    case actionTypes.UPDARE_TASK_FROM_EDTING: {
+      const task = payload;
+      const id = task.get('id');
+      return state.setIn(['tasks', 'entity', id], task);
     }
 
     default:

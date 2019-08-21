@@ -5,7 +5,8 @@ import { hideSideMenu } from '../../store/actions';
 
 import TaskListContainer from '../TaskListContainer';
 import MenuListContainer from '../MenuListContainer';
-import RightSlidePage from '../../components/RightSlidePage';
+import Drawer from '../../components/Drawer';
+import Mask from '../../components/mask';
 
 function SideMenuContainer(props) {
   const { dispatch, showSideMenu } = props;
@@ -14,10 +15,13 @@ function SideMenuContainer(props) {
   }, [dispatch]);
 
   return (
-    <RightSlidePage show={showSideMenu} onClickMask={onClickSideMenuMask}>
-      <TaskListContainer />
-      <MenuListContainer />
-    </RightSlidePage>
+    <>
+      <Mask show={showSideMenu} onClick={onClickSideMenuMask} />
+      <Drawer show={showSideMenu}>
+        <TaskListContainer />
+        <MenuListContainer />
+      </Drawer>
+    </>
   );
 }
 

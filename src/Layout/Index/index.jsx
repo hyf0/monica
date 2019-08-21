@@ -1,7 +1,6 @@
 import React from 'react';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
-import { css } from 'emotion';
 import { Switch, Route } from 'react-router-dom';
 import AppBarContainer from '../../containers/AppBarContainer';
 
@@ -13,20 +12,20 @@ import EditingTaskPageContainer from '../../containers/EditingTaskPageContainer'
 function Index() {
   return (
     <div
-      className={css`
-        position: relative;
-        height: 100vh;
-        display: flex;
-        flex-flow: column nowrap;
-      `}
+      style={{
+        position: 'relative',
+        height: '100vh',
+        display: 'flex',
+        flexFlow: 'column nowrap',
+      }}
     >
       <div
-        className={css`
-          position: relative;
-          flex: 1;
-          overflow-y: scroll;
-          overflow-x: hidden;
-        `}
+        style={{
+          position: 'relative',
+          flex: '1',
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+        }}
       >
         <Switch>
           <Route path="/todo/:id" component={TodoListContainer} />

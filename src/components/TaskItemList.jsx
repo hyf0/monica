@@ -9,28 +9,10 @@ import DeleteIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { css } from 'emotion';
 import PropTypes from 'prop-types';
 
 import { Map } from 'immutable';
 import { uniqueId } from '../utils';
-
-const slowFade = css`
-  .slow-fade-enter {
-    opacity: 0;
-  }
-  .slow-fade-enter-active {
-    opacity: 1;
-    transition: all 300ms ease-out;
-  }
-  .slow-fade-exit {
-    opacity: 1;
-  }
-  .slow-fade-exit-active {
-    opacity: 0;
-    transition: all 300ms ease-out;
-  }
-`;
 
 function TaskItemList(props) {
   const {
@@ -68,11 +50,11 @@ function TaskItemList(props) {
           {$task.get('title')}
         </Typography>
       </ListItem>
-      <TransitionGroup className={slowFade}>
+      <TransitionGroup className="transition-fade">
         {$task.getIn(['items', 'refs']).map((taskItemId) => {
           const $item = $task.getIn(['items', 'entity', taskItemId]);
           return (
-            <CSSTransition key={$item.get('id')} timeout={300} classNames="slow-fade">
+            <CSSTransition key={$item.get('id')} timeout={300} classNames="fade">
               <React.Fragment key={$item.get('id')}>
                 <ListItem>
                   <Checkbox

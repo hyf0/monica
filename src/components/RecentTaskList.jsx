@@ -7,7 +7,6 @@ import {
 } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import IconButton from '@material-ui/core/IconButton';
-import { css } from 'emotion';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -15,23 +14,6 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import List from './List';
 
 import { withStopEventtPropagation } from '../utils';
-
-const slowFade = css`
-  .slow-fade-enter {
-    opacity: 0;
-  }
-  .slow-fade-enter-active {
-    opacity: 1;
-    transition: all 600ms ease-out;
-  }
-  .slow-fade-exit {
-    opacity: 1;
-  }
-  .slow-fade-exit-active {
-    opacity: 0;
-    transition: all 600ms ease-out;
-  }
-`;
 
 function RecentTaskList(props) {
   const { onClickTask, $tasks, onClickIconButton } = props;
@@ -44,11 +26,11 @@ function RecentTaskList(props) {
   return (
     <List title="最近任务">
       <Divider />
-      <TransitionGroup className={slowFade}>
+      <TransitionGroup className="transition-fade">
         {$tasks.map($task => (
-          <CSSTransition key={$task.get('id')} timeout={600} classNames="slow-fade">
+          <CSSTransition key={$task.get('id')} timeout={300} classNames="fade">
             <React.Fragment>
-              <ListItem style={{ height: '48px' }} onClick={() => onClickTask($task)} button>
+              <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />
                 <IconButton onClick={evt => onClickIconButtonWithStopEvtPropagation(evt, $task)}>
                   <StarBorderIcon />
