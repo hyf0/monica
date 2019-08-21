@@ -76,7 +76,7 @@ function TaskItemList(props) {
         })}
       </TransitionGroup>
       {isEditable ? (
-        <ListItem button>
+        <ListItem>
           <Input
             value={newTaskItemTitle}
             onKeyUp={onKeyEnterUp}

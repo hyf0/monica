@@ -32,9 +32,13 @@ function RecentTaskList(props) {
             <React.Fragment>
               <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />
-                <IconButton onClick={evt => onClickIconButtonWithStopEvtPropagation(evt, $task)}>
-                  <StarBorderIcon />
-                </IconButton>
+                {$task.get('isPinned') ? null : (
+                  <IconButton
+                    onClick={evt => onClickIconButtonWithStopEvtPropagation(evt, $task)}
+                  >
+                    <StarBorderIcon />
+                  </IconButton>
+                )}
               </ListItem>
             </React.Fragment>
           </CSSTransition>

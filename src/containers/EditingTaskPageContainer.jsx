@@ -62,7 +62,7 @@ function EditingTaskPageContainer(props) {
   const [$task, $taskDispatch] = useReducer(taskReducer, $targetTask);
 
   useEffect(() => {
-    dispatch(taskActions.updateTaskFromEdting($task));
+    if ($task != null) dispatch(taskActions.updateTaskFromEdting($task));
   }, [$task, dispatch]);
 
   const onCreateNewTaskItem = useCallback(

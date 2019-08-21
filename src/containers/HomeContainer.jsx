@@ -14,10 +14,8 @@ function HomeContainer(props) {
     $recentTaskIds, dispatch, history, $tasksEntity, $pinnedTaskIds,
   } = props;
 
-  const $recentUnpinnedTasks = useMemo(
-    () => $recentTaskIds
-      .filter(taskId => !$pinnedTaskIds.includes(taskId))
-      .map(taskId => $tasksEntity.get(taskId)),
+  const $recentTasksWithIsPinnedProp = useMemo(
+    () => $recentTaskIds.map(taskId => $tasksEntity.get(taskId).set('isPinned', $pinnedTaskIds.includes(taskId))),
     [$recentTaskIds, $tasksEntity, $pinnedTaskIds],
   );
 
@@ -60,7 +58,7 @@ function HomeContainer(props) {
       <RecentTaskList
         onClickIconButton={pinOneTask}
         onClickTask={onClickTask}
-        $tasks={$recentUnpinnedTasks}
+        $tasks={$recentTasksWithIsPinnedProp}
       />
     </React.Fragment>
   );

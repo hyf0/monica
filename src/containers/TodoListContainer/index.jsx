@@ -29,7 +29,7 @@ function TodoListContainer(props) {
     [dispatch],
   );
 
-  if ($currentTodoTask == null) return <div>Loading...</div>;
+  if ($currentTodoTask == null) return <div>404: NOT FOUND TASK</div>;
 
   return (
     <TaskItemList
@@ -54,7 +54,7 @@ TodoListContainer.propTypes = {
 };
 
 TodoListContainer.defaultProps = {
-  $currentTodoTask: new Map(),
+  $currentTodoTask: null,
 };
 
 const mapState = ({ $global, $Task }) => ({
