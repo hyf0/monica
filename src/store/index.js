@@ -21,7 +21,7 @@ const middlewares = [epicMiddleware];
 let store;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-if (isDev) {
+if (isDev()) {
   console.log('正处于develoment模式');
   store = createStore(
     reducers,
@@ -44,7 +44,9 @@ epicMiddleware.run(epics);
 
 // const store = createStore(persistedReducer);
 let persistor;
-if (!isDev) persistor = persistStore(store);
+if (!isDev()) {
+  persistor = persistStore(store);
+}
 export { persistor };
 
 export { store, constants, actions };
