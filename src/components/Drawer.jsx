@@ -7,7 +7,7 @@ function Drawer(props) {
 
   return (
     <CSSTransition
-      classNames="slide-right"
+      classNames="ani-slide-right"
       timeout={300}
       in={show}
       appear

@@ -28,7 +28,7 @@ function PinnedTaskList(props) {
       <Divider />
       <TransitionGroup className="transition-fade">
         {$tasks.map($task => (
-          <CSSTransition key={$task.get('id')} timeout={600} classNames="fade">
+          <CSSTransition key={$task.get('id')} timeout={600} classNames="ani-fade">
             <React.Fragment>
               <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />

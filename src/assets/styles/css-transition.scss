@@ -1,16 +1,16 @@
 .transition-fade-self {
   transition: opacity 300ms ease-out;
-  &.fade-enter {
+  &.ani-fade-enter {
     opacity: 0;
   }
-  &.fade-enter-active {
+  &.ani-fade-enter-active {
     opacity: 1;
   }
 
-  &.fade-exit {
+  &.ani-fade-exit {
     opacity: 1;
   }
-  &.fade-exit-active {
+  &.ani-fade-exit-active {
     opacity: 0;
   }
 }
@@ -18,40 +18,40 @@
 .transition-slide-right-self {
   transition: transform 300ms ease-out;
 
-  &.slide-right-appear {
+  &.ani-slide-right-appear {
     transform: translate(-100%, 0);
   }
-  &.slide-right-appear-active {
+  &.ani-slide-right-appear-active {
     transform: translate(0, 0);
   }
-  &.slide-right-enter {
+  &.ani-slide-right-enter {
     transform: translate(-100%, 0);
   }
-  &.slide-right-enter-active {
+  &.ani-slide-right-enter-active {
     transform: translate(0, 0);
   }
-  &.slide-right-exit {
+  &.ani-slide-right-exit {
     transform: translate(0, 0);
   }
-  &.slide-right-exit-active {
+  &.ani-slide-right-exit-active {
     transform: translate(-100%, 0);
   }
 }
 
 .transition-fade {
   $time: 300ms;
-  .fade-enter {
+  .ani-fade-enter {
     opacity: 0;
   }
-  .fade-enter-active {
+  .ani-fade-enter-active {
     opacity: 1;
     transition: opacity $time ease-out;
   }
 
-  .fade-exit {
+  .ani-fade-exit {
     opacity: 1;
   }
-  .fade-exit-active {
+  .ani-fade-exit-active {
     opacity: 0;
     transition: opacity $time ease-out;
   }

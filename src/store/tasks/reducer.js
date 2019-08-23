@@ -31,7 +31,7 @@ const defaultState = fromJS({
         },
         {
           id: uniqueId(),
-          title: '保存: 编辑后，点击下方蓝色按钮保存',
+          title: '保存: 每次编辑后，程序会自动保存',
           checked: false,
         },
         {

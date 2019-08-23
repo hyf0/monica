@@ -24,7 +24,7 @@ const renderTask = ({
   onClickRemoveTaskButton,
   isEditable,
 }) => (
-  <CSSTransition key={$task.get('id')} timeout={300} classNames="fade">
+  <CSSTransition key={$task.get('id')} timeout={300} classNames="ani-fade">
     <ListItem style={{ height: '48px' }} onClick={() => onClickTask($task)} button={!isEditable}>
       <ListItemText primary={$task.get('title')} />
       {isEditable ? (

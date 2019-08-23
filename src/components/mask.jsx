@@ -6,7 +6,7 @@ function Mask(props) {
   const { show, onClick } = props;
 
   return (
-    <CSSTransition classNames="fade" in={show} timeout={300} mountOnEnter unmountOnExit>
+    <CSSTransition classNames="ani-fade" in={show} timeout={300} mountOnEnter unmountOnExit>
       <div
         onClick={onClick}
         role="button"

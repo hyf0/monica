@@ -28,7 +28,7 @@ function RecentTaskList(props) {
       <Divider />
       <TransitionGroup className="transition-fade">
         {$tasks.map($task => (
-          <CSSTransition key={$task.get('id')} timeout={300} classNames="fade">
+          <CSSTransition key={$task.get('id')} timeout={300} classNames="ani-fade">
             <React.Fragment>
               <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />

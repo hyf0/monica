@@ -3,15 +3,15 @@ import List from '@material-ui/core/List';
 import Input from '@material-ui/core/Input';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
-
 import { Map } from 'immutable';
+
+import Checkbox from './Checkbox';
 import { uniqueId } from '../utils';
 
 function TaskItemList(props) {
@@ -54,14 +54,12 @@ function TaskItemList(props) {
         {$task.getIn(['items', 'refs']).map((taskItemId) => {
           const $item = $task.getIn(['items', 'entity', taskItemId]);
           return (
-            <CSSTransition key={$item.get('id')} timeout={300} classNames="fade">
+            <CSSTransition key={$item.get('id')} timeout={300} classNames="ani-fade">
               <React.Fragment key={$item.get('id')}>
                 <ListItem>
-                  <Checkbox
-                    onClick={() => onClickCheckbox($item)}
-                    edge="start"
-                    checked={$item.get('checked')}
-                  />
+                  <IconButton onClick={() => onClickCheckbox($item)}>
+                    <Checkbox disabled={isEditable} edge="start" checked={$item.get('checked')} />
+                  </IconButton>
                   <ListItemText primary={$item.get('title')} />
                   {isEditable ? (
                     <IconButton onClick={() => onClickRemoveButton($item)}>
