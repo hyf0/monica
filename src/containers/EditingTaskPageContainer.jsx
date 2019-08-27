@@ -25,8 +25,6 @@ function EditingTaskPageContainer(props) {
     // 根据taskid加载对应的将要被编辑的任务
     const $target = $tasksEntity.get(taskId) || null;
     dispatch(editingTaskActions.changeCurrentTask($target));
-
-    return () => {};
   }, [dispatch, taskId, $tasksEntity]);
 
   useEffect(() => {
@@ -36,6 +34,8 @@ function EditingTaskPageContainer(props) {
     return () => {
       // 即使退出也要重置状态，保持状态树的干净
       dispatch(editingTaskActions.clearAllEdtingHistory());
+      // 退出任务, 重置为null，
+      dispatch(editingTaskActions.changeCurrentTask(null));
     };
   }, [taskId, dispatch]);
 
