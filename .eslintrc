@@ -16,5 +16,9 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "linebreak-style": "off",
+    "implicit-arrow-linebreak": "off",
+    "arrow-parens": "off"
+  }
 }

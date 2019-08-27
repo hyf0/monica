@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import Proptypes from 'prop-types';
 // import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -14,43 +14,22 @@ import { showSideMenu } from '../../store/actions';
 import { COLOR_BLUE } from '../../utils/constants';
 import CompleteTaskButtonContainer from '../CompleteTaskButtonContainer';
 
-const EditingTaskItemButton = (props) => {
-  const { onClick } = props;
-  return (
-    <Fab
-      // disabled={!isEditingTaskEdited}
-      style={{
-        flex: '1',
-        backgroundColor: COLOR_BLUE,
-        color: '#fff',
-      }}
-      onClick={onClick}
-      variant="extended"
-      size="medium"
-      aria-label="add"
-    >
-      {'回到主页'}
-    </Fab>
-  );
-};
-EditingTaskItemButton.propTypes = {
-  onClick: Proptypes.func.isRequired,
-  // isEditingTaskEdited: Proptypes.bool.isRequired,
-};
+import EdtingTaskButtonContainer from '../EdtingTaskButtonContainer';
 
 const StartOneTaskButton = (props) => {
   const { onClick } = props;
   return (
-    <Fab
-      style={{ flex: '1', backgroundColor: COLOR_BLUE, color: '#fff' }}
-      variant="extended"
+    <Button
+      style={{ backgroundColor: COLOR_BLUE, color: '#fff' }}
       size="medium"
+      fullWidth
+      // variant="outlined"
       color="primary"
       aria-label="add"
       onClick={onClick}
     >
       {'开始一项任务'}
-    </Fab>
+    </Button>
   );
 };
 
@@ -63,11 +42,6 @@ function AppBarContainer(props) {
   const onClickMenuButton = useCallback(() => {
     dispatch(showSideMenu());
   }, [dispatch]);
-
-  const onClickEditingTaskItemButton = useCallback(() => {
-    // eslint-disable-next-line no-console
-    history.push('/');
-  }, [history]);
 
   const onClickStartOneTaskButton = useCallback(() => {
     dispatch(showSideMenu());
@@ -90,17 +64,13 @@ function AppBarContainer(props) {
           <MenuIcon />
         </IconButton>
         <Switch>
+          <Route path="/edit/:id" component={EdtingTaskButtonContainer} />
+          <Route path="/todo" component={CompleteTaskButtonContainer} />
           <Route
-            path="/edit"
             render={() => (
-              <EditingTaskItemButton
-                // isEditingTaskEdited={isEditingTaskEdited}
-                onClick={onClickEditingTaskItemButton}
-              />
+              <StartOneTaskButton onClick={onClickStartOneTaskButton} />
             )}
           />
-          <Route path="/todo" component={CompleteTaskButtonContainer} />
-          <Route render={() => <StartOneTaskButton onClick={onClickStartOneTaskButton} />} />
         </Switch>
 
         <IconButton onClick={onClickHomeButton} edge="end">

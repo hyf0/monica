@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -10,13 +10,18 @@ import { taskActions } from '../store/actions';
 
 const CompleteTaskButton = (props) => {
   const {
-    $task, $tasksItemsEntity, $tasksItemsRefs, dispatch, history,
+    $task,
+    $tasksItemsEntity,
+    $tasksItemsRefs,
+    dispatch,
+    history,
   } = props;
 
   const $unchckedTaskItems = useMemo(
-    () => $tasksItemsRefs
-      .filter(taskId => !$tasksItemsEntity.getIn([taskId, 'checked']))
-      .map(taskId => $tasksItemsEntity.get(taskId)),
+    () =>
+      $tasksItemsRefs
+        .filter((taskId) => !$tasksItemsEntity.getIn([taskId, 'checked']))
+        .map((taskId) => $tasksItemsEntity.get(taskId)),
     [$tasksItemsEntity, $tasksItemsRefs],
   );
   const numOfAllTaskItem = $tasksItemsRefs.size;
@@ -32,9 +37,20 @@ const CompleteTaskButton = (props) => {
       /* 所有任务项全部完成，跳转到APP主页 */
       history.push('/');
     } else {
-      dispatch(taskActions.checkTaskItemInTaskItemsByTaskId($unchckedTaskItems.getIn(['0', 'id'])));
+      dispatch(
+        taskActions.checkTaskItemInTaskItemsByTaskId(
+          $unchckedTaskItems.getIn(['0', 'id']),
+        ),
+      );
     }
-  }, [$task, hasZeroTaskItem, isAllComleted, $unchckedTaskItems, history, dispatch]);
+  }, [
+    $task,
+    hasZeroTaskItem,
+    isAllComleted,
+    $unchckedTaskItems,
+    history,
+    dispatch,
+  ]);
 
   let buttonText;
   let buttonColor;
@@ -50,20 +66,19 @@ const CompleteTaskButton = (props) => {
   }
 
   return (
-    <Fab
+    <Button
       style={{
         flex: '1',
         backgroundColor: buttonColor,
         color: '#fff',
         transition: 'background-color 300ms',
       }}
-      variant="extended"
       size="medium"
       aria-label="add"
       onClick={onClickCompleteButton}
     >
       {buttonText}
-    </Fab>
+    </Button>
   );
 };
 

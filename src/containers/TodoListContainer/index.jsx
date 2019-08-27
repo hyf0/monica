@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 // import { Map, List } from 'immutable';
 import { Map } from 'immutable';
 
+import NotFound from '../../components/NotFound';
 import TaskItemList from '../../components/TaskItemList';
 import { taskActions } from '../../store/actions';
 
@@ -18,6 +19,14 @@ function TodoListContainer(props) {
     dispatch,
   } = props;
 
+  useEffect(
+    () => () => {
+      // 离开当前任务页面时，重置状态树中的currentTodoTask为null，保持状态树整洁
+      dispatch(taskActions.changeCurrentTodoTask(null));
+    },
+    [dispatch, taskId],
+  );
+
   useEffect(() => {
     dispatch(taskActions.changeCurrentTodoTaskById(taskId));
   }, [taskId, dispatch]);
@@ -29,7 +38,7 @@ function TodoListContainer(props) {
     [dispatch],
   );
 
-  if ($currentTodoTask == null) return <div>404: NOT FOUND TASK</div>;
+  if ($currentTodoTask == null) return <NotFound />;
 
   return (
     <TaskItemList

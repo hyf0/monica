@@ -1,52 +1,15 @@
-import React, { useCallback, useReducer, useEffect } from 'react';
+/* eslint-disable nonblock-statement-body-position */
+import React, { useCallback, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 // import { Map, List } from 'immutable';
 import { Map } from 'immutable';
 
 import TaskItemList from '../components/TaskItemList';
-import { taskActions } from '../store/actions';
-
-const actionTypes = {
-  ADD_TASK_ITEM_TO_TASK: 'ADD_TASK_ITEM_TO_TASK',
-  REMOVE_TASK_ITEM_IN_TASK: 'REMOVE_TASK_ITEM_IN_TASK',
-};
-
-function taskReducer($state, action) {
-  const $editingTask = $state;
-  const $editingTaskItems = $state.get('items');
-  const $editingTaskItemsEntity = $state.getIn(['items', 'entity']);
-  const $editingTaskItemsRefs = $state.getIn(['items', 'refs']);
-
-  switch (action.type) {
-    case actionTypes.ADD_TASK_ITEM_TO_TASK: {
-      const { payload: $taskItem } = action;
-      const id = $taskItem.get('id');
-      return $editingTask.set(
-        'items',
-        $editingTaskItems.merge({
-          entity: $editingTaskItemsEntity.set(id, $taskItem),
-          refs: $editingTaskItemsRefs.push(id),
-        }),
-      );
-    }
-    case actionTypes.REMOVE_TASK_ITEM_IN_TASK: {
-      const { payload: $taskItem } = action;
-      const targetId = $taskItem.get('id');
-      return $editingTask.set(
-        'items',
-        $editingTaskItems.merge({
-          entity: $editingTaskItemsEntity.delete(targetId),
-          refs: $editingTaskItemsRefs.filter(id => id !== targetId),
-        }),
-      );
-    }
-    default:
-      return $state;
-  }
-}
+import { taskActions, editingTaskActions } from '../store/actions';
+import NotFound from '../components/NotFound';
 
 function EditingTaskPageContainer(props) {
   const {
@@ -55,46 +18,59 @@ function EditingTaskPageContainer(props) {
     },
     dispatch,
     $tasksEntity,
+    $currentEditingTask,
   } = props;
 
-  const $targetTask = $tasksEntity.get(taskId);
+  useEffect(() => {
+    // 根据taskid加载对应的将要被编辑的任务
+    const $target = $tasksEntity.get(taskId) || null;
+    dispatch(editingTaskActions.changeCurrentTask($target));
 
-  const [$task, $taskDispatch] = useReducer(taskReducer, $targetTask);
+    return () => {};
+  }, [dispatch, taskId, $tasksEntity]);
 
   useEffect(() => {
-    if ($task != null) dispatch(taskActions.updateTaskFromEdting($task));
-  }, [$task, dispatch]);
+    // 因为根据taskId加载任务，所以taskId变化，即任务变化，所以每次切换任务，就要重置编辑历史，重置redo，undo按钮状态
+    dispatch(editingTaskActions.clearAllEdtingHistory());
+
+    return () => {
+      // 即使退出也要重置状态，保持状态树的干净
+      dispatch(editingTaskActions.clearAllEdtingHistory());
+    };
+  }, [taskId, dispatch]);
+
+  useEffect(() => {
+    // 将编辑后的任务保存到原任务上
+    if ($currentEditingTask != null) {
+      dispatch(taskActions.updateTaskFromEdting($currentEditingTask));
+    }
+  }, [$currentEditingTask, dispatch]);
 
   const onCreateNewTaskItem = useCallback(
     ($newTaskItem) => {
-      $taskDispatch({
-        type: actionTypes.ADD_TASK_ITEM_TO_TASK,
-        payload: $newTaskItem,
-      });
+      dispatch(editingTaskActions.snapshotCurrentTask());
+      dispatch(editingTaskActions.addTaskItemInCurrentTask($newTaskItem));
+      // 因为添加了新任务，所以清空重做任务列表，重置 重做 按钮状态，为了避免编辑状态混乱
+      dispatch(editingTaskActions.clearFutureTasks());
     },
-    [$taskDispatch],
+    [dispatch],
   );
 
   const onClickRemoveButton = useCallback(
     ($taskItem) => {
-      $taskDispatch({
-        type: actionTypes.REMOVE_TASK_ITEM_IN_TASK,
-        payload: $taskItem,
-      });
+      dispatch(editingTaskActions.snapshotCurrentTask());
+      dispatch(editingTaskActions.removeTaskItemInCurrentTask($taskItem));
     },
-    [$taskDispatch],
+    [dispatch],
   );
 
-  // const toggleTaskItemPropChecked = useCallback(() => {}, []);
-
-  if ($targetTask == null) return <Redirect to="/" />;
+  if ($currentEditingTask == null) return <NotFound />;
 
   return (
     <TaskItemList
       onCreateNewTaskItem={onCreateNewTaskItem}
       onClickRemoveButton={onClickRemoveButton}
-      // onClickCheckbox={toggleTaskItemPropChecked}
-      $task={$task}
+      $task={$currentEditingTask}
       isEditable
     />
   );
@@ -104,19 +80,22 @@ EditingTaskPageContainer.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
-      action: PropTypes.string,
     }),
   }).isRequired,
+  $currentEditingTask: PropTypes.instanceOf(Map),
   // $tasks: PropTypes.instanceOf(List).isRequired,
   $tasksEntity: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-EditingTaskPageContainer.defaultProps = {};
+EditingTaskPageContainer.defaultProps = {
+  $currentEditingTask: null,
+};
 
-const mapState = ({ $global, $Task }) => ({
+const mapState = ({ $global, $Task, $editingTask }) => ({
   showSideMenu: $global.get('showSideMenu'),
   $tasksEntity: $Task.getIn(['tasks', 'entity']),
+  $currentEditingTask: $editingTask.get('currentTask'),
 });
 
 export default connect(

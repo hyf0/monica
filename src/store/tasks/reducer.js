@@ -78,13 +78,13 @@ const TasksReducer = (state = defaultState, action) => {
       );
     }
     case actionTypes.REMOVE_TASK_IN_TASKS: {
-      const { payload: targetTask } = action;
+      const targetTask = payload;
       const targetId = targetTask.get('id');
       return state.set(
         'tasks',
         tasks.merge({
           entity: tasksEntity.delete(targetId),
-          refs: tasksRefs.filter(id => id !== targetId),
+          refs: tasksRefs.filter((id) => id !== targetId),
         }),
       );
     }
@@ -100,7 +100,7 @@ const TasksReducer = (state = defaultState, action) => {
       const { payload: targetTaskId } = action;
       const updatedrecentTasks = state
         .get('recentTaskIds')
-        .filter(taskId => targetTaskId !== taskId) // remove self if exist
+        .filter((taskId) => targetTaskId !== taskId) // remove self if exist
         .unshift(targetTaskId);
       return state.set('recentTaskIds', updatedrecentTasks);
     }
@@ -108,14 +108,14 @@ const TasksReducer = (state = defaultState, action) => {
       const { payload: targetTaskId } = action;
       const updatedrecentTasks = state
         .get('recentTaskIds')
-        .filter(taskId => targetTaskId !== taskId); // remove self if exist
+        .filter((taskId) => targetTaskId !== taskId); // remove self if exist
       return state.set('recentTaskIds', updatedrecentTasks);
     }
     case actionTypes.ADD_TASK_ID_TO_PINNED_TASK_IDS: {
       const { payload: targetTaskId } = action;
       const updatedrecentTasks = state
         .get('pinnedTaskIds')
-        .filter(taskId => targetTaskId !== taskId) // remove self if exist
+        .filter((taskId) => targetTaskId !== taskId) // remove self if exist
         .unshift(targetTaskId);
       return state.set('pinnedTaskIds', updatedrecentTasks);
     }
@@ -123,7 +123,7 @@ const TasksReducer = (state = defaultState, action) => {
       const { payload: targetTaskId } = action;
       const updatedrecentTasks = state
         .get('pinnedTaskIds')
-        .filter(taskId => targetTaskId !== taskId); // remove self if exist
+        .filter((taskId) => targetTaskId !== taskId); // remove self if exist
       return state.set('pinnedTaskIds', updatedrecentTasks);
     }
 
@@ -131,19 +131,36 @@ const TasksReducer = (state = defaultState, action) => {
 
     case actionTypes.TOGGLE_TASK_ITEM_CHECKED: {
       const taskItem = payload;
-      const propPath = ['currentTodoTask', 'items', 'entity', taskItem.get('id'), 'checked'];
+      const propPath = [
+        'currentTodoTask',
+        'items',
+        'entity',
+        taskItem.get('id'),
+        'checked',
+      ];
       return state.setIn(propPath, !state.getIn(propPath));
     }
 
     case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_INDEX: {
       const taskItemIndex = payload;
-      const targetTaskItemId = state.getIn(['currentTodoTask', 'items', 'refs', taskItemIndex]);
-      return state.setIn(['currentTodoTask', 'items', 'entity', targetTaskItemId, 'checked'], true);
+      const targetTaskItemId = state.getIn([
+        'currentTodoTask',
+        'items',
+        'refs',
+        taskItemIndex,
+      ]);
+      return state.setIn(
+        ['currentTodoTask', 'items', 'entity', targetTaskItemId, 'checked'],
+        true,
+      );
     }
 
     case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_TASK_ID: {
       const taskId = payload;
-      return state.setIn(['currentTodoTask', 'items', 'entity', taskId, 'checked'], true);
+      return state.setIn(
+        ['currentTodoTask', 'items', 'entity', taskId, 'checked'],
+        true,
+      );
     }
 
     case actionTypes.UPDARE_TASK_FROM_EDTING: {
