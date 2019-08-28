@@ -66,11 +66,15 @@ TodoListContainer.defaultProps = {
   $currentTodoTask: null,
 };
 
-const mapState = ({ $global, $Task }) => ({
-  showSideMenu: $global.get('showSideMenu'),
-  $tasksEntity: $Task.getIn(['tasks', 'entity']),
-  $currentTodoTask: $Task.get('currentTodoTask'),
-});
+const mapState = ($state) => {
+  const $global = $state.get('global');
+  const $task = $state.get('task');
+  return {
+    showSideMenu: $global.get('showSideMenu'),
+    $tasksEntity: $task.getIn(['tasks', 'entity']),
+    $currentTodoTask: $task.get('currentTodoTask'),
+  };
+};
 
 export default connect(
   mapState,

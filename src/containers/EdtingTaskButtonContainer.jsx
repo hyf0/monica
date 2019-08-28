@@ -43,10 +43,13 @@ EdtingTaskButtonContainer.propTypes = {
   // isEditingTaskEdited: Proptypes.bool.isRequired,
 };
 
-const mapState = ({ $editingTask }) => ({
-  $futureTasks: $editingTask.get('futureTasks'),
-  $oldTasks: $editingTask.get('oldTasks'),
-});
+const mapState = ($state) => {
+  const $editingTask = $state.get('editingTask');
+  return {
+    $futureTasks: $editingTask.get('futureTasks'),
+    $oldTasks: $editingTask.get('oldTasks'),
+  };
+};
 export default connect(
   mapState,
   null,

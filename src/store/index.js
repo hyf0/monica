@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import immutableTransform from 'redux-persist-transform-immutable';
+// import { persistStore, persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+// import immutableTransform from 'redux-persist-transform-immutable';
 import { createEpicMiddleware } from 'redux-observable';
 
 // import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
@@ -29,24 +29,11 @@ if (isDev()) {
     composeEnhancers(applyMiddleware(...middlewares)),
   );
 } else {
-  const persistConfig = {
-    transforms: [immutableTransform()],
-    key: 'root',
-    storage,
-  };
-
-  const persistedReducer = persistReducer(persistConfig, reducers);
-
-  store = createStore(persistedReducer, applyMiddleware(...middlewares));
+  store = createStore(reducers, applyMiddleware(...middlewares));
 }
 
 epicMiddleware.run(epics);
 
 // const store = createStore(persistedReducer);
-let persistor;
-if (!isDev()) {
-  persistor = persistStore(store);
-}
-export { persistor };
 
 export { store, constants, actions };

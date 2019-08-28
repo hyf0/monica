@@ -1,5 +1,5 @@
 /* eslint-disable nonblock-statement-body-position */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,6 +11,17 @@ import TaskItemList from '../components/TaskItemList';
 import { taskActions, editingTaskActions } from '../store/actions';
 import NotFound from '../components/NotFound';
 
+const mapState = ($state) => {
+  const $global = $state.get('global');
+  const $task = $state.get('task');
+  const $editingTask = $state.get('editingTask');
+  return {
+    showSideMenu: $global.get('showSideMenu'),
+    $tasksEntity: $task.getIn(['tasks', 'entity']),
+    $currentEditingTask: $editingTask.get('currentTask'),
+  };
+};
+
 function EditingTaskPageContainer(props) {
   const {
     match: {
@@ -21,30 +32,35 @@ function EditingTaskPageContainer(props) {
     $currentEditingTask,
   } = props;
 
+  const [isTaskLoaded, setIsTaskLoaded] = useState(false);
+  const [isTaskTaskChanged, setIsTaskTaskChanged] = useState(false);
+
   useEffect(() => {
     // 根据taskid加载对应的将要被编辑的任务
-    const $target = $tasksEntity.get(taskId) || null;
-    dispatch(editingTaskActions.changeCurrentTask($target));
-  }, [dispatch, taskId, $tasksEntity]);
+    if (!isTaskLoaded) {
+      const $target = $tasksEntity.get(taskId) || null;
+      dispatch(editingTaskActions.changeCurrentTask($target));
+      setIsTaskLoaded(true);
+    }
+  }, [dispatch, taskId, $tasksEntity, isTaskLoaded, setIsTaskLoaded]);
 
-  useEffect(() => {
-    // 因为根据taskId加载任务，所以taskId变化，即任务变化，所以每次切换任务，就要重置编辑历史，重置redo，undo按钮状态
-    dispatch(editingTaskActions.clearAllEdtingHistory());
-
-    return () => {
+  useEffect(
+    () => () => {
+      // 因为根据taskId加载任务，所以taskId变化，即任务变化，所以每次切换任务，就要重置编辑历史，重置redo，undo按钮状态
       // 即使退出也要重置状态，保持状态树的干净
       dispatch(editingTaskActions.clearAllEdtingHistory());
       // 退出任务, 重置为null，
       dispatch(editingTaskActions.changeCurrentTask(null));
-    };
-  }, [taskId, dispatch]);
+    },
+    [taskId, dispatch],
+  );
 
   useEffect(() => {
     // 将编辑后的任务保存到原任务上
-    if ($currentEditingTask != null) {
+    if ($currentEditingTask != null && isTaskLoaded && isTaskTaskChanged) {
       dispatch(taskActions.updateTaskFromEdting($currentEditingTask));
     }
-  }, [$currentEditingTask, dispatch]);
+  }, [$currentEditingTask, isTaskLoaded, isTaskTaskChanged, dispatch]);
 
   const onCreateNewTaskItem = useCallback(
     ($newTaskItem) => {
@@ -52,6 +68,7 @@ function EditingTaskPageContainer(props) {
       dispatch(editingTaskActions.addTaskItemInCurrentTask($newTaskItem));
       // 因为添加了新任务，所以清空重做任务列表，重置 重做 按钮状态，为了避免编辑状态混乱
       dispatch(editingTaskActions.clearFutureTasks());
+      setIsTaskTaskChanged(true);
     },
     [dispatch],
   );
@@ -60,6 +77,7 @@ function EditingTaskPageContainer(props) {
     ($taskItem) => {
       dispatch(editingTaskActions.snapshotCurrentTask());
       dispatch(editingTaskActions.removeTaskItemInCurrentTask($taskItem));
+      setIsTaskTaskChanged(true);
     },
     [dispatch],
   );
@@ -91,12 +109,6 @@ EditingTaskPageContainer.propTypes = {
 EditingTaskPageContainer.defaultProps = {
   $currentEditingTask: null,
 };
-
-const mapState = ({ $global, $Task, $editingTask }) => ({
-  showSideMenu: $global.get('showSideMenu'),
-  $tasksEntity: $Task.getIn(['tasks', 'entity']),
-  $currentEditingTask: $editingTask.get('currentTask'),
-});
 
 export default connect(
   mapState,

@@ -92,8 +92,8 @@ AppBarContainer.defaultProps = {
   // $currentTaskItems: new List(),
 };
 
-const mapState = ({ $global }) => ({
-  $currentTaskItems: $global.getIn(['$currentTask', '$items']),
+const mapState = ($state) => ({
+  $currentTaskItems: $state.getIn(['global', '$currentTask', '$items']),
 });
 export default connect(
   mapState,

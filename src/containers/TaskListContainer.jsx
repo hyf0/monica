@@ -11,10 +11,10 @@ function TaskListContainer(props) {
   const { $tasks, dispatch, history } = props;
   const $tasksEntity = $tasks.get('entity');
   const $tasksRefs = $tasks.get('refs');
-  const $taskList = useMemo(() => $tasksRefs.map(taskId => $tasksEntity.get(taskId)), [
-    $tasksEntity,
-    $tasksRefs,
-  ]);
+  const $taskList = useMemo(
+    () => $tasksRefs.map((taskId) => $tasksEntity.get(taskId)),
+    [$tasksEntity, $tasksRefs],
+  );
 
   const [isEditable, setIsEditable] = useState(false);
 
@@ -72,10 +72,14 @@ TaskListContainer.propTypes = {
   }).isRequired,
 };
 
-const mapState = ({ $global, $Task }) => ({
-  showSideMenu: $global.get('showSideMenu'),
-  $tasks: $Task.get('tasks'),
-});
+const mapState = ($state) => {
+  const $global = $state.get('global');
+  const $task = $state.get('task');
+  return {
+    showSideMenu: $global.get('showSideMenu'),
+    $tasks: $task.get('tasks'),
+  };
+};
 
 export default withRouter(
   connect(

@@ -34,8 +34,8 @@ SideMenuContainer.propTypes = {
 //   showSideMenu: true,
 // };
 
-const mapState = ({ $global }) => ({
-  showSideMenu: $global.get('showSideMenu'),
+const mapState = ($state) => ({
+  showSideMenu: $state.getIn(['global', 'showSideMenu']),
 });
 
 export default connect(

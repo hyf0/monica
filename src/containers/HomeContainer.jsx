@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 import React, { useCallback, useMemo } from 'react';
 
 import PropTypes from 'prop-types';
@@ -9,20 +10,38 @@ import PinnedTaskList from '../components/PinnedTaskList';
 import { taskActions } from '../store/actions';
 import RecentTaskList from '../components/RecentTaskList';
 
+const mapState = ($state) => {
+  const $task = $state.get('task');
+  return {
+    $recentTaskIds: $task.get('recentTaskIds'),
+    $pinnedTaskIds: $task.get('pinnedTaskIds'),
+    $tasksEntity: $task.getIn(['tasks', 'entity']),
+  };
+};
+
 function HomeContainer(props) {
   const {
-    $recentTaskIds, dispatch, history, $tasksEntity, $pinnedTaskIds,
+    $recentTaskIds,
+    dispatch,
+    history,
+    $tasksEntity,
+    $pinnedTaskIds,
   } = props;
 
   const $recentTasksWithIsPinnedProp = useMemo(
-    () => $recentTaskIds.map(taskId => $tasksEntity.get(taskId).set('isPinned', $pinnedTaskIds.includes(taskId))),
+    () =>
+      $recentTaskIds.map((taskId) =>
+        $tasksEntity
+          .get(taskId)
+          .set('isPinned', $pinnedTaskIds.includes(taskId)),
+      ),
     [$recentTaskIds, $tasksEntity, $pinnedTaskIds],
   );
 
-  const $pinnedTasks = useMemo(() => $pinnedTaskIds.map(taskId => $tasksEntity.get(taskId)), [
-    $pinnedTaskIds,
-    $tasksEntity,
-  ]);
+  const $pinnedTasks = useMemo(
+    () => $pinnedTaskIds.map((taskId) => $tasksEntity.get(taskId)),
+    [$pinnedTaskIds, $tasksEntity],
+  );
 
   const pinOneTask = useCallback(
     ($task) => {
@@ -75,12 +94,6 @@ HomeContainer.propTypes = {
 };
 
 HomeContainer.defaultProps = {};
-
-const mapState = ({ $Task }) => ({
-  $recentTaskIds: $Task.get('recentTaskIds'),
-  $pinnedTaskIds: $Task.get('pinnedTaskIds'),
-  $tasksEntity: $Task.getIn(['tasks', 'entity']),
-});
 
 export default connect(
   mapState,

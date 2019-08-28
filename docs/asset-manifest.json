@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/monica/static/css/main.b8774de2.chunk.css",
-    "main.js": "/monica/static/js/main.a64dd0ed.chunk.js",
-    "main.js.map": "/monica/static/js/main.a64dd0ed.chunk.js.map",
+    "main.js": "/monica/static/js/main.c5cdeb1d.chunk.js",
+    "main.js.map": "/monica/static/js/main.c5cdeb1d.chunk.js.map",
     "runtime~main.js": "/monica/static/js/runtime~main.654b4799.js",
     "runtime~main.js.map": "/monica/static/js/runtime~main.654b4799.js.map",
-    "static/css/2.e8d046a2.chunk.css": "/monica/static/css/2.e8d046a2.chunk.css",
-    "static/js/2.95961cf9.chunk.js": "/monica/static/js/2.95961cf9.chunk.js",
-    "static/js/2.95961cf9.chunk.js.map": "/monica/static/js/2.95961cf9.chunk.js.map",
+    "static/css/2.49d38b4b.chunk.css": "/monica/static/css/2.49d38b4b.chunk.css",
+    "static/js/2.457aafac.chunk.js": "/monica/static/js/2.457aafac.chunk.js",
+    "static/js/2.457aafac.chunk.js.map": "/monica/static/js/2.457aafac.chunk.js.map",
     "index.html": "/monica/index.html",
-    "precache-manifest.4d09fa07bb7fd7c2355b2f67fb993804.js": "/monica/precache-manifest.4d09fa07bb7fd7c2355b2f67fb993804.js",
+    "precache-manifest.dcf87875993a41dcd465f460251d31f5.js": "/monica/precache-manifest.dcf87875993a41dcd465f460251d31f5.js",
     "service-worker.js": "/monica/service-worker.js",
-    "static/css/2.e8d046a2.chunk.css.map": "/monica/static/css/2.e8d046a2.chunk.css.map",
+    "static/css/2.49d38b4b.chunk.css.map": "/monica/static/css/2.49d38b4b.chunk.css.map",
     "static/css/main.b8774de2.chunk.css.map": "/monica/static/css/main.b8774de2.chunk.css.map"
   }
 }

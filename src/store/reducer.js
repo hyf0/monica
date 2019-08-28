@@ -1,13 +1,13 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 
 import globalReducer from './global/reducer';
 import tasksReducer from './tasks/reducer';
 import editingTaskReducer from './editingTask/reducer';
 
 const reducers = combineReducers({
-  $global: globalReducer,
-  $Task: tasksReducer,
-  $editingTask: editingTaskReducer,
+  global: globalReducer,
+  task: tasksReducer,
+  editingTask: editingTaskReducer,
 });
 
 /* eslint-disable */

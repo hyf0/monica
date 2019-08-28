@@ -98,11 +98,14 @@ CompleteTaskButton.defaultProps = {
   $task: null,
 };
 
-const mapState = ({ $Task }) => ({
-  $tasksItemsEntity: $Task.getIn(['currentTodoTask', 'items', 'entity']),
-  $tasksItemsRefs: $Task.getIn(['currentTodoTask', 'items', 'refs']),
-  $task: $Task.get('currentTodoTask'),
-});
+const mapState = ($state) => {
+  const $task = $state.get('task');
+  return {
+    $tasksItemsEntity: $task.getIn(['currentTodoTask', 'items', 'entity']),
+    $tasksItemsRefs: $task.getIn(['currentTodoTask', 'items', 'refs']),
+    $task: $task.get('currentTodoTask'),
+  };
+};
 
 export default connect(
   mapState,
