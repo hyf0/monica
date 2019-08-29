@@ -6,6 +6,7 @@ import { Map } from 'immutable';
 import { taskActions, globalActions } from '../store/actions';
 
 import TaskList from '../components/TaskList';
+import { useIsOnline } from '../hooks';
 
 function TaskListContainer(props) {
   const { $tasks, dispatch, history } = props;
@@ -16,12 +17,16 @@ function TaskListContainer(props) {
     [$tasksEntity, $tasksRefs],
   );
 
+  const isOnline = useIsOnline();
+
   const [isEditable, setIsEditable] = useState(false);
 
   const toggleIsEditable = useCallback(() => {
-    // setIsEditable(prevFlag => !prevFlag);
-    setIsEditable(!isEditable);
-  }, [setIsEditable, isEditable]);
+    if (isOnline) {
+      setIsEditable((prevFlag) => !prevFlag);
+    }
+    // setIsEditable(!isEditable);
+  }, [setIsEditable, isOnline]);
 
   const onClickEditTaskButton = useCallback(
     ($task) => {
@@ -57,7 +62,7 @@ function TaskListContainer(props) {
       onClickEditTaskButton={onClickEditTaskButton}
       onClickRemoveTaskButton={onClickRemoveTaskButton}
       onClickTask={onClickTask}
-      isEditable={isEditable}
+      isEditable={isOnline && isEditable}
       onClickSwitchButton={toggleIsEditable}
       $tasks={$taskList}
     />

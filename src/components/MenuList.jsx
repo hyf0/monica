@@ -3,10 +3,12 @@ import React, { useCallback, useState } from 'react';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import PropTypes from 'prop-types';
 
 import List from './List';
+import { COLOR_BLUE, COLOR_GREEN } from '../utils/constants';
 
 function MenuList(props) {
   const { onCreateTask } = props;
@@ -42,6 +44,15 @@ function MenuList(props) {
           variant="outlined"
           fullWidth
         />
+      </ListItem>
+      <ListItem>
+        <Button
+          fullWidth
+          variant="outlined"
+          style={{ backgroundColor: COLOR_GREEN, color: '#fff' }}
+        >
+          登录|云同步
+        </Button>
       </ListItem>
     </List>
   );
