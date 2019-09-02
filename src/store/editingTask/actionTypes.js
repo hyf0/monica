@@ -16,3 +16,9 @@ export const REDO_CURRENT_TASK = 'editingTask/REDO_CURRENT_TASK';
 export const CLEAR_FUTURE_TASKS = 'editingTask/CLEAR_FUTURE_TASKS';
 
 export const CLEAR_EDITNG_HISTORY = 'editingTask/CLEAR_EDITNG_HISTORY';
+
+// effect
+
+export const EFFECT_UPDATE_TASK = 'editingtask/EFFECT_UPDATE_TASK';
+
+export const EFFECT_GET_TASK = 'editingTask/EFFECT_GET_TASK';

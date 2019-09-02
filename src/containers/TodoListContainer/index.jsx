@@ -19,17 +19,17 @@ function TodoListContainer(props) {
     dispatch,
   } = props;
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    dispatch(taskActions.effectGetTask(taskId));
+    return () => {
       // 离开当前任务页面时，重置状态树中的currentTodoTask为null，保持状态树整洁
       dispatch(taskActions.changeCurrentTodoTask(null));
-    },
-    [dispatch, taskId],
-  );
+    };
+  }, [dispatch, taskId]);
 
-  useEffect(() => {
-    dispatch(taskActions.changeCurrentTodoTaskById(taskId));
-  }, [taskId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(taskActions.changeCurrentTodoTaskById(taskId));
+  // }, [taskId, dispatch]);
 
   const toggleTaskItemPropChecked = useCallback(
     ($taskItem) => {
@@ -38,7 +38,7 @@ function TodoListContainer(props) {
     [dispatch],
   );
 
-  if ($currentTodoTask == null) return <NotFound />;
+  if ($currentTodoTask == null) return <NotFound message="Loding..." time={5000} />;
 
   return (
     <TaskItemList

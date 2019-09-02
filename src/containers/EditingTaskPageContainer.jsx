@@ -28,7 +28,7 @@ function EditingTaskPageContainer(props) {
       params: { id: taskId },
     },
     dispatch,
-    $tasksEntity,
+    // $tasksEntity,
     $currentEditingTask,
   } = props;
 
@@ -38,11 +38,11 @@ function EditingTaskPageContainer(props) {
   useEffect(() => {
     // 根据taskid加载对应的将要被编辑的任务
     if (!isTaskLoaded) {
-      const $target = $tasksEntity.get(taskId) || null;
-      dispatch(editingTaskActions.changeCurrentTask($target));
-      setIsTaskLoaded(true);
+      // const $target = $tasksEntity.get(taskId) || null;
+      dispatch(editingTaskActions.effectGetTask(taskId));
+      if ($currentEditingTask != null) setIsTaskLoaded(true);
     }
-  }, [dispatch, taskId, $tasksEntity, isTaskLoaded, setIsTaskLoaded]);
+  }, [dispatch, taskId, isTaskLoaded, setIsTaskLoaded, $currentEditingTask]);
 
   useEffect(
     () => () => {
@@ -56,11 +56,13 @@ function EditingTaskPageContainer(props) {
   );
 
   useEffect(() => {
-    // 将编辑后的任务保存到原任务上
-    if ($currentEditingTask != null && isTaskLoaded && isTaskTaskChanged) {
+    if (isTaskLoaded && isTaskTaskChanged) {
+      // 同步到云端
+      dispatch(editingTaskActions.effectUpdateTask($currentEditingTask));
+      // 将编辑后的任务保存到原任务上
       dispatch(taskActions.updateTaskFromEdting($currentEditingTask));
     }
-  }, [$currentEditingTask, isTaskLoaded, isTaskTaskChanged, dispatch]);
+  }, [isTaskLoaded, isTaskTaskChanged, dispatch, $currentEditingTask]);
 
   const onCreateNewTaskItem = useCallback(
     ($newTaskItem) => {
@@ -102,7 +104,7 @@ EditingTaskPageContainer.propTypes = {
   }).isRequired,
   $currentEditingTask: PropTypes.instanceOf(Map),
   // $tasks: PropTypes.instanceOf(List).isRequired,
-  $tasksEntity: PropTypes.instanceOf(Map).isRequired,
+  // $tasksEntity: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

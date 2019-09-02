@@ -66,6 +66,10 @@ const TasksReducer = (state = defaultState, action) => {
   const tasksRefs = state.getIn(['tasks', 'refs']);
 
   switch (action.type) {
+    case actionTypes.CHANGE_TASKS: {
+      const tasksTobeChangedTo = payload;
+      return state.set('tasks', tasksTobeChangedTo);
+    }
     case actionTypes.ADD_TASK_TO_TASKS: {
       const { payload: newTask } = action;
       const id = newTask.get('id');
@@ -95,36 +99,6 @@ const TasksReducer = (state = defaultState, action) => {
     case actionTypes.CHANGE_CURRENT_TODO_TASK_BY_ID: {
       const id = payload;
       return state.set('currentTodoTask', state.getIn(['tasks', 'entity', id]));
-    }
-    case actionTypes.ADD_TASK_ID_TO_RECENT_TASK_IDS: {
-      const { payload: targetTaskId } = action;
-      const updatedrecentTasks = state
-        .get('recentTaskIds')
-        .filter((taskId) => targetTaskId !== taskId) // remove self if exist
-        .unshift(targetTaskId);
-      return state.set('recentTaskIds', updatedrecentTasks);
-    }
-    case actionTypes.REMOVE_TASK_ID_IN_RECENT_TASK_IDS: {
-      const { payload: targetTaskId } = action;
-      const updatedrecentTasks = state
-        .get('recentTaskIds')
-        .filter((taskId) => targetTaskId !== taskId); // remove self if exist
-      return state.set('recentTaskIds', updatedrecentTasks);
-    }
-    case actionTypes.ADD_TASK_ID_TO_PINNED_TASK_IDS: {
-      const { payload: targetTaskId } = action;
-      const updatedrecentTasks = state
-        .get('pinnedTaskIds')
-        .filter((taskId) => targetTaskId !== taskId) // remove self if exist
-        .unshift(targetTaskId);
-      return state.set('pinnedTaskIds', updatedrecentTasks);
-    }
-    case actionTypes.REMOVE_TASK_ID_IN_PINNED_TASK_IDS: {
-      const { payload: targetTaskId } = action;
-      const updatedrecentTasks = state
-        .get('pinnedTaskIds')
-        .filter((taskId) => targetTaskId !== taskId); // remove self if exist
-      return state.set('pinnedTaskIds', updatedrecentTasks);
     }
 
     // editing task item
@@ -168,7 +142,11 @@ const TasksReducer = (state = defaultState, action) => {
       const id = task.get('id');
       return state.setIn(['tasks', 'entity', id], task);
     }
-
+    case actionTypes.UPDATE_TASK_IN_TASKS: {
+      const task = payload;
+      const id = task.get('id');
+      return state.setIn(['tasks', 'entity', id], task);
+    }
     default:
       return state;
   }

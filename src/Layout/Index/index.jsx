@@ -8,6 +8,7 @@ import SideMenuContainer from '../../containers/SideMenuContainer';
 import TodoListContainer from '../../containers/TodoListContainer';
 import HomeContainer from '../../containers/HomeContainer';
 import EditingTaskPageContainer from '../../containers/EditingTaskPageContainer';
+import AccountManagerContainer from '../../containers/AccountManagerContainer';
 
 function Index() {
   return (
@@ -35,6 +36,7 @@ function Index() {
       </div>
       <AppBarContainer />
       <SideMenuContainer />
+      <AccountManagerContainer />
     </div>
   );
 }

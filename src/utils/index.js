@@ -1,12 +1,8 @@
-import { isDev } from '../env';
+// import { isDev } from '../env';
 
 export const uniqueId = (function saveNextId() {
   let curID = -1;
-  let date = Date.now().toString();
-  if (isDev()) {
-    console.log('处于开发模式中');
-    date = 1566347293201; // 固定时间，防止每次刷新改变时间，导致程序无法根据id找到对应任务
-  }
+  const date = Date.now().toString();
   return function generatorOfUniqueId(prefix = '') {
     curID += 1;
     if (prefix.length === 0) return `${date}-${curID}`;
@@ -23,6 +19,10 @@ export function withStopEventtPropagation(func) {
     evt.stopPropagation();
     return func(...args);
   };
+}
+
+export function stopEventPropagation(evt) {
+  evt.stopPropagation();
 }
 
 /**
@@ -45,3 +45,18 @@ export function normalize(arr, name = 'entity', key = 'id') {
   });
   return result;
 }
+
+export function denormalize(obj, entityName = 'entity', refsName = 'refs') {
+  const result = obj[refsName].map((ref) => obj[entityName][ref]);
+  return result;
+}
+
+export function getLocalJWT() {
+  return localStorage.getItem('__jwt') || '';
+}
+
+export function setLocalJWT(jwt) {
+  localStorage.setItem('__jwt', jwt);
+}
+window.getLocalJWT = getLocalJWT;
+window.setLocalJWT = setLocalJWT;

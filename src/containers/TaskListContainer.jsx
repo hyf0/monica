@@ -38,8 +38,8 @@ function TaskListContainer(props) {
 
   const onClickRemoveTaskButton = useCallback(
     ($task) => {
+      dispatch(taskActions.effectDeleteTask($task.get('id')));
       dispatch(taskActions.removeTaskInTasks($task));
-      dispatch(taskActions.removeTaskIdInRecentTaskIds($task.get('id')));
     },
     [dispatch],
   );
@@ -48,10 +48,7 @@ function TaskListContainer(props) {
     ($task) => {
       // 防止编辑模式点击，然后进入到任务模式，只能在非编辑模式下进入任务
       if (isEditable) return;
-
-      const taskId = $task.get('id');
       dispatch(globalActions.hideSideMenu());
-      dispatch(taskActions.addTaskIdToRecentTaskIds(taskId));
       history.push(`/todo/${$task.get('id')}`);
     },
     [dispatch, history, isEditable],

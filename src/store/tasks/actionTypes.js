@@ -1,4 +1,7 @@
 /* eslint-disable operator-linebreak */
+
+export const CHANGE_TASKS = 'tasks/CHANGE_TASKS';
+
 export const ADD_TASK_TO_TASKS = 'tasks/ADD_TASK_TO_TASKS';
 
 export const REMOVE_TASK_IN_TASKS = 'tasks/REMOVE_TASK_IN_TASKS';
@@ -7,18 +10,6 @@ export const CHANGE_CURRENT_TODO_TASK = 'tasks/CHANGE_CURRENT_TODO_TASK';
 
 export const CHANGE_CURRENT_TODO_TASK_BY_ID =
   'tasks/CHANGE_CURRENT_TODO_TASK_BY_ID';
-
-export const ADD_TASK_ID_TO_RECENT_TASK_IDS =
-  'tasks/ADD_TASK_ID_TO_RECENT_TASK_IDS';
-
-export const REMOVE_TASK_ID_IN_RECENT_TASK_IDS =
-  'tasks/REMOVE_TASK_ID_IN_RECENT_TASK_IDS';
-
-export const ADD_TASK_ID_TO_PINNED_TASK_IDS =
-  'tasks/ADD_TASK_ID_TO_PINNED_TASK_IDS';
-
-export const REMOVE_TASK_ID_IN_PINNED_TASK_IDS =
-  'tasks/REMOVE_TASK_ID_IN_PINNED_TASK_IDS';
 
 // -- task item
 
@@ -34,4 +25,14 @@ export const TOGGLE_TASK_ITEM_CHECKED = 'tasks/TOGGLE_TASK_ITEM_CHECKED';
 
 export const UPDARE_TASK_FROM_EDTING = 'tasks/UPDARE_TASK_FROM_EDTING';
 
-// -- tobe removed
+export const UPDATE_TASK_IN_TASKS = 'tasks/UPDATE_TASK_IN_TASKS';
+
+// effect
+
+export const EFFECT_GET_TASK_LIST = 'tasks/EFFECT_GET_TASK_LIST';
+
+export const EFFECT_DELETE_TASK = 'tasks/EFFECT_DELETE_TASK';
+
+export const EFFECT_GET_TASK = 'tasks/EFFECT_GET_TASK';
+
+// export const EFFECT_UPDATE_TASK = 'tasks/EFFECT_UPDATE_TASK';

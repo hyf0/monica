@@ -1,29 +1,69 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fromJS } from 'immutable';
+import Button from '@material-ui/core/Button';
+
 import MenuList from '../../components/MenuList';
-import { uniqueId, normalize } from '../../utils';
-import { taskActions } from '../../store/actions';
+import { uniqueId } from '../../utils';
+import { globalActions, effectActions } from '../../store/actions';
+import TextInput from '../../components/TextInput';
+import { COLOR_GREEN } from '../../utils/constants';
 
 function MenuListContainer(props) {
   const { dispatch } = props;
 
-  const onCreateTask = useCallback(
-    (taskTitle) => {
-      dispatch(
-        taskActions.addTaskToTasks(
-          fromJS({
-            title: taskTitle,
-            id: uniqueId(),
-            items: normalize([]),
-          }),
-        ),
-      );
-    },
-    [dispatch],
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+
+  const handleCreateTaskInputChange = useCallback(
+    (evt) => setNewTaskTitle(evt.target.value),
+    [setNewTaskTitle],
   );
-  return <MenuList onCreateTask={onCreateTask} />;
+
+  const handleEnterUp = useCallback(
+    function createNewTaskByTitle(evt) {
+      const title = evt.target.value.trim();
+      if (title !== '') {
+        const task = {
+          title,
+          id: uniqueId(),
+          items: [],
+          timestamp: Date.now(),
+        };
+        dispatch(effectActions.createTask(task));
+
+        setNewTaskTitle('');
+      }
+    },
+    [dispatch, setNewTaskTitle],
+  );
+
+  const handleClickLoginBtn = useCallback(function showLoginAndRegisterModel() {
+    dispatch(globalActions.hideSideMenu());
+    dispatch(globalActions.showAccountManager());
+  }, [dispatch]);
+
+  return (
+    <MenuList>
+      <TextInput
+        label="创建新任务"
+        onEnter={handleEnterUp}
+        onChange={handleCreateTaskInputChange}
+        type="text"
+        value={newTaskTitle}
+        margin="normal"
+        variant="outlined"
+        fullWidth
+      />
+      <Button
+        fullWidth
+        variant="outlined"
+        style={{ backgroundColor: COLOR_GREEN, color: '#fff' }}
+        onClick={handleClickLoginBtn}
+      >
+        登录|云同步
+      </Button>
+    </MenuList>
+  );
 }
 
 MenuListContainer.propTypes = {

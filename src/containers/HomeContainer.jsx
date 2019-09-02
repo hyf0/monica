@@ -2,69 +2,58 @@
 import React, { useCallback, useMemo } from 'react';
 
 import PropTypes from 'prop-types';
-import { List as ImmutableList, Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { connect } from 'react-redux';
 
 import PinnedTaskList from '../components/PinnedTaskList';
 
-import { taskActions } from '../store/actions';
+import { editingTaskActions } from '../store/actions';
 import RecentTaskList from '../components/RecentTaskList';
-
-const mapState = ($state) => {
-  const $task = $state.get('task');
-  return {
-    $recentTaskIds: $task.get('recentTaskIds'),
-    $pinnedTaskIds: $task.get('pinnedTaskIds'),
-    $tasksEntity: $task.getIn(['tasks', 'entity']),
-  };
-};
 
 function HomeContainer(props) {
   const {
-    $recentTaskIds,
+    $tasksRefs,
     dispatch,
     history,
     $tasksEntity,
-    $pinnedTaskIds,
   } = props;
 
-  const $recentTasksWithIsPinnedProp = useMemo(
+  const $recentTasks = useMemo(
     () =>
-      $recentTaskIds.map((taskId) =>
-        $tasksEntity
-          .get(taskId)
-          .set('isPinned', $pinnedTaskIds.includes(taskId)),
-      ),
-    [$recentTaskIds, $tasksEntity, $pinnedTaskIds],
+      $tasksRefs.map(ref => $tasksEntity.get(ref)).sort(($taskA, $taskB) => {
+        const taskATime = $taskA.get('lastVisitTime') || 0;
+        const taskBTime = $taskB.get('lastVisitTime') || 0;
+        return taskBTime - taskATime;
+      }),
+    [$tasksRefs, $tasksEntity],
   );
 
   const $pinnedTasks = useMemo(
-    () => $pinnedTaskIds.map((taskId) => $tasksEntity.get(taskId)),
-    [$pinnedTaskIds, $tasksEntity],
+    () => $tasksRefs.map(ref => $tasksEntity.get(ref)).filter($task => $task.get('isPinned')),
+    [$tasksRefs, $tasksEntity],
   );
 
   const pinOneTask = useCallback(
     ($task) => {
-      const id = $task.get('id');
-      dispatch(taskActions.addTaskIdToPinnedTaskIds(id));
+      const $pinndTask = $task.set('isPinned', true);
+      dispatch(editingTaskActions.effectUpdateTask($pinndTask));
     },
     [dispatch],
   );
 
   const unpinOneTask = useCallback(
     ($task) => {
-      dispatch(taskActions.removeTaskIdInPinnedTaskIds($task.get('id')));
+      const $unpinndTask = $task.set('isPinned', false);
+      dispatch(editingTaskActions.effectUpdateTask($unpinndTask));
     },
     [dispatch],
   );
 
   const onClickTask = useCallback(
     ($task) => {
-      const id = $task.get('id');
-      dispatch(taskActions.addTaskIdToRecentTaskIds(id));
       history.push(`/todo/${$task.get('id')}`);
     },
-    [dispatch, history],
+    [history],
   );
 
   return (
@@ -77,16 +66,17 @@ function HomeContainer(props) {
       <RecentTaskList
         onClickIconButton={pinOneTask}
         onClickTask={onClickTask}
-        $tasks={$recentTasksWithIsPinnedProp}
+        $tasks={$recentTasks}
       />
     </React.Fragment>
   );
 }
 
 HomeContainer.propTypes = {
-  $recentTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
-  $pinnedTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
+  // $recentTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
+  // $pinnedTaskIds: PropTypes.instanceOf(ImmutableList).isRequired,
   $tasksEntity: PropTypes.instanceOf(Map).isRequired,
+  $tasksRefs: PropTypes.instanceOf(List).isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -94,6 +84,16 @@ HomeContainer.propTypes = {
 };
 
 HomeContainer.defaultProps = {};
+
+const mapState = ($state) => {
+  const $task = $state.get('task');
+  return {
+    $recentTaskIds: $task.get('recentTaskIds'),
+    $pinnedTaskIds: $task.get('pinnedTaskIds'),
+    $tasksEntity: $task.getIn(['tasks', 'entity']),
+    $tasksRefs: $task.getIn(['tasks', 'refs']),
+  };
+};
 
 export default connect(
   mapState,

@@ -9,7 +9,7 @@ import * as actionTypes from './actionTypes';
  */
 const defaultState = fromJS({
   showSideMenu: false,
-  path: '/',
+  showAccountManager: false,
 });
 
 /**
@@ -18,7 +18,8 @@ const defaultState = fromJS({
  * @param {{type: string, action?: any}} action
  */
 const globalReducer = (state = defaultState, action) => {
-  const { type = null, payload = null } = action;
+  // const { type = null, payload = null } = action;
+  const { type = null } = action;
   if (type == null) {
     throw new Error(`action: ${action} does not has type!`);
   }
@@ -29,9 +30,11 @@ const globalReducer = (state = defaultState, action) => {
     case actionTypes.HIDE_SIDE_MENU: {
       return state.set('showSideMenu', false);
     }
-    case actionTypes.CHANGE_CURRENT_PATH: {
-      const path = payload;
-      return state.set('path', path);
+    case actionTypes.SHOW_ACCOUNT_MANAGER: {
+      return state.set('showAccountManager', true);
+    }
+    case actionTypes.HIDE_ACCOUNT_MANAGER: {
+      return state.set('showAccountManager', false);
     }
     default:
       return state;

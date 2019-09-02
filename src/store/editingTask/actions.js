@@ -35,3 +35,15 @@ export const clearFutureTasks = () => ({
 export const clearAllEdtingHistory = () => ({
   type: actionTypes.CLEAR_EDITNG_HISTORY,
 });
+
+// effect
+
+export const effectUpdateTask = ($task) => ({
+  type: actionTypes.EFFECT_UPDATE_TASK,
+  payload: $task,
+});
+
+export const effectGetTask = (taskId) => ({
+  type: actionTypes.EFFECT_GET_TASK,
+  payload: taskId,
+});

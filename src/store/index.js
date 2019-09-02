@@ -1,27 +1,25 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-// import { persistStore, persistReducer } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-// import immutableTransform from 'redux-persist-transform-immutable';
-import { createEpicMiddleware } from 'redux-observable';
+import createSagaMiddleware from 'redux-saga';
 
-// import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 
 import * as constants from './actionTypes';
 import * as actions from './actions';
 import reducers from './reducer';
-import epics from './epics';
+
+import rootSaga from './rootSaga';
 
 import { isDev } from '../env';
 
-const epicMiddleware = createEpicMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [epicMiddleware];
+const middlewares = [sagaMiddleware];
 
 // eslint-disable-next-line import/no-mutable-exports
 let store;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 if (isDev()) {
+  // eslint-disable-next-line no-console
   console.log('正处于develoment模式');
   store = createStore(
     reducers,
@@ -32,7 +30,7 @@ if (isDev()) {
   store = createStore(reducers, applyMiddleware(...middlewares));
 }
 
-epicMiddleware.run(epics);
+sagaMiddleware.run(rootSaga)
 
 // const store = createStore(persistedReducer);
 
