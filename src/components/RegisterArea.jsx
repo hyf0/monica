@@ -27,10 +27,10 @@ function RegisterArea(props) {
   return (
     <List>
       <ListItem>
-        <TextField value={username} onChange={handleInputUsername} type="text" label="用户名" fullWidth />
+        <TextField placeholder="请输入4到16位字母，数字" value={username} onChange={handleInputUsername} type="text" label="用户名" fullWidth />
       </ListItem>
       <ListItem>
-        <TextField value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
+        <TextField placeholder="请输入4到16位字母，数字" value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
       </ListItem>
       <ListItem>
         <Button disabled={isDisabled} variant="outlined" onClick={handleClickButton} fullWidth>

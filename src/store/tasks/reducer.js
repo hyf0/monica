@@ -3,47 +3,14 @@ import { fromJS, Map, List } from 'immutable';
 /* eslint-enable */
 
 import * as actionTypes from './actionTypes';
-import { uniqueId, normalize } from '../../utils';
+import { normalize } from '../../utils';
+import { userActionTypes } from '../actionTypes';
 
 /**
  * @type Map<string, any>;
  */
 const defaultState = fromJS({
-  tasks: normalize([
-    {
-      id: uniqueId(),
-      title: '创建一个任务',
-      items: normalize([
-        {
-          id: uniqueId(),
-          title: '创建任务: 在侧菜单栏中的输入框内按回车',
-          checked: false,
-        },
-        {
-          id: uniqueId(),
-          title: '编辑任务: 在侧菜单栏中打开编辑模式',
-          checked: false,
-        },
-        {
-          id: uniqueId(),
-          title: '添加任务项: 打开编辑模式后，点击编辑按钮',
-          checked: false,
-        },
-        {
-          id: uniqueId(),
-          title: '保存: 每次编辑后，程序会自动保存',
-          checked: false,
-        },
-        {
-          id: uniqueId(),
-          title: '开始一项任务: 在非编辑模式下点击任务即可',
-          checked: false,
-        },
-      ]),
-    },
-  ]),
-  recentTaskIds: [],
-  pinnedTaskIds: [],
+  tasks: normalize([]),
   currentTodoTask: null,
 });
 
@@ -115,19 +82,19 @@ const TasksReducer = (state = defaultState, action) => {
       return state.setIn(propPath, !state.getIn(propPath));
     }
 
-    case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_INDEX: {
-      const taskItemIndex = payload;
-      const targetTaskItemId = state.getIn([
-        'currentTodoTask',
-        'items',
-        'refs',
-        taskItemIndex,
-      ]);
-      return state.setIn(
-        ['currentTodoTask', 'items', 'entity', targetTaskItemId, 'checked'],
-        true,
-      );
-    }
+    // case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_INDEX: {
+    //   const taskItemIndex = payload;
+    //   const targetTaskItemId = state.getIn([
+    //     'currentTodoTask',
+    //     'items',
+    //     'refs',
+    //     taskItemIndex,
+    //   ]);
+    //   return state.setIn(
+    //     ['currentTodoTask', 'items', 'entity', targetTaskItemId, 'checked'],
+    //     true,
+    //   );
+    // }
 
     case actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_TASK_ID: {
       const taskId = payload;
@@ -137,16 +104,26 @@ const TasksReducer = (state = defaultState, action) => {
       );
     }
 
-    case actionTypes.UPDARE_TASK_FROM_EDTING: {
-      const task = payload;
-      const id = task.get('id');
-      return state.setIn(['tasks', 'entity', id], task);
-    }
+    // case actionTypes.UPDARE_TASK_FROM_EDTING: {
+    //   const task = payload;
+    //   const id = task.get('id');
+    //   return state.setIn(['tasks', 'entity', id], task);
+    // }
     case actionTypes.UPDATE_TASK_IN_TASKS: {
       const task = payload;
       const id = task.get('id');
       return state.setIn(['tasks', 'entity', id], task);
     }
+
+    // user
+
+    case userActionTypes.LOGOUT: {
+      return state.set('tasks', state.get('tasks').merge({
+        entity: tasksEntity.clear(),
+        refs: tasksRefs.clear(),
+      }));
+    }
+
     default:
       return state;
   }

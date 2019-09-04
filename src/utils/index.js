@@ -1,18 +1,20 @@
 // import { isDev } from '../env';
 
 export const uniqueId = (function saveNextId() {
-  let curID = -1;
-  const date = Date.now().toString();
+  let count = -1;
+  const timestamp = Date.now().toString();
   return function generatorOfUniqueId(prefix = '') {
-    curID += 1;
-    if (prefix.length === 0) return `${date}-${curID}`;
-    return `${prefix}-${date}-${curID}`;
+    count += 1;
+    const ramdomNumsStr = `${String(Math.round(Math.random() * 100000000))}-${String(Math.round(Math.random() * 100000000))}`;
+    const id = `${ramdomNumsStr}-${timestamp}-${count}`;
+    if (prefix.length === 0) return id;
+    return `${prefix}-${id}`;
   };
 }());
 
-export function deepCopy(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
+// export function deepCopy(obj) {
+//   return JSON.parse(JSON.stringify(obj));
+// }
 
 export function withStopEventtPropagation(func) {
   return (evt, ...args) => {
@@ -58,5 +60,5 @@ export function getLocalJWT() {
 export function setLocalJWT(jwt) {
   localStorage.setItem('__jwt', jwt);
 }
-window.getLocalJWT = getLocalJWT;
-window.setLocalJWT = setLocalJWT;
+// window.getLocalJWT = getLocalJWT;
+// window.setLocalJWT = setLocalJWT;

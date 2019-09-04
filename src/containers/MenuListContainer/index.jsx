@@ -7,10 +7,10 @@ import MenuList from '../../components/MenuList';
 import { uniqueId } from '../../utils';
 import { globalActions, effectActions } from '../../store/actions';
 import TextInput from '../../components/TextInput';
-import { COLOR_GREEN } from '../../utils/constants';
+import { COLOR_GREEN, COLOR_ORANGE } from '../../utils/constants';
 
 function MenuListContainer(props) {
-  const { dispatch } = props;
+  const { dispatch, hasLogin } = props;
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
@@ -37,15 +37,19 @@ function MenuListContainer(props) {
     [dispatch, setNewTaskTitle],
   );
 
-  const handleClickLoginBtn = useCallback(function showLoginAndRegisterModel() {
-    dispatch(globalActions.hideSideMenu());
-    dispatch(globalActions.showAccountManager());
-  }, [dispatch]);
+  const handleClickLoginBtn = useCallback(
+    function showLoginAndRegisterModel() {
+      dispatch(globalActions.hideSideMenu());
+      dispatch(globalActions.showAccountManager());
+    },
+    [dispatch],
+  );
 
   return (
     <MenuList>
       <TextInput
-        label="创建新任务"
+        label={hasLogin ? '创建新任务' : '请先登录'}
+        disabled={!hasLogin}
         onEnter={handleEnterUp}
         onChange={handleCreateTaskInputChange}
         type="text"
@@ -57,10 +61,13 @@ function MenuListContainer(props) {
       <Button
         fullWidth
         variant="outlined"
-        style={{ backgroundColor: COLOR_GREEN, color: '#fff' }}
+        style={{
+          backgroundColor: hasLogin ? COLOR_GREEN : COLOR_ORANGE,
+          color: '#fff',
+        }}
         onClick={handleClickLoginBtn}
       >
-        登录|云同步
+        {hasLogin ? '已登录' : '登录|云同步'}
       </Button>
     </MenuList>
   );
@@ -68,9 +75,12 @@ function MenuListContainer(props) {
 
 MenuListContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  hasLogin: PropTypes.bool.isRequired,
 };
 
-const mapState = () => ({});
+const mapState = ($state) => ({
+  hasLogin: $state.getIn(['user', 'hasLogin']),
+});
 
 export default connect(
   mapState,

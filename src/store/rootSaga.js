@@ -1,61 +1,62 @@
 import {
-  call, put, takeLatest, takeEvery, all,
+  call, put, takeEvery, all,
 } from 'redux-saga/effects';
 import { fromJS } from 'immutable';
 
 import { effectActionTypes } from './actionTypes';
 import { request } from '../utils/request';
-import { userActions, taskActions } from './actions';
-import { setLocalJWT, normalize } from '../utils';
+import { taskActions, globalActions } from './actions';
+import { normalize } from '../utils';
 
-import userSaga from './user/saga';
-import taskSaga from './tasks/saga';
-import editingTaskSaga from './editingTask/saga';
+import userSagas from './user/saga';
+import taskSagas from './tasks/saga';
+import editingTaskSagas from './editingTask/saga';
+import globalSagas from './global/sagas';
 
 
-function* login(action) {
-  try {
-    const { payload: userInfo } = action;
-    const { data: loginResp } = yield call(
-      request.post,
-      '/users/login',
-      userInfo,
-    );
-    const { user: userInfoResp = null, token, ...rest } = loginResp;
-    setLocalJWT(token);
-    yield put(
-      userActions.loginSuccess(
-        fromJS({
-          token,
-          userInfo: userInfoResp,
-          ...rest,
-        }),
-      ),
-    );
-  } catch (e) {
-    yield put(userActions.loginFail(e));
-  }
-}
+// function* login(action) {
+//   try {
+//     const { payload: userInfo } = action;
+//     const { data: loginResp } = yield call(
+//       request.post,
+//       '/users/login',
+//       userInfo,
+//     );
+//     const { user: userInfoResp = null, token, ...rest } = loginResp;
+//     setLocalJWT(token);
+//     yield put(
+//       userActions.loginSuccess(
+//         fromJS({
+//           token,
+//           userInfo: userInfoResp,
+//           ...rest,
+//         }),
+//       ),
+//     );
+//   } catch (e) {
+//     yield put(userActions.loginFail(e));
+//   }
+// }
 
-function* register(action) {
-  try {
-    const { payload: userInfo } = action;
-    const { data: registerResp } = yield call(request.post, '/users', userInfo);
-    const { user: userInfoResp = null, token, ...rest } = registerResp;
-    setLocalJWT(token);
-    yield put(
-      userActions.registerSuccess(
-        fromJS({
-          token,
-          userInfo: userInfoResp,
-          ...rest,
-        }),
-      ),
-    );
-  } catch (e) {
-    yield put(userActions.registerFail(e));
-  }
-}
+// function* register(action) {
+//   try {
+//     const { payload: userInfo } = action;
+//     const { data: registerResp } = yield call(request.post, '/users', userInfo);
+//     const { user: userInfoResp = null, token, ...rest } = registerResp;
+//     setLocalJWT(token);
+//     yield put(
+//       userActions.registerSuccess(
+//         fromJS({
+//           token,
+//           userInfo: userInfoResp,
+//           ...rest,
+//         }),
+//       ),
+//     );
+//   } catch (errResp) {
+//     yield put(userActions.registerFail());
+//   }
+// }
 
 function* createTask(action) {
   try {
@@ -70,24 +71,26 @@ function* createTask(action) {
         }),
       ),
     );
-  } catch (e) {
-    console.error('createTask', e);
-    // yield put(userActions.registerFail(e));
+  } catch (errResp) {
+    // eslint-disable-next-line no-console
+    console.error('createTask', errResp);
+    yield put(globalActions.addOneNitification(errResp));
   }
 }
 
 function* mySaga() {
-  yield takeLatest(effectActionTypes.EFFECT_REGISTER, register);
-  yield takeLatest(effectActionTypes.EFFECT_LOGIN, login);
+  // yield takeLatest(effectActionTypes.EFFECT_REGISTER, register);
+  // yield takeLatest(effectActionTypes.EFFECT_LOGIN, login);
 
   // tasks
 
   yield takeEvery(effectActionTypes.EFFECT_CREATE_TASK, createTask);
 
   yield all([
-    ...userSaga,
-    ...taskSaga,
-    ...editingTaskSaga,
+    ...userSagas,
+    ...taskSagas,
+    ...editingTaskSagas,
+    ...globalSagas,
   ]);
 }
 

@@ -10,6 +10,7 @@ import * as actionTypes from './actionTypes';
 const defaultState = fromJS({
   showSideMenu: false,
   showAccountManager: false,
+  notifications: [], // 存储原生js的对象，非immutable
 });
 
 /**
@@ -18,8 +19,8 @@ const defaultState = fromJS({
  * @param {{type: string, action?: any}} action
  */
 const globalReducer = (state = defaultState, action) => {
-  // const { type = null, payload = null } = action;
-  const { type = null } = action;
+  const { type = null, payload = null } = action;
+  // const { type = null } = action;
   if (type == null) {
     throw new Error(`action: ${action} does not has type!`);
   }
@@ -35,6 +36,13 @@ const globalReducer = (state = defaultState, action) => {
     }
     case actionTypes.HIDE_ACCOUNT_MANAGER: {
       return state.set('showAccountManager', false);
+    }
+    case actionTypes.ADD_ONE_NOTIFICATION: {
+      const rawInfo = payload;
+      return state.set('notifications', state.get('notifications').push(rawInfo));
+    }
+    case actionTypes.REMOVE_THE_TOP_NOTIFICATION: {
+      return state.set('notifications', state.get('notifications').shift());
     }
     default:
       return state;

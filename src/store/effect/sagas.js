@@ -1,10 +1,11 @@
 // 在这里抽离出公共的saga函数
 import { fromJS } from 'immutable';
 
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { request } from '../../utils/request';
 
-import { normalize } from '../../utils';
+import { normalize, denormalize } from '../../utils';
+import { globalActions } from '../actions';
 
 export function* get$TaskById(taskId) {
   try {
@@ -15,7 +16,42 @@ export function* get$TaskById(taskId) {
       items: normalize(items),
     });
     return $task;
-  } catch (err) {
+  } catch (errResp) {
+    const { data: errorInfo } = errResp;
+    errorInfo.type = 'error';
+    errorInfo.title = '获取任务信息失败，你可能未登录或访问了他人的任务';
+    yield put(globalActions.addOneNitification(errorInfo));
+    return null;
+    // eslint-disable-next-line no-console
+    // throw err;
+  }
+}
+
+export function* updateTaskBy$task($task) {
+  try {
+    const { items, ...rest } = $task.toJS();
+    const task = {
+      ...rest,
+      items: denormalize(items),
+      timestamp: Date.now(),
+    };
+    const { data: updatedTask } = yield call(
+      request.put,
+      `/tasks/${task.id}`,
+      task,
+    );
+    const { items: updatedItems, ...updatedRest } = updatedTask;
+    const $updatedTask = fromJS({
+      ...updatedRest,
+      items: normalize(updatedItems),
+    });
+
+    return $updatedTask;
+  } catch (errResp) {
+    const { data: errorInfo } = errResp;
+    errorInfo.type = 'error';
+    errorInfo.title = '编辑任务失败';
+    yield put(globalActions.addOneNitification(errorInfo));
     return null;
     // eslint-disable-next-line no-console
     // throw err;

@@ -27,10 +27,10 @@ export const changeCurrentTodoTaskById = (taskId) => ({
 
 // -- task item
 
-export const checkTaskItemInTaskItemsByIndex = (index) => ({
-  type: actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_INDEX,
-  payload: index,
-});
+// export const checkTaskItemInTaskItemsByIndex = (index) => ({
+//   type: actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_INDEX,
+//   payload: index,
+// });
 
 export const checkTaskItemInTaskItemsByTaskId = (taskId) => ({
   type: actionTypes.CHECK_TASK_ITEM_IN_TASK_ITEMS_BY_TASK_ID,
@@ -44,10 +44,10 @@ export const toggleTaskItemPropChecked = ($taskItem) => ({
 
 // edting task
 
-export const updateTaskFromEdting = ($task) => ({
-  type: actionTypes.UPDARE_TASK_FROM_EDTING,
-  payload: $task,
-});
+// export const updateTaskFromEdting = ($task) => ({
+//   type: actionTypes.UPDARE_TASK_FROM_EDTING,
+//   payload: $task,
+// });
 
 export const updateTaskInTasks = ($task) => ({
   type: actionTypes.UPDATE_TASK_IN_TASKS,

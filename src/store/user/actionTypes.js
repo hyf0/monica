@@ -11,3 +11,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 // effect
 
 export const EFFECT_GET_USERINFO = 'EFFECT_GET_USERINFO';
+
+export const EFFECT_LOGIN = 'EFFECT_LOGIN';
+
+export const EFFECT_REGISTER = 'EFFECT_REGISTER';

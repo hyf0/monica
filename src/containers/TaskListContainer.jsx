@@ -9,7 +9,9 @@ import TaskList from '../components/TaskList';
 import { useIsOnline } from '../hooks';
 
 function TaskListContainer(props) {
-  const { $tasks, dispatch, history } = props;
+  const {
+    $tasks, dispatch, history, hasLogin,
+  } = props;
   const $tasksEntity = $tasks.get('entity');
   const $tasksRefs = $tasks.get('refs');
   const $taskList = useMemo(
@@ -59,7 +61,7 @@ function TaskListContainer(props) {
       onClickEditTaskButton={onClickEditTaskButton}
       onClickRemoveTaskButton={onClickRemoveTaskButton}
       onClickTask={onClickTask}
-      isEditable={isOnline && isEditable}
+      isEditable={isOnline && hasLogin && isEditable}
       onClickSwitchButton={toggleIsEditable}
       $tasks={$taskList}
     />
@@ -69,6 +71,7 @@ function TaskListContainer(props) {
 TaskListContainer.propTypes = {
   $tasks: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
+  hasLogin: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
@@ -80,6 +83,7 @@ const mapState = ($state) => {
   return {
     showSideMenu: $global.get('showSideMenu'),
     $tasks: $task.get('tasks'),
+    hasLogin: $state.getIn(['user', 'hasLogin']),
   };
 };
 

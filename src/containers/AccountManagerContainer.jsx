@@ -9,9 +9,12 @@ import { Map } from 'immutable';
 
 import LoginArea from '../components/LoginArea';
 import RegisterArea from '../components/RegisterArea';
-import { globalActions, effectActions, userActions } from '../store/actions';
-import { stopEventPropagation } from '../utils';
+import { globalActions, userActions } from '../store/actions';
+import { stopEventPropagation, uniqueId } from '../utils';
 import LoginStatus from '../components/LoginStatus';
+
+const usernamePattern = /^[a-zA-Z0-9_-]{4,16}$/;
+const passwordPattern = /^[a-zA-Z0-9_-]{4,16}$/;
 
 
 function AccountManagerContainer(props) {
@@ -36,14 +39,34 @@ function AccountManagerContainer(props) {
 
   const handleLogin = useCallback(
     (userInfo) => {
-      dispatch(effectActions.login(userInfo));
+      const { username = '', password = '' } = userInfo;
+      if (usernamePattern.test(username) && passwordPattern.test(password)) {
+        dispatch(userActions.effectLogin(userInfo));
+      } else {
+        dispatch(globalActions.addOneNitification({
+          type: 'error',
+          title: '登录失败',
+          message: '非法用户名或密码，请输入4到16位的字母或数字',
+          key: uniqueId('notify'),
+        }));
+      }
     },
     [dispatch],
   );
 
   const handleRegister = useCallback(
     (userInfo) => {
-      dispatch(effectActions.register(userInfo));
+      const { username = '', password = '' } = userInfo;
+      if (usernamePattern.test(username) && passwordPattern.test(password)) {
+        dispatch(userActions.effectRegister(userInfo));
+      } else {
+        dispatch(globalActions.addOneNitification({
+          type: 'error',
+          title: '注册失败',
+          message: '非法用户名或密码，请输入4到16位的字母或数字',
+          key: uniqueId('notify'),
+        }));
+      }
     },
     [dispatch],
   );

@@ -30,6 +30,16 @@ export const effectGetUserInfo = () => ({
   type: actionTypes.EFFECT_GET_USERINFO,
 });
 
+export const effectLogin = (userInfo) => ({
+  type: actionTypes.EFFECT_LOGIN,
+  payload: userInfo,
+});
+
+export const effectRegister = (userInfo) => ({
+  type: actionTypes.EFFECT_REGISTER,
+  payload: userInfo,
+});
+
 // export const changeCurrentPath = (path, sideEffect = null) => ({
 //   type: actionTypes.CHANGE_CURRENT_PATH,
 //   payload: path,

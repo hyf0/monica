@@ -1,6 +1,6 @@
-export const EFFECT_LOGIN = 'EFFECT_LOGIN';
+// export const EFFECT_LOGIN = 'EFFECT_LOGIN';
 
-export const EFFECT_REGISTER = 'EFFECT_REGISTER';
+// export const EFFECT_REGISTER = 'EFFECT_REGISTER';
 
 export const EFFECT_CREATE_TASK = 'EFFECT_CREATE_TASK';
 

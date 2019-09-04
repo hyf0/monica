@@ -57,10 +57,10 @@ function EditingTaskPageContainer(props) {
 
   useEffect(() => {
     if (isTaskLoaded && isTaskTaskChanged) {
-      // 同步到云端
+      // 同步到云端 // 乐观更新
       dispatch(editingTaskActions.effectUpdateTask($currentEditingTask));
       // 将编辑后的任务保存到原任务上
-      dispatch(taskActions.updateTaskFromEdting($currentEditingTask));
+      dispatch(taskActions.updateTaskInTasks($currentEditingTask));
     }
   }, [isTaskLoaded, isTaskTaskChanged, dispatch, $currentEditingTask]);
 

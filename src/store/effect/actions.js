@@ -1,14 +1,14 @@
 import * as actionTypes from './actionTypes';
 
-export const login = (userInfo) => ({
-  type: actionTypes.EFFECT_LOGIN,
-  payload: userInfo,
-});
+// export const login = (userInfo) => ({
+//   type: actionTypes.EFFECT_LOGIN,
+//   payload: userInfo,
+// });
 
-export const register = (userInfo) => ({
-  type: actionTypes.EFFECT_REGISTER,
-  payload: userInfo,
-});
+// export const register = (userInfo) => ({
+//   type: actionTypes.EFFECT_REGISTER,
+//   payload: userInfo,
+// });
 
 export const createTask = (task) => ({
   type: actionTypes.EFFECT_CREATE_TASK,

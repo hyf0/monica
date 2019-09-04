@@ -9,6 +9,7 @@ import TodoListContainer from '../../containers/TodoListContainer';
 import HomeContainer from '../../containers/HomeContainer';
 import EditingTaskPageContainer from '../../containers/EditingTaskPageContainer';
 import AccountManagerContainer from '../../containers/AccountManagerContainer';
+import NotificationsPanelContainer from '../../containers/NotificationsPanelContainer';
 
 function Index() {
   return (
@@ -34,6 +35,7 @@ function Index() {
           <Route component={HomeContainer} />
         </Switch>
       </div>
+      <NotificationsPanelContainer />
       <AppBarContainer />
       <SideMenuContainer />
       <AccountManagerContainer />
