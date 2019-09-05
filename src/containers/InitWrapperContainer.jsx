@@ -12,11 +12,13 @@ function InitWrapperContainer(props) {
     if (jwt === '' || jwt == null) return;
     dispatch(userActions.effectGetUserInfo());
   }, [dispatch]);
+
   useEffect(() => {
     if (hasLogin) {
       dispatch(taskActions.effectGetTaskList());
     }
   }, [dispatch, hasLogin]);
+
   return <>{children}</>;
 }
 

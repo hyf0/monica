@@ -1,19 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition } from 'react-transition-group';
+import Slide from './transitions/Slide';
 
 function Drawer(props) {
   const { show, children } = props;
 
   return (
-    <CSSTransition
-      classNames="ani-slide-right"
-      timeout={300}
-      in={show}
-      appear
-      mountOnEnter
-      unmountOnExit
-    >
+    <Slide show={show} direction="right">
       <div
         style={{
           position: 'absolute',
@@ -30,7 +23,7 @@ function Drawer(props) {
       >
         {children}
       </div>
-    </CSSTransition>
+    </Slide>
   );
 }
 

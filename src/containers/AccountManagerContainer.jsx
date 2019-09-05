@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import { Map } from 'immutable';
 
 import LoginArea from '../components/LoginArea';
@@ -12,10 +12,10 @@ import RegisterArea from '../components/RegisterArea';
 import { globalActions, userActions } from '../store/actions';
 import { stopEventPropagation, uniqueId } from '../utils';
 import LoginStatus from '../components/LoginStatus';
+import Fade from '../components/transitions/Fade';
 
 const usernamePattern = /^[a-zA-Z0-9_-]{4,16}$/;
 const passwordPattern = /^[a-zA-Z0-9_-]{4,16}$/;
-
 
 function AccountManagerContainer(props) {
   const {
@@ -43,12 +43,14 @@ function AccountManagerContainer(props) {
       if (usernamePattern.test(username) && passwordPattern.test(password)) {
         dispatch(userActions.effectLogin(userInfo));
       } else {
-        dispatch(globalActions.addOneNitification({
-          type: 'error',
-          title: '登录失败',
-          message: '非法用户名或密码，请输入4到16位的字母或数字',
-          key: uniqueId('notify'),
-        }));
+        dispatch(
+          globalActions.addOneNitification({
+            type: 'error',
+            title: '登录失败',
+            detail: '非法用户名或密码，请输入4到16位的字母或数字',
+            key: uniqueId('notify'),
+          }),
+        );
       }
     },
     [dispatch],
@@ -60,12 +62,14 @@ function AccountManagerContainer(props) {
       if (usernamePattern.test(username) && passwordPattern.test(password)) {
         dispatch(userActions.effectRegister(userInfo));
       } else {
-        dispatch(globalActions.addOneNitification({
-          type: 'error',
-          title: '注册失败',
-          message: '非法用户名或密码，请输入4到16位的字母或数字',
-          key: uniqueId('notify'),
-        }));
+        dispatch(
+          globalActions.addOneNitification({
+            type: 'error',
+            title: '注册失败',
+            detail: '非法用户名或密码，请输入4到16位的字母或数字',
+            key: uniqueId('notify'),
+          }),
+        );
       }
     },
     [dispatch],
@@ -86,10 +90,8 @@ function AccountManagerContainer(props) {
 
   const tabContentItems = [loginArea, registerArea];
 
-  if (!showAccountManager) return null;
-
   return (
-    <>
+    <Fade show={showAccountManager}>
       <div
         className="AccountManager"
         onClick={handleClickMask}
@@ -112,7 +114,13 @@ function AccountManagerContainer(props) {
           {hasLogin ? (
             <>
               <LoginStatus $userInfo={$userInfo} />
-              <Button fullWidth variant="outlined" onClick={handleClickLogoutButton}>退出</Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={handleClickLogoutButton}
+              >
+                退出
+              </Button>
             </>
           ) : (
             <>
@@ -131,7 +139,7 @@ function AccountManagerContainer(props) {
           )}
         </Paper>
       </div>
-    </>
+    </Fade>
   );
 }
 

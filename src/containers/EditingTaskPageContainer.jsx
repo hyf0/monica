@@ -84,7 +84,7 @@ function EditingTaskPageContainer(props) {
     [dispatch],
   );
 
-  if ($currentEditingTask == null) return <NotFound />;
+  if ($currentEditingTask == null) return <NotFound message="Loding..." />;
 
   return (
     <TaskItemList

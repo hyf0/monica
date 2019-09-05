@@ -12,9 +12,9 @@ import {
   Switch as SwitchButton,
   Typography,
 } from '@material-ui/core';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import List from './List';
+import Fade from './transitions/Fade';
 
 /* eslint-disable */
 const renderTask = ({
@@ -24,8 +24,12 @@ const renderTask = ({
   onClickRemoveTaskButton,
   isEditable,
 }) => (
-  <CSSTransition key={$task.get('id')} timeout={300} classNames="ani-fade">
-    <ListItem style={{ height: '48px' }} onClick={() => onClickTask($task)} button={!isEditable}>
+  <Fade show={true} key={$task.get('id')}>
+    <ListItem
+      style={{ height: '48px' }}
+      onClick={() => onClickTask($task)}
+      button={!isEditable}
+    >
       <ListItemText primary={$task.get('title')} />
       {isEditable ? (
         <React.Fragment>
@@ -38,7 +42,7 @@ const renderTask = ({
         </React.Fragment>
       ) : null}
     </ListItem>
-  </CSSTransition>
+  </Fade>
 );
 /* eslint-enable */
 
@@ -53,7 +57,7 @@ function TaskList(props) {
   } = props;
 
   const withStopEvtPropagation = useCallback(
-    callback => (evt, ...args) => {
+    (callback) => (evt, ...args) => {
       evt.stopPropagation();
       callback(...args);
     },
@@ -74,7 +78,11 @@ function TaskList(props) {
       <div className="right">
         <Typography>
           {'编辑'}
-          <SwitchButton onClick={onClickSwitchButton} checked={isEditable} color="primary" />
+          <SwitchButton
+            onClick={onClickSwitchButton}
+            checked={isEditable}
+            color="primary"
+          />
         </Typography>
       </div>
     </div>
@@ -83,15 +91,16 @@ function TaskList(props) {
   return (
     <List title={subHeader}>
       <Divider />
-      <TransitionGroup className="transition-fade">
-        {$tasks.map($task => renderTask({
+      {$tasks.map(($task) =>
+        renderTask({
           $task,
           isEditable,
           onClickTask,
-          onClickRemoveTaskButton: withStopEvtPropagation(onClickRemoveTaskButton),
+          onClickRemoveTaskButton: withStopEvtPropagation(
+            onClickRemoveTaskButton,
+          ),
           onClickEditTaskButton: withStopEvtPropagation(onClickEditTaskButton),
         }))}
-      </TransitionGroup>
     </List>
   );
 }

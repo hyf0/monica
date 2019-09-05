@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition } from 'react-transition-group';
+import Fade from './transitions/Fade';
 
 function Mask(props) {
   const { show, onClick } = props;
 
   return (
-    <CSSTransition classNames="ani-fade" in={show} timeout={300} mountOnEnter unmountOnExit>
+    <Fade show={show}>
       <div
         onClick={onClick}
         role="button"
         style={{
           // display: show ? 'block' : 'none',
           position: 'absolute',
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backgroundColor: 'rgba(0, 0, 0, 0.25)',
           top: '0',
           left: '0',
           height: '100vh',
@@ -22,7 +22,7 @@ function Mask(props) {
         }}
         className="transition-fade-self"
       />
-    </CSSTransition>
+    </Fade>
   );
 }
 

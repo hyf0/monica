@@ -3,7 +3,6 @@ import { fromJS, Map } from 'immutable';
 /* eslint-enable */
 
 import * as actionTypes from './actionTypes';
-import { effectActionTypes } from '../actionTypes';
 import { setLocalJWT } from '../../utils';
 
 /**
@@ -27,10 +26,10 @@ const userReducer = (state = defaultState, action) => {
     throw new Error(`action: ${action} does not has type!`);
   }
   switch (action.type) {
-    case effectActionTypes.EFFECT_LOGIN: {
+    case actionTypes.EFFECT_LOGIN: {
       return state.set('isLogining', true);
     }
-    case effectActionTypes.EFFECT_REGISTER: {
+    case actionTypes.EFFECT_REGISTER: {
       return state.set('isRegistering', true);
     }
     case actionTypes.LOGIN_SUCCESS: {

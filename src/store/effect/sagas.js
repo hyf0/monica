@@ -17,13 +17,8 @@ export function* get$TaskById(taskId) {
     });
     return $task;
   } catch (errResp) {
-    const { data: errorInfo } = errResp;
-    errorInfo.type = 'error';
-    errorInfo.title = '获取任务信息失败，你可能未登录或访问了他人的任务';
-    yield put(globalActions.addOneNitification(errorInfo));
+    yield put(globalActions.addOneNitification(errResp));
     return null;
-    // eslint-disable-next-line no-console
-    // throw err;
   }
 }
 
@@ -53,8 +48,6 @@ export function* updateTaskBy$task($task) {
     errorInfo.title = '编辑任务失败';
     yield put(globalActions.addOneNitification(errorInfo));
     return null;
-    // eslint-disable-next-line no-console
-    // throw err;
   }
 }
 

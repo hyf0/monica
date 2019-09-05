@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 
-function TextInput(props) {
-
+function InputOnEnter(props) {
   const { onEnter, ...rest } = props;
 
   const onKeyEnterUp = useCallback(
@@ -20,10 +19,10 @@ function TextInput(props) {
   return <TextField onKeyUp={onKeyEnterUp} {...rest} />;
 }
 
-TextInput.propTypes = {
+InputOnEnter.propTypes = {
   onEnter: PropTypes.func.isRequired,
 };
 
-TextInput.defaultProps = {};
+InputOnEnter.defaultProps = {};
 
-export default TextInput;
+export default InputOnEnter;

@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import InputOnEnter from './InputOnEnter';
 
 
 function RegisterArea(props) {
@@ -15,7 +16,8 @@ function RegisterArea(props) {
 
   const { onRegister, disabled } = props;
 
-  const handleClickButton = useCallback(() => {
+  const tryRegister = useCallback(() => {
+    // handle click register button
     onRegister({
       username,
       password,
@@ -30,10 +32,11 @@ function RegisterArea(props) {
         <TextField placeholder="请输入4到16位字母，数字" value={username} onChange={handleInputUsername} type="text" label="用户名" fullWidth />
       </ListItem>
       <ListItem>
-        <TextField placeholder="请输入4到16位字母，数字" value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
+        {/* 这里密码输入用type=text是为了用户视觉上可以确认所输入的密码 */}
+        <InputOnEnter onEnter={tryRegister} placeholder="请输入4到16位字母，数字" value={password} onChange={handleInputPassword} type="text" label="密码" fullWidth />
       </ListItem>
       <ListItem>
-        <Button disabled={isDisabled} variant="outlined" onClick={handleClickButton} fullWidth>
+        <Button disabled={isDisabled} variant="outlined" onClick={tryRegister} fullWidth>
           注册
         </Button>
       </ListItem>

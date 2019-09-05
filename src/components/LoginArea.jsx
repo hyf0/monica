@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import InputOnEnter from './InputOnEnter';
 
 
 function LoginArea(props) {
@@ -17,7 +18,8 @@ function LoginArea(props) {
 
   const isLogining = disabled;
 
-  const handleClickButton = useCallback(() => {
+  const tryLogin = useCallback(() => {
+    // handleClickButton
     onLogin({
       username,
       password,
@@ -34,10 +36,10 @@ function LoginArea(props) {
         <TextField value={username} onChange={handleInputUsername} type="text" label="用户名" fullWidth />
       </ListItem>
       <ListItem>
-        <TextField value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
+        <InputOnEnter onEnter={tryLogin} value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
       </ListItem>
       <ListItem>
-        <Button disabled={isDisabled} variant="outlined" onClick={handleClickButton} fullWidth>
+        <Button disabled={isDisabled} variant="outlined" onClick={tryLogin} fullWidth>
           {buttonText}
         </Button>
       </ListItem>

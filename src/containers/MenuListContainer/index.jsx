@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import MenuList from '../../components/MenuList';
 import { uniqueId } from '../../utils';
 import { globalActions, effectActions } from '../../store/actions';
-import TextInput from '../../components/TextInput';
+import InputOnEnter from '../../components/InputOnEnter';
 import { COLOR_GREEN, COLOR_ORANGE } from '../../utils/constants';
 
 function MenuListContainer(props) {
@@ -47,7 +47,7 @@ function MenuListContainer(props) {
 
   return (
     <MenuList>
-      <TextInput
+      <InputOnEnter
         label={hasLogin ? '创建新任务' : '请先登录'}
         disabled={!hasLogin}
         onEnter={handleEnterUp}

@@ -24,4 +24,15 @@ export function useIsOnline() {
   return isOnline;
 }
 
+export function useIsMounted() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, [setIsMounted]);
+
+  return isMounted;
+}
+
 export const foo = 'oo';
