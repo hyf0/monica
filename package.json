@@ -24,6 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "docs": "rm -rf build && yarn build && rm -rf docs/ && mv build/ docs/",
+    "commit": "git commit -m  'build docs'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

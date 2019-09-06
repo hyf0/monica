@@ -38,6 +38,7 @@ Monica 是一个类 TodoList 应用，其目的在于在做某件事情前，做
 - [x] 合理的返回主页入口
 - [x] 移除动画对react-transition-group依赖
 - [x] 组件移除时的动画效果
+- [ ] 更高效的TransitionGroup实现
 - [ ] 更合理的css方案
 
 # 使用场景
