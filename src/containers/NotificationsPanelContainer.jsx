@@ -6,6 +6,7 @@ import { List } from 'immutable';
 
 import NotificationCard from '../components/NotificationCard';
 import Zoom from '../components/transitions/Zoom';
+import TransitionGroup from '../components/transitions/TransitionGroup';
 
 function NotificationsPanelContainer(props) {
   const { $notifications } = props;
@@ -23,18 +24,20 @@ function NotificationsPanelContainer(props) {
           padding: '0 20px',
         }}
       >
-        {$notifications.map(({
-          title, key, detail = null, type = 'warn',
-        }) => (
-          <Zoom show key={key}>
-            <NotificationCard
-              style={{ marginTop: '20px' }}
-              type={type}
-              title={title}
-              subtitle={detail}
-            />
-          </Zoom>
-        ))}
+        <TransitionGroup>
+          {$notifications.map(({
+            title, key, detail = null, type = 'warn',
+          }) => (
+            <Zoom key={key}>
+              <NotificationCard
+                style={{ marginTop: '20px' }}
+                type={type}
+                title={title}
+                subtitle={detail}
+              />
+            </Zoom>
+          ))}
+        </TransitionGroup>
       </div>
     </>
   );

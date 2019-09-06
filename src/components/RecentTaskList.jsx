@@ -9,7 +9,6 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import List from './List';
 
@@ -26,24 +25,18 @@ function RecentTaskList(props) {
   return (
     <List title="最近任务">
       <Divider />
-      <TransitionGroup className="transition-fade">
-        {$tasks.map($task => (
-          <CSSTransition key={$task.get('id')} timeout={300} classNames="ani-fade">
-            <React.Fragment>
-              <ListItem onClick={() => onClickTask($task)} button>
-                <ListItemText primary={$task.get('title')} />
-                {$task.get('isPinned') ? null : (
-                  <IconButton
-                    onClick={evt => onClickIconButtonWithStopEvtPropagation(evt, $task)}
-                  >
-                    <StarBorderIcon />
-                  </IconButton>
-                )}
-              </ListItem>
-            </React.Fragment>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
+      {$tasks.map(($task) => (
+        <React.Fragment key={$task.get('id')}>
+          <ListItem onClick={() => onClickTask($task)} button>
+            <ListItemText primary={$task.get('title')} />
+            {$task.get('isPinned') ? null : (
+              <IconButton onClick={(evt) => onClickIconButtonWithStopEvtPropagation(evt, $task)}>
+                <StarBorderIcon />
+              </IconButton>
+            )}
+          </ListItem>
+        </React.Fragment>
+      ))}
     </List>
   );
 }
@@ -62,7 +55,7 @@ RecentTaskList.defaultProps = {
   onClickIconButton: () => {
     /*eslint-disable*/
     console.log('onClickIconButton');
-  },
+  }
 };
 
 export default RecentTaskList;

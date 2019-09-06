@@ -9,11 +9,12 @@ import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import List from './List';
 
 import { withStopEventtPropagation } from '../utils';
+import TransitionGroup from './transitions/TransitionGroup';
+import Fade from './transitions/Fade';
 
 function PinnedTaskList(props) {
   const { onClickTask, $tasks, onClickIconButton } = props;
@@ -26,18 +27,18 @@ function PinnedTaskList(props) {
   return (
     <List title="置顶任务">
       <Divider />
-      <TransitionGroup className="transition-fade">
+      <TransitionGroup>
         {$tasks.map($task => (
-          <CSSTransition key={$task.get('id')} timeout={600} classNames="ani-fade">
-            <React.Fragment>
+          <Fade show key={$task.get('id')} timeout={300}>
+            <div>
               <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />
                 <IconButton onClick={evt => onClickIconButtonWithStopEvtPropagation(evt, $task)}>
                   <StarIcon />
                 </IconButton>
               </ListItem>
-            </React.Fragment>
-          </CSSTransition>
+            </div>
+          </Fade>
         ))}
       </TransitionGroup>
     </List>

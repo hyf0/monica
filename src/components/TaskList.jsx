@@ -15,6 +15,7 @@ import {
 
 import List from './List';
 import Fade from './transitions/Fade';
+import TransitionGroup from './transitions/TransitionGroup';
 
 /* eslint-disable */
 const renderTask = ({
@@ -24,7 +25,7 @@ const renderTask = ({
   onClickRemoveTaskButton,
   isEditable,
 }) => (
-  <Fade show={true} key={$task.get('id')}>
+  <Fade timeout={300} key={$task.get('id')}>
     <ListItem
       style={{ height: '48px' }}
       onClick={() => onClickTask($task)}
@@ -34,7 +35,7 @@ const renderTask = ({
       {isEditable ? (
         <React.Fragment>
           <IconButton onClick={(evt) => onClickEditTaskButton(evt, $task)}>
-            <EditIcon />
+            <EditIcon t={console.log(isEditable)} />
           </IconButton>
           <IconButton onClick={(evt) => onClickRemoveTaskButton(evt, $task)}>
             <DeleteIcon />
@@ -91,16 +92,20 @@ function TaskList(props) {
   return (
     <List title={subHeader}>
       <Divider />
-      {$tasks.map(($task) =>
-        renderTask({
-          $task,
-          isEditable,
-          onClickTask,
-          onClickRemoveTaskButton: withStopEvtPropagation(
-            onClickRemoveTaskButton,
-          ),
-          onClickEditTaskButton: withStopEvtPropagation(onClickEditTaskButton),
-        }))}
+      <TransitionGroup>
+        {$tasks.map(($task) =>
+          renderTask({
+            $task,
+            isEditable,
+            onClickTask,
+            onClickRemoveTaskButton: withStopEvtPropagation(
+              onClickRemoveTaskButton,
+            ),
+            onClickEditTaskButton: withStopEvtPropagation(
+              onClickEditTaskButton,
+            ),
+          }))}
+      </TransitionGroup>
     </List>
   );
 }

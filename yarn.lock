@@ -9458,7 +9458,7 @@ react-slick@~0.25.2:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
-react-transition-group@^4.0.0, react-transition-group@^4.2.2:
+react-transition-group@^4.0.0:
   version "4.2.2"
   resolved "http://r.cnpmjs.org/react-transition-group/download/react-transition-group-4.2.2.tgz#8b5252410180c27fd7eebf50b185256b41799b16"
   integrity sha1-i1JSQQGAwn/X7r9QsYUla0F5mxY=
@@ -9586,11 +9586,6 @@ redux-immutable@^4.0.0:
   version "4.0.0"
   resolved "http://r.cnpmjs.org/redux-immutable/download/redux-immutable-4.0.0.tgz#3a1a32df66366462b63691f0e1dc35e472bbc9f3"
   integrity sha1-Ohoy32Y2ZGK2NpHw4dw15HK7yfM=
-
-redux-observable@^1.1.0:
-  version "1.1.0"
-  resolved "http://r.cnpmjs.org/redux-observable/download/redux-observable-1.1.0.tgz#323a8fe53e89fdb519be2807b55f08e21c13e6f1"
-  integrity sha1-MjqP5T6J/bUZvigHtV8I4hwT5vE=
 
 redux-saga@^1.0.5:
   version "1.0.5"
@@ -9911,7 +9906,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^6.4.0, rxjs@^6.5.2:
+rxjs@^6.4.0:
   version "6.5.2"
   resolved "http://r.cnpmjs.org/rxjs/download/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
   integrity sha1-LjXOgVzUbYTQKiCftOWSHgUdvsc=

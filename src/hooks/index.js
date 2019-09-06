@@ -35,4 +35,12 @@ export function useIsMounted() {
   return isMounted;
 }
 
+export function useForceUpdate() {
+  const [updateCount, setUpdateCount] = useState(0);
+  const forceUpdate = useCallback(() => {
+    setUpdateCount(prevCount => prevCount + 1);
+  }, [setUpdateCount]);
+  return forceUpdate;
+}
+
 export const foo = 'oo';

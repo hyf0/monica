@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AntdCheckbox from 'antd/es/checkbox';
 
-import 'antd/es/checkbox/style/css';
+import 'antd/es/checkbox/style';
 
 function Checkbox(props) {
   return <AntdCheckbox {...props} />;
