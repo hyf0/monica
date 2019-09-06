@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prefer-stateless-function
+export class EnhancedTransitionComponentBase extends React.Component {}
+
 function transitionEnhancer(TransitionComponent) {
-  class EnhancedTransitionComponent extends React.Component {
+  class EnhancedTransitionComponent extends EnhancedTransitionComponentBase {
     constructor(props) {
       super(props);
       this.state = {

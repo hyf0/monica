@@ -35,7 +35,7 @@ const renderTask = ({
       {isEditable ? (
         <React.Fragment>
           <IconButton onClick={(evt) => onClickEditTaskButton(evt, $task)}>
-            <EditIcon t={console.log(isEditable)} />
+            <EditIcon />
           </IconButton>
           <IconButton onClick={(evt) => onClickRemoveTaskButton(evt, $task)}>
             <DeleteIcon />

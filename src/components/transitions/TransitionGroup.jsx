@@ -1,63 +1,70 @@
 import React, {
   useState, useEffect, useMemo, useRef,
 } from 'react';
-import PropTypes from 'prop-types';
+import { EnhancedTransitionComponentBase } from './transitionEnhancer';
 
 // let lastChildsRef.current = null;
 // const keysOfChildGoingToBeRemovedRef.current = new Set();
 
 function TransitionGroup(props) {
-  const lastChildsRef = useRef(null);
+  const lastChildKeysRef = useRef(null);
   const keysOfChildGoingToBeRemovedRef = useRef(new Set());
+  const childsMapRef = useRef(new Map());
   // init
   const { children } = props;
-  const childs = React.Children.map(children, (c) => React.cloneElement(c, {
-    show: true,
-  }));
-  const [childsToBeShown, setChildsToBeShown] = useState(childs);
+  const childKeys = []; // currentChildKeys
+  React.Children.forEach(children, child => {
+    const { key = null } = child;
+    if (key == null) throw new Error('组件必须要有一个key属性');
+    childKeys.push(key);
+    childsMapRef.current.set(key, React.cloneElement(child, { show: true }));
+  });
+  const [childKeysToBeShown, setChildKeysToBeShown] = useState(childKeys);
 
-  const isChildsChanged = useMemo(() => {
-    if (lastChildsRef.current == null) return false;
-    if (lastChildsRef.current.length !== childs.length) return true;
-    const isChildsNotChanged = childs.every(
-      (newChild, index) =>
-        (
-          keysOfChildGoingToBeRemovedRef.current.has(newChild.key)
-          || newChild.key === lastChildsRef.current[index].key
-        ),
+  const isChildKeysChanged = useMemo(() => {
+    const lastChildKeys = lastChildKeysRef.current;
+    if (lastChildKeys == null) return false;
+    if (lastChildKeys.length !== childKeys.length) return true;
+
+    const isChildsNotChanged = childKeys.every(
+      (currentChildKey, index) => currentChildKey === lastChildKeys[index],
     );
     return !isChildsNotChanged;
-  }, [childs]);
-
-  // console.log('isChildsChanged', isChildsChanged);
+  }, [childKeys]);
 
   useEffect(() => {
-    if (lastChildsRef.current == null) lastChildsRef.current = childs;
+    if (lastChildKeysRef.current == null) lastChildKeysRef.current = childKeys;
     // 仅仅应当在childs改变时触发
-    if (isChildsChanged) {
+    if (isChildKeysChanged) {
+      const keysOfChildGoingToBeRemoved = keysOfChildGoingToBeRemovedRef.current;
+      const lastChildKeys = lastChildKeysRef.current;
       // 确定被移除的子组件
-      const childsGoingToBeRemoved = lastChildsRef.current.filter(
-        (c) =>
-          !keysOfChildGoingToBeRemovedRef.current.has(c.key)
-          && childs.find((newChild) => newChild.key === c.key) == null,
+      const childKeysGoingToBeRemoved = lastChildKeys.filter(
+        (lastChildKey) =>
+          (
+            !keysOfChildGoingToBeRemoved.has(lastChildKey)
+            && !childKeys.includes(lastChildKey)
+          ),
       );
-      // 确定新增加的子组件
-      const newChilds = childs.filter(
-        (c) =>
-          !keysOfChildGoingToBeRemovedRef.current.has(c.key)
-          && lastChildsRef.current.find((oldChild) => oldChild.key === c.key) == null,
-      );
-      // 得到即将被展示组件的一份拷贝
-      const newChildsToBeShown = childsToBeShown.slice().concat(newChilds);
-      // 设置消失动画
-      childsGoingToBeRemoved.forEach((childGoingToBeRemoved) => {
-        // 将已经设置好的存储在set里，防止重复设置已经设置过的元素
-        keysOfChildGoingToBeRemovedRef.current.add(childGoingToBeRemoved.key);
-        const targetIndex = newChildsToBeShown.findIndex(
-          (nc) => nc.key === childGoingToBeRemoved.key,
+      const newChildKeysToBeShown = childKeysToBeShown.slice();
+      childKeys.forEach((currentChildKey, index) => {
+        // 将新增加的子组件放到展示数组对应的位置上
+        const isNewChildKey = (
+          !keysOfChildGoingToBeRemoved.has(currentChildKey) // 不是已经被移除的
+          && !lastChildKeys.includes(currentChildKey) // 在上一次的childKeys里找不到
         );
+        if (!isNewChildKey) return;
+        newChildKeysToBeShown.splice(index, 0, currentChildKey);
+      });
+      // 得到即将被展示组件的一份拷贝
+      // 设置消失动画
+      childKeysGoingToBeRemoved.forEach((childKeyGoingToBeRemoved) => {
+        // 将已经设置好的存储在set里，防止重复设置已经设置过的元素
+        keysOfChildGoingToBeRemoved.add(childKeyGoingToBeRemoved);
         // 使用ref回调来确保一定得到实例对象，从而得到实例上的timeout时间
-        const updatedChildElment = React.cloneElement(childGoingToBeRemoved, {
+        const childsMap = childsMapRef.current;
+        const oringinalElement = childsMap.get(childKeyGoingToBeRemoved);
+        const updatedChildElment = React.cloneElement(oringinalElement, {
           show: false,
           ref: function makeSureDeleteSelf(ref) {
             // 注意当组件umount时或者ref属性本身发生变化时，回调会被再次执行，但是此时ref参数为null
@@ -69,25 +76,38 @@ function TransitionGroup(props) {
               );
             }
             setTimeout(() => {
-              keysOfChildGoingToBeRemovedRef.current.delete(updatedChildElment.key);
-              setChildsToBeShown((prevChilds) =>
-                prevChilds.filter((pc) => pc.key !== updatedChildElment.key));
+              keysOfChildGoingToBeRemoved.delete(updatedChildElment.key); // 删除掉自己
+              childsMap.delete(updatedChildElment.key); // 防止内存泄漏
+              setChildKeysToBeShown(prevChildKeys =>
+                prevChildKeys.filter((pck) => pck !== updatedChildElment.key));
             }, ref.timeout);
           },
         });
-
-        newChildsToBeShown[targetIndex] = updatedChildElment;
+        childsMap.set(childKeyGoingToBeRemoved, updatedChildElment);
       });
-      setChildsToBeShown(newChildsToBeShown);
-      lastChildsRef.current = childs;
+      setChildKeysToBeShown(newChildKeysToBeShown);
+      lastChildKeysRef.current = childKeys; // 本次的key在渲染后就变成上次的key了
     }
-  }, [childs, childsToBeShown, isChildsChanged]);
+  }, [childKeys, childKeysToBeShown, isChildKeysChanged]);
 
-  return <>{childsToBeShown}</>;
+  return <>{childKeysToBeShown.map(key => childsMapRef.current.get(key))}</>;
 }
 
 TransitionGroup.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: function checkIfIs(props, propName, componentName) {
+    const children = props[propName];
+    React.Children.forEach(children, child => {
+      const parentClass = Object.getPrototypeOf(child.type);
+      // console.log('parentClass', parentClass, parentClass === EnhancedTransitionComponentBase);
+      if (parentClass !== EnhancedTransitionComponentBase) {
+        throw Error(`${componentName}的子元素必须是经过transitionEnhancer的自定义动画组件，或是自带的动画组件， 却得到了${child.constructor}`);
+      }
+    });
+  },
+};
+
+TransitionGroup.defaultProps = {
+  children: null,
 };
 
 export default TransitionGroup;
