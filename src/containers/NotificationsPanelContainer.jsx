@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
+import { Zoom, TransitionGroup } from 'react-dump-transition';
+
 import NotificationCard from '../components/NotificationCard';
-import Zoom from '../components/transitions/Zoom';
-import TransitionGroup from '../components/transitions/TransitionGroup';
+// import Zoom from '../components/transitions/Zoom';
+// import TransitionGroup from '../components/transitions/TransitionGroup';
+
 
 function NotificationsPanelContainer(props) {
   const { $notifications } = props;

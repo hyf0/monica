@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Fade from './transitions/Fade';
+import { Fade } from 'react-dump-transition';
 
 function Mask(props) {
   const { show, onClick } = props;

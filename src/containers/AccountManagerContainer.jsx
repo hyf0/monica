@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Map } from 'immutable';
+import { Fade } from 'react-dump-transition';
 
 import LoginArea from '../components/LoginArea';
 import RegisterArea from '../components/RegisterArea';
 import { globalActions, userActions } from '../store/actions';
 import { stopEventPropagation, uniqueId } from '../utils';
 import LoginStatus from '../components/LoginStatus';
-import Fade from '../components/transitions/Fade';
 
 const usernamePattern = /^[a-zA-Z0-9_-]{4,16}$/;
 const passwordPattern = /^[a-zA-Z0-9_-]{4,16}$/;

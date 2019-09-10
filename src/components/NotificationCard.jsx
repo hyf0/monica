@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 
@@ -20,7 +21,7 @@ const TYPE_COLOR_MAPPING = {
   [WARN]: COLOR_YELLOW,
 };
 
-function NotificationCard(props) {
+function NotificationCardWithRef(props, ref) {
   const {
     type, title, style, subtitle,
   } = props;
@@ -37,7 +38,7 @@ function NotificationCard(props) {
   if (type === SUCCESS) icon = <SuccessIcon style={iconStyle} />;
 
   return (
-    <Card style={style}>
+    <Card ref={ref} style={style}>
       <CardHeader
         avatar={icon}
         title={title}
@@ -47,6 +48,8 @@ function NotificationCard(props) {
     </Card>
   );
 }
+
+const NotificationCard = React.forwardRef(NotificationCardWithRef);
 
 NotificationCard.types = {
   SUCCESS,
@@ -58,7 +61,7 @@ NotificationCard.propTypes = {
   type: PropTypes.oneOf([WARN, ERROR, SUCCESS]),
   title: PropTypes.node.isRequired,
   subtitle: PropTypes.node,
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 
 NotificationCard.defaultProps = {

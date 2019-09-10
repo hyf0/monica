@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 // import { Map, List } from 'immutable';
 import { Map } from 'immutable';
 
@@ -15,6 +15,7 @@ function TodoListContainer(props) {
     match: {
       params: { id: taskId },
     },
+    history,
     $currentTodoTask,
     dispatch,
   } = props;
@@ -38,11 +39,16 @@ function TodoListContainer(props) {
     [dispatch],
   );
 
+  const jumpToEditingPage = useCallback((taskIdWillJump) => {
+    history.push(`/edit/${taskIdWillJump}`);
+  }, []);
+
   if ($currentTodoTask == null) return <NotFound message="Loding..." time={5000} />;
 
   return (
     <TaskItemList
       onClickCheckbox={toggleTaskItemPropChecked}
+      onClickEditButton={jumpToEditingPage}
       $task={$currentTodoTask}
       isEditable={false}
     />
@@ -55,6 +61,9 @@ TodoListContainer.propTypes = {
       id: PropTypes.string,
       action: PropTypes.string,
     }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
   // $tasks: PropTypes.instanceOf(List).isRequired,
   // $tasksEntity: PropTypes.instanceOf(Map).isRequired,
@@ -76,9 +85,9 @@ const mapState = ($state) => {
   };
 };
 
-export default connect(
+export default withRouter((connect(
   mapState,
   null,
-)(TodoListContainer);
+)(TodoListContainer)));
 
 // export default TodoListContainer;

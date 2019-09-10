@@ -7,19 +7,24 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/BorderColor';
+
 // import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import { Fade, TransitionGroup } from 'react-dump-transition';
 
 import Checkbox from './Checkbox';
 import { uniqueId } from '../utils';
-import Fade from './transitions/Fade';
-import TransitionGroup from './transitions/TransitionGroup';
-
 
 function TaskItemList(props) {
   const {
-    $task, onCreateNewTaskItem, onClickRemoveButton, isEditable, onClickCheckbox,
+    $task,
+    onCreateNewTaskItem,
+    onClickRemoveButton,
+    isEditable,
+    onClickCheckbox,
+    onClickEditButton,
   } = props;
   const [newTaskItemTitle, setNewTaskItemTitle] = useState('');
 
@@ -46,12 +51,21 @@ function TaskItemList(props) {
     [setNewTaskItemTitle, onCreateNewTaskItem],
   );
 
+  const emitTaskId = useCallback(() => {
+    onClickEditButton($task.get('id'));
+  }, [$task]);
+
   return (
     <List>
       <ListItem dense>
         <Typography variant="h4" gutterBottom>
           {$task.get('title')}
         </Typography>
+        {isEditable ? null : (
+          <IconButton onClick={emitTaskId}>
+            <EditIcon />
+          </IconButton>
+        )}
       </ListItem>
       <TransitionGroup>
         {$task.getIn(['items', 'refs']).map((taskItemId) => {
@@ -96,6 +110,7 @@ TaskItemList.propTypes = {
   onCreateNewTaskItem: PropTypes.func,
   onClickRemoveButton: PropTypes.func,
   isEditable: PropTypes.bool,
+  onClickEditButton: PropTypes.func,
   onClickCheckbox: PropTypes.func,
 };
 
@@ -112,7 +127,11 @@ TaskItemList.defaultProps = {
     /* eslint-disable */
     console.log('onClickCheckbox');
   },
-  isEditable: false,
+  onClickEditButton: () => {
+    /* eslint-disable */
+    console.log('onClickEditButton');
+  },
+  isEditable: false
 };
 
 export default TaskItemList;

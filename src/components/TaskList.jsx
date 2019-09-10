@@ -12,10 +12,10 @@ import {
   Switch as SwitchButton,
   Typography,
 } from '@material-ui/core';
+import { Fade, TransitionGroup } from 'react-dump-transition';
 
 import List from './List';
-import Fade from './transitions/Fade';
-import TransitionGroup from './transitions/TransitionGroup';
+
 
 /* eslint-disable */
 const renderTask = ({

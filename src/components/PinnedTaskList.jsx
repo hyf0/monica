@@ -9,12 +9,12 @@ import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
+import { Fade, TransitionGroup } from 'react-dump-transition';
 
 import List from './List';
 
 import { withStopEventtPropagation } from '../utils';
-import TransitionGroup from './transitions/TransitionGroup';
-import Fade from './transitions/Fade';
+
 
 function PinnedTaskList(props) {
   const { onClickTask, $tasks, onClickIconButton } = props;

@@ -36,7 +36,7 @@ export function useIsMounted() {
 }
 
 export function useForceUpdate() {
-  const [updateCount, setUpdateCount] = useState(0);
+  const [, setUpdateCount] = useState(0);
   const forceUpdate = useCallback(() => {
     setUpdateCount(prevCount => prevCount + 1);
   }, [setUpdateCount]);

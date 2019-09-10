@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slide from './transitions/Slide';
+import { Slide } from 'react-dump-transition';
 
 function Drawer(props) {
   const { show, children } = props;

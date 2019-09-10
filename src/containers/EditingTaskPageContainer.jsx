@@ -10,6 +10,7 @@ import { Map } from 'immutable';
 import TaskItemList from '../components/TaskItemList';
 import { taskActions, editingTaskActions } from '../store/actions';
 import NotFound from '../components/NotFound';
+// import { uniqueId } from '../utils';
 
 const mapState = ($state) => {
   const $global = $state.get('global');
@@ -70,6 +71,11 @@ function EditingTaskPageContainer(props) {
       dispatch(editingTaskActions.addTaskItemInCurrentTask($newTaskItem));
       // 因为添加了新任务，所以清空重做任务列表，重置 重做 按钮状态，为了避免编辑状态混乱
       dispatch(editingTaskActions.clearFutureTasks());
+      // dispatch(globalActions.addOneNitification({
+      //   title: '添加任务项成功',
+      //   type: 'success',
+      //   key: uniqueId('nortgfy'),
+      // }));
       setIsTaskTaskChanged(true);
     },
     [dispatch],
