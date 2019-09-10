@@ -53,7 +53,7 @@ function TaskItemList(props) {
 
   const emitTaskId = useCallback(() => {
     onClickEditButton($task.get('id'));
-  }, [$task]);
+  }, [$task, onClickEditButton]);
 
   return (
     <List>

@@ -41,7 +41,7 @@ function TodoListContainer(props) {
 
   const jumpToEditingPage = useCallback((taskIdWillJump) => {
     history.push(`/edit/${taskIdWillJump}`);
-  }, []);
+  }, [history]);
 
   if ($currentTodoTask == null) return <NotFound message="Loding..." time={5000} />;
 
