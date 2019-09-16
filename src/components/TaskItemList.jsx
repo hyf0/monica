@@ -23,7 +23,6 @@ function TaskItemList(props) {
     onCreateNewTaskItem,
     onClickRemoveButton,
     isEditable,
-    onClickCheckbox,
     onClickEditButton,
   } = props;
   const [newTaskItemTitle, setNewTaskItemTitle] = useState('');
@@ -74,9 +73,7 @@ function TaskItemList(props) {
             <Fade key={$item.get('id')} timeout={600}>
               <div>
                 <ListItem>
-                  <IconButton onClick={() => onClickCheckbox($item)}>
-                    <Checkbox disabled={isEditable} edge="start" checked={$item.get('checked')} />
-                  </IconButton>
+                  <Checkbox disabled={isEditable} edge="start" checked={$item.get('checked')} />
                   <ListItemText primary={$item.get('title')} />
                   {isEditable ? (
                     <IconButton onClick={() => onClickRemoveButton($item)}>
@@ -111,7 +108,6 @@ TaskItemList.propTypes = {
   onClickRemoveButton: PropTypes.func,
   isEditable: PropTypes.bool,
   onClickEditButton: PropTypes.func,
-  onClickCheckbox: PropTypes.func,
 };
 
 TaskItemList.defaultProps = {

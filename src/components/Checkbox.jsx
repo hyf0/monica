@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AntdCheckbox from 'antd/es/checkbox';
-
-import 'antd/es/checkbox/style/css';
+import MaterialCheckbox from '@material-ui/core/Checkbox';
 
 function Checkbox(props) {
-  return <AntdCheckbox {...props} />;
+  return <MaterialCheckbox {...props} />;
 }
 
 Checkbox.propTypes = {
