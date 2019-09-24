@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import Proptypes from 'prop-types';
 // import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
@@ -15,6 +14,7 @@ import { COLOR_BLUE } from '../../utils/constants';
 import CompleteTaskButtonContainer from '../CompleteTaskButtonContainer';
 
 import EdtingTaskButtonContainer from '../EdtingTaskButtonContainer';
+import HomeButton from '../../components/HomeButton';
 
 const StartOneTaskButton = (props) => {
   const { onClick } = props;
@@ -63,19 +63,24 @@ function AppBarContainer(props) {
         <IconButton edge="start" onClick={onClickMenuButton}>
           <MenuIcon />
         </IconButton>
-        <Switch>
-          <Route path="/edit/:id" component={EdtingTaskButtonContainer} />
-          <Route path="/todo" component={CompleteTaskButtonContainer} />
-          <Route
-            render={() => (
-              <StartOneTaskButton onClick={onClickStartOneTaskButton} />
-            )}
-          />
-        </Switch>
-
-        <IconButton onClick={onClickHomeButton} edge="end">
-          <HomeIcon />
-        </IconButton>
+        <div
+          className="appbar-button"
+          style={{
+            flex: '1',
+            padding: '0 5px',
+          }}
+        >
+          <Switch>
+            <Route path="/edit/:id" component={EdtingTaskButtonContainer} />
+            <Route path="/todo" component={CompleteTaskButtonContainer} />
+            <Route
+              render={() => (
+                <StartOneTaskButton onClick={onClickStartOneTaskButton} />
+              )}
+            />
+          </Switch>
+        </div>
+        <HomeButton needDoubleClick onClick={onClickHomeButton} />
       </Toolbar>
     </AppBar>
   );

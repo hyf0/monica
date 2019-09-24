@@ -68,12 +68,12 @@ const CompleteTaskButton = (props) => {
   return (
     <Button
       style={{
-        flex: '1',
         backgroundColor: buttonColor,
         color: '#fff',
         transition: 'background-color 300ms',
       }}
       size="medium"
+      fullWidth
       aria-label="add"
       onClick={onClickCompleteButton}
     >
