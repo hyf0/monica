@@ -6,7 +6,7 @@ import { hideSideMenu } from '../../store/actions';
 import TaskListContainer from '../TaskListContainer';
 import MenuListContainer from '../MenuListContainer';
 import Drawer from '../../components/Drawer';
-import Mask from '../../components/mask';
+import Mask from '../../components/Mask';
 
 function SideMenuContainer(props) {
   const { dispatch, showSideMenu } = props;

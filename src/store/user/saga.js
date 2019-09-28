@@ -14,7 +14,8 @@ function* getUserInfo() {
       userInfo: fromJS(userInfo),
     }));
   } catch (err) {
-    console.error(err);
+    // eslint-disable-next-line no-console
+    console.error('登录失败', err);
     setLocalJWT('');
   }
 }

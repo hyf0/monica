@@ -31,12 +31,6 @@ const globalReducer = (state = defaultState, action) => {
     case actionTypes.HIDE_SIDE_MENU: {
       return state.set('showSideMenu', false);
     }
-    case actionTypes.SHOW_ACCOUNT_MANAGER: {
-      return state.set('showAccountManager', true);
-    }
-    case actionTypes.HIDE_ACCOUNT_MANAGER: {
-      return state.set('showAccountManager', false);
-    }
     case actionTypes.ADD_ONE_NOTIFICATION: {
       const rawInfo = payload;
       return state.set('notifications', state.get('notifications').push(rawInfo));

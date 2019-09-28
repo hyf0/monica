@@ -13,51 +13,6 @@ import taskSagas from './tasks/saga';
 import editingTaskSagas from './editingTask/saga';
 import globalSagas from './global/sagas';
 
-
-// function* login(action) {
-//   try {
-//     const { payload: userInfo } = action;
-//     const { data: loginResp } = yield call(
-//       request.post,
-//       '/users/login',
-//       userInfo,
-//     );
-//     const { user: userInfoResp = null, token, ...rest } = loginResp;
-//     setLocalJWT(token);
-//     yield put(
-//       userActions.loginSuccess(
-//         fromJS({
-//           token,
-//           userInfo: userInfoResp,
-//           ...rest,
-//         }),
-//       ),
-//     );
-//   } catch (e) {
-//     yield put(userActions.loginFail(e));
-//   }
-// }
-
-// function* register(action) {
-//   try {
-//     const { payload: userInfo } = action;
-//     const { data: registerResp } = yield call(request.post, '/users', userInfo);
-//     const { user: userInfoResp = null, token, ...rest } = registerResp;
-//     setLocalJWT(token);
-//     yield put(
-//       userActions.registerSuccess(
-//         fromJS({
-//           token,
-//           userInfo: userInfoResp,
-//           ...rest,
-//         }),
-//       ),
-//     );
-//   } catch (errResp) {
-//     yield put(userActions.registerFail());
-//   }
-// }
-
 function* createTask(action) {
   try {
     const { payload: task } = action;

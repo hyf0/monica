@@ -4,7 +4,7 @@ import React from 'react';
 // import * as serviceWorker from './serviceWorker';
 
 import App from './App';
-import './index.scss';
+import './index.css';
 // import 'antd/dist/antd.css';
 
 ReactDOM.render(React.createElement(App), document.getElementById('root'));

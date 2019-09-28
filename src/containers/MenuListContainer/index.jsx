@@ -1,16 +1,24 @@
 import React, { useCallback, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-import MenuList from '../../components/MenuList';
+import MenuList from './ui/MenuList';
+import TextFieldOnKeyEnterUp from '../../components/TextFieldOnKeyEnterUp';
+
 import { uniqueId } from '../../utils';
 import { globalActions, effectActions } from '../../store/actions';
-import InputOnEnter from '../../components/InputOnEnter';
 import { COLOR_GREEN, COLOR_ORANGE } from '../../utils/constants';
 
-function MenuListContainer(props) {
-  const { dispatch, hasLogin } = props;
+const hasLoginSelector = $state => $state.getIn(['user', 'hasLogin']);
+
+function MenuListContainer() {
+  const hasLogin = useSelector(hasLoginSelector);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
@@ -40,17 +48,17 @@ function MenuListContainer(props) {
   const handleClickLoginBtn = useCallback(
     function showLoginAndRegisterModel() {
       dispatch(globalActions.hideSideMenu());
-      dispatch(globalActions.showAccountManager());
+      history.push('/account');
     },
     [dispatch],
   );
 
   return (
     <MenuList>
-      <InputOnEnter
+      <TextFieldOnKeyEnterUp
         label={hasLogin ? '创建新任务' : '请先登录'}
         disabled={!hasLogin}
-        onEnter={handleEnterUp}
+        onKeyEnterUp={handleEnterUp}
         onChange={handleCreateTaskInputChange}
         type="text"
         value={newTaskTitle}
@@ -74,15 +82,9 @@ function MenuListContainer(props) {
 }
 
 MenuListContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  hasLogin: PropTypes.bool.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  // hasLogin: PropTypes.bool.isRequired,
 };
 
-const mapState = ($state) => ({
-  hasLogin: $state.getIn(['user', 'hasLogin']),
-});
 
-export default connect(
-  mapState,
-  null,
-)(MenuListContainer);
+export default MenuListContainer;

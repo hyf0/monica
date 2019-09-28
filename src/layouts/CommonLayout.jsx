@@ -2,28 +2,24 @@ import React, { Suspense } from 'react';
 import Proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import AppBarContainer from '../containers/AppBarContainer';
+import AppBar from '../containers/AppBar';
 
 
 // import AccountManagerContainer from '../containers/AccountManagerContainer';
 import NotificationsPanelContainer from '../containers/NotificationsPanelContainer';
 import { useHasBeenTrued } from '../hooks';
 
-const LazyAccountManagerContainer = React.lazy(() => import('../containers/AccountManagerContainer'));
-const SideMenuContainer = React.lazy(() => import(/* webpackChunkName: "SideMenuContainer", webpackPrefetch: true */  '../containers/SideMenuContainer'));
+const SideMenuContainer = React.lazy(() => import(/* webpackChunkName: "SideMenuContainer", webpackPrefetch: true */ '../containers/SideMenuContainer'));
 
 function CommonLayout(props) {
   const {
     children,
   } = props;
 
-  const isShowAccountManager = useSelector($state => $state.getIn(['global', 'showAccountManager']));
   const isShowSideMenu = useSelector($state => $state.getIn(['global', 'showSideMenu']));
 
-  const hasAccountManagerShowed = useHasBeenTrued(isShowAccountManager);
   const hasSideMenuShowed = useHasBeenTrued(isShowSideMenu);
 
-  console.log('isShowAccountManager', isShowAccountManager);
   return (
     <div
       className="CommonLayout"
@@ -51,26 +47,15 @@ function CommonLayout(props) {
           flex: '0 0 60px',
         }}
       >
-        <AppBarContainer />
+        <AppBar />
       </div>
       <NotificationsPanelContainer />
-
-      {hasAccountManagerShowed
-        ?
-          (
-            <Suspense fallback={null}>
-              <LazyAccountManagerContainer />
-            </Suspense>
-          )
-        : null
-      }
       {hasSideMenuShowed
-        ?
-          (
-            <Suspense fallback={null}>
-              <SideMenuContainer />
-            </Suspense>
-          )
+        ? (
+          <Suspense fallback={null}>
+            <SideMenuContainer />
+          </Suspense>
+        )
         : null
       }
     </div>

@@ -1,4 +1,5 @@
-import { isDev } from "./env";
+/* eslint-disable import/prefer-default-export */
+import { isDev } from './env';
 
 export function getRemoteHostUrl() {
   if (isDev()) return 'http://localhost:3031/';
