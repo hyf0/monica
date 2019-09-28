@@ -1,15 +1,23 @@
 {
   "files": {
-    "main.css": "/monica/static/css/main.d10a5589.chunk.css",
-    "main.js": "/monica/static/js/main.66c9015e.chunk.js",
-    "main.js.map": "/monica/static/js/main.66c9015e.chunk.js.map",
-    "runtime~main.js": "/monica/static/js/runtime~main.654b4799.js",
-    "runtime~main.js.map": "/monica/static/js/runtime~main.654b4799.js.map",
-    "static/js/2.b45074ee.chunk.js": "/monica/static/js/2.b45074ee.chunk.js",
-    "static/js/2.b45074ee.chunk.js.map": "/monica/static/js/2.b45074ee.chunk.js.map",
+    "static/js/0.a66bea1c.chunk.js": "/monica/static/js/0.a66bea1c.chunk.js",
+    "static/js/0.a66bea1c.chunk.js.map": "/monica/static/js/0.a66bea1c.chunk.js.map",
+    "SideMenuContainer.js": "/monica/static/js/SideMenuContainer.5fae9752.chunk.js",
+    "SideMenuContainer.js.map": "/monica/static/js/SideMenuContainer.5fae9752.chunk.js.map",
+    "main.css": "/monica/static/css/main.50967469.chunk.css",
+    "main.js": "/monica/static/js/main.25677fee.chunk.js",
+    "main.js.map": "/monica/static/js/main.25677fee.chunk.js.map",
+    "runtime~main.js": "/monica/static/js/runtime~main.1ebb081a.js",
+    "runtime~main.js.map": "/monica/static/js/runtime~main.1ebb081a.js.map",
+    "static/js/4.9b7fd702.chunk.js": "/monica/static/js/4.9b7fd702.chunk.js",
+    "static/js/4.9b7fd702.chunk.js.map": "/monica/static/js/4.9b7fd702.chunk.js.map",
+    "static/js/5.1b6b1742.chunk.js": "/monica/static/js/5.1b6b1742.chunk.js",
+    "static/js/5.1b6b1742.chunk.js.map": "/monica/static/js/5.1b6b1742.chunk.js.map",
+    "static/js/6.250081fb.chunk.js": "/monica/static/js/6.250081fb.chunk.js",
+    "static/js/6.250081fb.chunk.js.map": "/monica/static/js/6.250081fb.chunk.js.map",
     "index.html": "/monica/index.html",
-    "precache-manifest.c5f572840b21d56badc71f18855ef30c.js": "/monica/precache-manifest.c5f572840b21d56badc71f18855ef30c.js",
+    "precache-manifest.4525a8c0c9b7d57b9bd608bf3ff5966f.js": "/monica/precache-manifest.4525a8c0c9b7d57b9bd608bf3ff5966f.js",
     "service-worker.js": "/monica/service-worker.js",
-    "static/css/main.d10a5589.chunk.css.map": "/monica/static/css/main.d10a5589.chunk.css.map"
+    "static/css/main.50967469.chunk.css.map": "/monica/static/css/main.50967469.chunk.css.map"
   }
 }
