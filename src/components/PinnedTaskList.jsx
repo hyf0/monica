@@ -9,7 +9,8 @@ import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import { List as ImmutableList } from 'immutable';
-import { Fade, TransitionGroup } from 'react-dump-transition';
+import Fade from '@material-ui/core/Fade';
+import { TransitionGroup } from 'react-transition-group';
 
 import List from './List';
 
@@ -29,7 +30,7 @@ function PinnedTaskList(props) {
       <Divider />
       <TransitionGroup>
         {$tasks.map($task => (
-          <Fade show key={$task.get('id')} timeout={300}>
+          <Fade key={$task.get('id')} timeout={300}>
             <div>
               <ListItem onClick={() => onClickTask($task)} button>
                 <ListItemText primary={$task.get('title')} />

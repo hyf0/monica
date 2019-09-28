@@ -12,7 +12,8 @@ import EditIcon from '@material-ui/icons/BorderColor';
 // import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { Fade, TransitionGroup } from 'react-dump-transition';
+import Fade from '@material-ui/core/Fade';
+import { TransitionGroup } from 'react-transition-group';
 
 import Checkbox from './Checkbox';
 import { uniqueId } from '../utils';

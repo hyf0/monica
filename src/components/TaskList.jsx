@@ -12,7 +12,8 @@ import {
   Switch as SwitchButton,
   Typography,
 } from '@material-ui/core';
-import { Fade, TransitionGroup } from 'react-dump-transition';
+import Fade from '@material-ui/core/Fade';
+import { TransitionGroup } from 'react-transition-group';
 
 import List from './List';
 

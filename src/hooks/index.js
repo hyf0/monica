@@ -1,9 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+// import {
+//   useRef,
+// } from 'react';
+import {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 
-import { store } from '../store';
-import { createUseStore } from './helper';
+// import { store } from '../store';
+// import { createUseStore } from './helper';
 
-export const useStore = createUseStore(store);
+// export const useStore = createUseStore(store);
 
 export function useIsOnline() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -24,16 +29,23 @@ export function useIsOnline() {
   return isOnline;
 }
 
-export function useIsMounted() {
-  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-    return () => setIsMounted(false);
-  }, [setIsMounted]);
-
-  return isMounted;
+export function useHasBeenTrued(status) {
+  const initialStausRef = useRef(status);
+  if (status) initialStausRef.current = status;
+  return initialStausRef.current;
 }
+
+// export function useIsMounted() {
+//   const [isMounted, setIsMounted] = useState(false);
+
+//   useEffect(() => {
+//     setIsMounted(true);
+//     return () => setIsMounted(false);
+//   }, [setIsMounted]);
+
+//   return isMounted;
+// }
 
 export function useForceUpdate() {
   const [, setUpdateCount] = useState(0);

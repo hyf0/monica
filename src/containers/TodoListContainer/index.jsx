@@ -9,8 +9,8 @@ import EditIcon from '@material-ui/icons/BorderColor';
 import {
   List, ListItemText, IconButton, ListItem, Divider, Typography,
 } from '@material-ui/core';
-
-import { TransitionGroup, Slide } from 'react-dump-transition';
+import Slide from '@material-ui/core/Slide';
+import { TransitionGroup } from 'react-transition-group';
 import NotFound from '../../components/NotFound';
 import { taskActions } from '../../store/actions';
 import Checkbox from '../../components/Checkbox';

@@ -6,17 +6,15 @@
   "dependencies": {
     "@material-ui/core": "^4.3.1",
     "@material-ui/icons": "^4.2.1",
-    "antd": "^3.22.0",
     "axios": "^0.19.0",
     "immutable": "^4.0.0-rc.12",
-    "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-dump-transition": "^0.0.5",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-transition-group": "^4.3.0",
     "redux": "^4.0.4",
     "redux-immutable": "^4.0.0",
     "redux-saga": "^1.0.5"

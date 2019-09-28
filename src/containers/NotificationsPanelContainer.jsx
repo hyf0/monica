@@ -1,18 +1,19 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { List } from 'immutable';
+import { useSelector } from 'react-redux';
+// import PropTypes from 'prop-types';
+// import { List } from 'immutable';
 
-import { Zoom, TransitionGroup } from 'react-dump-transition';
-
+import Zoom from '@material-ui/core/Zoom';
+import { TransitionGroup } from 'react-transition-group';
 import NotificationCard from '../components/NotificationCard';
 // import Zoom from '../components/transitions/Zoom';
 // import TransitionGroup from '../components/transitions/TransitionGroup';
 
+const notificationsSelector = $state => $state.getIn(['global', 'notifications']);
 
-function NotificationsPanelContainer(props) {
-  const { $notifications } = props;
+function NotificationsPanelContainer() {
+  const $notifications = useSelector(notificationsSelector);
   return (
     <>
       <div
@@ -52,20 +53,17 @@ NotificationsPanelContainer.propTypes = {
   // isLogining: PropTypes.bool.isRequired,
   // isRegistering: PropTypes.bool.isRequired,
   // hasLogin: PropTypes.bool.isRequired,
-  $notifications: PropTypes.instanceOf(List).isRequired,
+  // $notifications: PropTypes.instanceOf(List).isRequired,
 };
 
 NotificationsPanelContainer.defaultProps = {};
 
-const mapState = ($state) => ({
-  $notifications: $state.getIn(['global', 'notifications']),
-  // hasLogin: $state.getIn(['user', 'hasLogin']),
-  // isLogining: $state.getIn(['user', 'isLogining']),
-  // isRegistering: $state.getIn(['user', 'isRegistering']),
-  // $userInfo: $state.getIn(['user', 'userInfo']),
-});
+// const mapState = ($state) => ({
+//   $notifications: $state.getIn(['global', 'notifications']),
+//   // hasLogin: $state.getIn(['user', 'hasLogin']),
+//   // isLogining: $state.getIn(['user', 'isLogining']),
+//   // isRegistering: $state.getIn(['user', 'isRegistering']),
+//   // $userInfo: $state.getIn(['user', 'userInfo']),
+// });
 
-export default connect(
-  mapState,
-  null,
-)(NotificationsPanelContainer);
+export default NotificationsPanelContainer;

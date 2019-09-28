@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Slide } from 'react-dump-transition';
+import Slide from '@material-ui/core/Slide';
 
 function Drawer(props) {
   const { show, children } = props;
 
   return (
-    <Slide show={show} direction="right">
+    <Slide in={show} direction="right">
       <div
         style={{
           position: 'absolute',

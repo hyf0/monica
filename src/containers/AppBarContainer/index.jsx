@@ -41,6 +41,8 @@ function AppBarContainer(props) {
   const { dispatch, history } = props;
   const onClickMenuButton = useCallback(() => {
     dispatch(showSideMenu());
+    // history.push(window.location.pathname + '?showSideMenu=true');
+    // console.log('url', window.location.href + '?showSideMenu=true')
   }, [dispatch]);
 
   const onClickStartOneTaskButton = useCallback(() => {

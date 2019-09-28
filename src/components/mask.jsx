@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Fade } from 'react-dump-transition';
+import Fade from '@material-ui/core/Fade';
 
 function Mask(props) {
   const { show, onClick } = props;
 
   return (
-    <Fade show={show}>
+    <Fade in={show}>
       <div
         onClick={onClick}
         role="button"

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Map } from 'immutable';
-import { Fade } from 'react-dump-transition';
+import Fade from '@material-ui/core/Fade';
 
 import LoginArea from '../components/LoginArea';
 import RegisterArea from '../components/RegisterArea';
@@ -91,7 +91,7 @@ function AccountManagerContainer(props) {
   const tabContentItems = [loginArea, registerArea];
 
   return (
-    <Fade show={showAccountManager}>
+    <Fade in={showAccountManager}>
       <div
         className="AccountManager"
         onClick={handleClickMask}
