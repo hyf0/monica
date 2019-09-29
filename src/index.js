@@ -3,9 +3,7 @@ import React from 'react';
 
 // import * as serviceWorker from './serviceWorker';
 
-import App from './App';
+import Entry from './Entry';
 import './index.css';
-// import 'antd/dist/antd.css';
 
-ReactDOM.render(React.createElement(App), document.getElementById('root'));
-// serviceWorker.register();
+ReactDOM.render(React.createElement(Entry), document.getElementById('root'));

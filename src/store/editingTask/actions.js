@@ -16,6 +16,11 @@ export const removeTaskItemInCurrentTask = ($taskItem) => ({
   payload: $taskItem,
 });
 
+export const changeCurrentTaskTitle = title => ({
+  type: actionTypes.CHANGE_CURRENT_TASK_TITLE,
+  payload: title,
+});
+
 export const undoCurrentTask = () => ({
   type: actionTypes.UNDO_CURRENT_TASK,
 });
@@ -35,6 +40,7 @@ export const clearFutureTasks = () => ({
 export const clearAllEdtingHistory = () => ({
   type: actionTypes.CLEAR_EDITNG_HISTORY,
 });
+
 
 // effect
 

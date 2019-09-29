@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory, useParams } from 'react-router-dom';
 // import { Map, List } from 'immutable';
 import { Map } from 'immutable';
-import EditIcon from '@material-ui/icons/BorderColor';
 import {
-  List, ListItemText, IconButton, ListItem, Divider, Typography,
+  List, ListItemText, ListItem, Divider, Typography, Slide,
 } from '@material-ui/core';
-import Slide from '@material-ui/core/Slide';
 import { TransitionGroup } from 'react-transition-group';
-import NotFound from '../../components/NotFound';
 import { taskActions } from '../../store/actions';
 import Checkbox from '../../components/Checkbox';
+import FullScreenLoading from '../../components/FullScreenLoading';
+import TodoListHeader from './ui/TodoListHeader';
+import TaskItem from './ui/TaskItem';
 
 function ListItemOfTaskItemWithCheckbox(props) {
   const { $taskItem, onClick: rawOnClick, style } = props;
@@ -40,13 +40,12 @@ ListItemOfTaskItemWithCheckbox.defaultProps = {
 
 function TodoListContainer(props) {
   const {
-    match: {
-      params: { id: taskId },
-    },
-    history,
     $currentTodoTask,
-    dispatch,
   } = props;
+
+  const { id: taskId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(taskActions.effectGetTask(taskId));
@@ -54,7 +53,7 @@ function TodoListContainer(props) {
       // 离开当前任务页面时，重置状态树中的currentTodoTask为null，保持状态树整洁
       dispatch(taskActions.changeCurrentTodoTask(null));
     };
-  }, [dispatch, taskId]);
+  }, [taskId]);
 
   const [
     unfinishedTaskItemRefs,
@@ -83,31 +82,21 @@ function TodoListContainer(props) {
 
   const jumpToEditingPage = useCallback(
     () => {
-      // history.push(`/edit/${taskIdWillJump}`);
       history.push(`/edit/${$currentTodoTask.get('id')}`);
     },
-    [history, $currentTodoTask],
+    [$currentTodoTask],
   );
 
-  if ($currentTodoTask == null) return <NotFound message="Loding..." time={5000} />;
+  if ($currentTodoTask == null) return <FullScreenLoading />;
 
   return (
     <>
-      <List>
-        <ListItem dense>
-          <Typography variant="h4" gutterBottom>
-            {$currentTodoTask.get('title')}
-          </Typography>
-          <IconButton onClick={jumpToEditingPage}>
-            <EditIcon />
-          </IconButton>
-        </ListItem>
-      </List>
+      <TodoListHeader title={$currentTodoTask.get('title')} onClickEditButton={jumpToEditingPage} />
       <Divider variant="fullWidth" />
       <List>
         {unfinishedTaskItemRefs.length === 0 ? null : (
           <ListItem dense>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1">
             待完成
             </Typography>
           </ListItem>
@@ -116,13 +105,9 @@ function TodoListContainer(props) {
           {unfinishedTaskItemRefs.length === 0 ? null : unfinishedTaskItemRefs.map((taskItemId) => {
             const $item = $currentTodoTask.getIn(['items', 'entity', taskItemId]);
             return (
-              <Slide timeout={500} direction="right" key={$item.get('id')}>
+              <Slide key={$item.get('id')} timeout={500} direction="right">
                 <div>
-                  <ListItemOfTaskItemWithCheckbox
-                    onClick={toggleTaskItemPropChecked}
-                    $taskItem={$item}
-                  />
-                  <Divider variant="middle" />
+                  <TaskItem $taskItem={$item} onClick={toggleTaskItemPropChecked} />
                 </div>
               </Slide>
             );
@@ -132,7 +117,7 @@ function TodoListContainer(props) {
       <List>
         {finishedTaskItemRefs.length === 0 ? null : (
           <ListItem dense>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1">
             已完成
             </Typography>
           </ListItem>
@@ -141,16 +126,9 @@ function TodoListContainer(props) {
           {finishedTaskItemRefs.map((taskItemId) => {
             const $item = $currentTodoTask.getIn(['items', 'entity', taskItemId]);
             return (
-              <Slide timeout={500} direction="right" key={$item.get('id')}>
+              <Slide key={$item.get('id')} timeout={500} direction="right">
                 <div>
-                  <ListItemOfTaskItemWithCheckbox
-                    style={{
-                      opacity: '0.5',
-                    }}
-                    onClick={toggleTaskItemPropChecked}
-                    $taskItem={$item}
-                  />
-                  <Divider variant="middle" />
+                  <TaskItem $taskItem={$item} onClick={toggleTaskItemPropChecked} />
                 </div>
               </Slide>
             );
@@ -163,19 +141,9 @@ function TodoListContainer(props) {
 
 
 TodoListContainer.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-      action: PropTypes.string,
-    }),
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
   // $tasks: PropTypes.instanceOf(List).isRequired,
   // $tasksEntity: PropTypes.instanceOf(Map).isRequired,
   $currentTodoTask: PropTypes.instanceOf(Map),
-  dispatch: PropTypes.func.isRequired,
 };
 
 TodoListContainer.defaultProps = {

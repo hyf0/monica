@@ -36,7 +36,7 @@ function LoginArea(props) {
         <TextField value={username} onChange={handleInputUsername} type="text" label="用户名" fullWidth />
       </ListItem>
       <ListItem>
-        <TextFieldOnKeyEnterUp onkeyEnterUp={tryLogin} value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
+        <TextFieldOnKeyEnterUp onKeyEnterUp={tryLogin} value={password} onChange={handleInputPassword} type="password" label="密码" fullWidth />
       </ListItem>
       <ListItem>
         <Button disabled={isDisabled} variant="outlined" onClick={tryLogin} fullWidth>

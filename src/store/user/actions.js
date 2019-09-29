@@ -35,6 +35,11 @@ export const effectLogin = (userInfo) => ({
   payload: userInfo,
 });
 
+export const effectLoginByJWT = (jwt) => ({
+  type: actionTypes.EFFECT_LOGIN_BY_JWT,
+  payload: jwt,
+});
+
 export const effectRegister = (userInfo) => ({
   type: actionTypes.EFFECT_REGISTER,
   payload: userInfo,

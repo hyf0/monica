@@ -26,6 +26,7 @@ const userReducer = (state = defaultState, action) => {
     throw new Error(`action: ${action} does not has type!`);
   }
   switch (action.type) {
+    case actionTypes.EFFECT_LOGIN_BY_JWT:
     case actionTypes.EFFECT_LOGIN: {
       return state.set('isLogining', true);
     }

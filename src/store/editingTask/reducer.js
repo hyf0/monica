@@ -56,6 +56,10 @@ const editingTaskReducer = (state = defaultState, action) => {
         }),
       );
     }
+    case actionTypes.CHANGE_CURRENT_TASK_TITLE: {
+      const newTitle = payload;
+      return state.setIn(['currentTask', 'title'], newTitle);
+    }
     case actionTypes.UNDO_CURRENT_TASK: {
       const oldTasks = state.get('oldTasks');
       if (oldTasks.length !== 0) {

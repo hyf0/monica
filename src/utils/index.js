@@ -60,5 +60,20 @@ export function getLocalJWT() {
 export function setLocalJWT(jwt) {
   localStorage.setItem('__jwt', jwt);
 }
+
+export function makeDebounced(fn, timeout = 1000) {
+  let timerId = null;
+  return (...args) => {
+    if (timerId != null) {
+      clearTimeout(timerId);
+      timerId = null;
+    }
+    timerId = setTimeout(() => {
+      timerId = null;
+      fn(...args);
+    }, timeout);
+  };
+}
+
 // window.getLocalJWT = getLocalJWT;
 // window.setLocalJWT = setLocalJWT;

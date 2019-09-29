@@ -20,12 +20,27 @@ request.interceptors.request.use(
   (err) => Promise.reject(err),
 );
 
+const serverError = {
+  title: '网络请求失败',
+  detail: '请稍后再试',
+  type: 'error',
+  key: uniqueId('error'),
+};
+
 request.interceptors.response.use(
   (config) => config,
-  (err) => {
-    const { data: errorResp } = err.response;
-    errorResp.type = 'error';
-    errorResp.key = uniqueId('error');
-    return Promise.reject(errorResp);
+  (axiosError) => {
+    try {
+      const {
+        response: {
+          data: errorResp,
+        },
+      } = axiosError;
+      errorResp.type = 'error';
+      errorResp.key = uniqueId('error');
+      return Promise.reject(errorResp);
+    } catch (err) {
+      return Promise.reject(serverError);
+    }
   },
 );

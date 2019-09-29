@@ -1,34 +1,33 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getLocalJWT } from './utils';
+import { userActions } from './store/actions';
 
-// import Index from './Layout/Index';
-// import TodoListContainer from './containers/TodoListContainer';
-
-// import { isDev } from './env';
-
-import { store } from './store';
-import InitWrapperContainer from './containers/InitWrapperContainer';
 import RootRoutes from './routes/RootRoutes';
 
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 自动登录
+    const jwt = getLocalJWT();
+    if (jwt === '' || jwt == null) return;
+    dispatch(userActions.effectLoginByJWT());
+  }, []);
+
   return (
-    <Provider store={store}>
-      <InitWrapperContainer>
-        <div
-          id="app-main"
-          style={{
-            height: '100vh',
-            overflow: 'hidden',
-          }}
-        >
-          <Router>
-            <RootRoutes />
-          </Router>
-        </div>
-      </InitWrapperContainer>
-    </Provider>
+    <div
+      id="app-main"
+      style={{
+        height: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      <Router>
+        <RootRoutes />
+      </Router>
+    </div>
   );
 }
 

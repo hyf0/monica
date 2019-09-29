@@ -50,6 +50,20 @@ function* login(action) {
   }
 }
 
+function* loginByJWT() {
+  // request会自动带上jwt，不用手动传递
+  try {
+    const { data: userInfo } = yield call(request.get, '/users');
+    yield put(userActions.loginSuccess({
+      userInfo: fromJS(userInfo),
+    }));
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('登录失败', err);
+    setLocalJWT('');
+  }
+}
+
 function* register(action) {
   try {
     const { payload: userInfo } = action;
@@ -78,6 +92,7 @@ function* register(action) {
 
 export default [
   takeEvery(userActionTypes.EFFECT_GET_USERINFO, getUserInfo),
+  takeLatest(userActionTypes.EFFECT_LOGIN_BY_JWT, loginByJWT),
   takeLatest(userActionTypes.EFFECT_REGISTER, register),
   takeLatest(userActionTypes.EFFECT_LOGIN, login),
 ];

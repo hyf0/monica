@@ -41,6 +41,7 @@
     "jest-resolve": "24.7.1",
     "jest-watch-typeahead": "0.3.0",
     "mini-css-extract-plugin": "0.5.0",
+    "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.2.1",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -96,8 +97,10 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^5.2.0",
-    "eslint-config-airbnb": "^17.1.1"
+    "eslint-config-airbnb": "^17.1.1",
+    "webpack-bundle-analyzer": "^3.5.2"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -149,7 +152,20 @@
       "react-app"
     ],
     "plugins": [
-      "@babel/plugin-syntax-dynamic-import"
+      "@babel/plugin-syntax-dynamic-import",
+      [
+        "babel-plugin-transform-imports",
+        {
+          "@material-ui/core": {
+            "transform": "@material-ui/core/${member}",
+            "preventFullImport": true
+          },
+          "@material-ui/icons": {
+            "transform": "@material-ui/icons/${member}",
+            "preventFullImport": true
+          }
+        }
+      ]
     ]
   }
 }
