@@ -1,0 +1,10 @@
+.aside-menu {
+  width: 60vw;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  .aside-menu-project-list {
+    flex: 1;
+    overflow-y: scroll;
+  }
+}

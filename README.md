@@ -1,62 +1,68 @@
-# 简介
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Monica 是一个类 TodoList 应用，其目的在于在做某件事情前，做好各种准备。对于各种例行流程的事情，实现记录好其准备工作，于是乎，凡是经过记录的事情，你再也不用费心去记忆了，唯一需要你记忆的就是在做事情前先想想，这件事 monica 上有没有。
+## Available Scripts
 
-应用地址：http://iheyunfei.github.io/monica/
+In the project directory, you can run:
 
-# Todo
+### `yarn start`
 
-## 任务
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-- [x] 添加任务
-- [x] 删除任务
-- [ ] 任务重命名
-- [ ] 任务排序
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-## 编辑任务子项
+### `yarn test`
 
-- [x] 增添任务子项
-- [x] 删除任务子项
-- [ ] 任务子项重命名
-- [ ] 任务子项排序
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## 主页
+### `yarn build`
 
-- [x] 最近任务
-- [x] 置顶任务
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## 杂项
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-- [x] 合理的主页(考虑显示常用任务)
-- [x] 合理的返回主页入口
-- [ ] 登录
-- [ ] 云同步
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-# 使用场景
+### `yarn eject`
 
-## 每天早上出门上班
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-你可以创建一个 _早上上班出门_ 任务，带有以下任务项：
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- 拿钥匙
-- 钱包
-- 手机
-- 眼镜
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-## 周期性的去健身房
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-你可以创建一个 _去健身房_ 任务，记录每次出发需要带的东西：
+## Learn More
 
-- 换洗衣物
-- 沐浴露
-- 洗发露
-- 水杯
-- 健身卡
-- 雨伞
-- 耳机
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-以及，创建一个 _离开健身房_ 任务，防止离开时忘记一些物品。
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-# 最后
+### Code Splitting
 
-使用本应用的唯一需要注意的事情：你需要培养出做任何事情前，先想想这件事有准备流程吗？
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `yarn build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

@@ -1,0 +1,1 @@
+export const SET_IS_SHOW_ASIDE_MENU = 'SET_IS_SHOW_ASIDE_MENU';
