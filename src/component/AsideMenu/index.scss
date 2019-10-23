@@ -5,6 +5,6 @@
   flex-flow: column nowrap;
   .aside-menu-project-list {
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }

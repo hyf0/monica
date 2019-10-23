@@ -1,8 +1,11 @@
-import Axios, { AxiosRequestConfig } from 'axios';
+import Axios from 'axios';
 import { getLocalJWT } from './helper';
+import { IS_DEV } from './constants';
+
+const baseURL = IS_DEV ? 'http://127.0.0.1:3030' : 'http://101.37.174.138:3030';
 
 export const reqeust  = Axios.create({
-    baseURL: 'http://127.0.0.1:3030',
+    baseURL,
 });
 
 reqeust.interceptors.request.use(
@@ -13,15 +16,6 @@ reqeust.interceptors.request.use(
     },
     (err: unknown) => Promise.reject(err),
 );
-
-// interface IGQLRequestConfig extends AxiosRequestConfig {
-//     data: {
-//         query: string;
-//         variables?: {
-//             [key: string]: unknown
-//         }
-//     }
-// }
 
 interface IGQLReqeust {
     query: string;

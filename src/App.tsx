@@ -5,20 +5,25 @@ import store from './store';
 import './App.scss';
 import { userEffects, projectEffects } from './store/effects';
 import { AppRoute } from './route';
-import { IReduxState } from './store/reducers';
-import { useShallowEqualSelector } from './util/hooks';
+// import { IReduxState } from './store/reducers';
+// import { useShallowEqualSelector } from './util/hooks';
+import { getLocalJWT } from './util/helper';
+import { useIsLogined } from './hook';
 
-const appSelector = ({ user: {user} }: IReduxState) => ({
-  isLogined: user !== null,
-});
+// const appSelector = ({ user: {user} }: IReduxState) => ({
+//   isLogined: user !== null,
+// });
 
 function App() {
 
-  const { isLogined } = useShallowEqualSelector(appSelector);
+  const isLogined = useIsLogined();
   const dispatch = useDispatch();
   useEffect(() => {
     if (!isLogined) {
-      dispatch(userEffects.login());
+      const jwt = getLocalJWT();
+      if (jwt != null && jwt !== '') {
+        dispatch(userEffects.login());
+      }
     } else {
       dispatch(projectEffects.getProjects());
     }

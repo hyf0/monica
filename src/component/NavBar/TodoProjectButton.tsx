@@ -40,7 +40,7 @@ export default function TodoProjectButton() {
     } else if (unchekcedTasks.length !== 0) {
       dispatch(projectActions.createToggleCheckTaskInTodoProjectById(unchekcedTasks[0].id));
     }
-  }, [isAllFininshed, history, unchekcedTasks, dispatch]);
+  }, [isAllFininshed, history, unchekcedTasks, dispatch, tasks, projectId]);
 
   return (
     <Button

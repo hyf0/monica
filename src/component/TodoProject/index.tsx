@@ -32,15 +32,14 @@ export default function TodoPorject() {
   const { todoProject } = useShallowEqualSelector(todoProjectSelector);
   const dispatch = useDispatch();
 
-  useEffect( // unmount 时 清理 redux state
-    () => () => {
-      dispatch(projectActions.createClearTodoProject());
-    },
-    [],
-  );
+  useEffect(() => () => {
+    dispatch(projectActions.createClearTodoProject());
+  }, [dispatch]);
 
   useEffect(() => { // 拉取 project
-    if (projectId != null && (todoProject == null || todoProject.id !== projectId)) {
+    if (projectId == null) return;
+    if (todoProject == null || todoProject.id !== projectId) {
+      if (todoProject != null) dispatch(projectActions.createClearTodoProject());
       dispatch(projectEffects.getTodoProject(projectId));
     }
   }, [projectId, todoProject, dispatch]);
@@ -56,7 +55,7 @@ export default function TodoPorject() {
   const history = useHistory();
   const jumpToEditPage = useCallback(() => {
     history.push(`/project-editor/${projectId}`);
-  }, [history]);
+  }, [history, projectId]);
 
   const toggleOneTask = useCallback(
     (taskId: string) => {

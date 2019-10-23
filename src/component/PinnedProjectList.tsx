@@ -7,8 +7,9 @@ import { TransitionGroup } from 'react-transition-group';
 
 import { IReduxState } from '../store/reducers';
 import { useShallowEqualSelector } from '../util/hooks';
-import { globalActions, projectActions } from '../store/action';
+import { globalActions } from '../store/action';
 import { projectEffects } from '../store/effects';
+import { useIsLogined } from '../hook';
 
 // import './index.scss';
 
@@ -35,7 +36,10 @@ export default function PinnedProjectList() {
     [dispatch],
   );
 
-  const pinnedProjects = useMemo(() => (projects == null ? [] : projects.filter(p => p.isPinned)), [projects]);
+  // 权限相关
+  const isLogined = useIsLogined();
+  const pinnedProjects = useMemo(() => (!isLogined || projects == null ? [] : projects.filter(p => p.isPinned)), [projects, isLogined]);
+
 
   return (
     <List className="pinned-project-list" subheader={<ListSubheader>置顶任务项</ListSubheader>}>

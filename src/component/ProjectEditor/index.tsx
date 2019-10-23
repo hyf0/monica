@@ -7,11 +7,10 @@ import {
   ListItemText,
   Checkbox,
   ListItemIcon,
-  Typography,
   TextField,
   IconButton,
 } from '@material-ui/core';
-import { Delete as DeleteIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Save as SaveIcon } from '@material-ui/icons';
 
 import { IReduxState } from '../../store/reducers';
 import { useShallowEqualSelector } from '../../util/hooks';
@@ -21,26 +20,34 @@ import { projectActions } from '../../store/action';
 
 import './index.scss';
 
-const projectEditorSelector = ({ project: { editingProject } }: IReduxState) => ({
-  editingProject,
+const projectEditorSelector = ({ project: { editingProject: { current } } }: IReduxState) => ({
+  editingProject: current,
 });
+
+// const debouncedChangeProjectName = createDebounced(projectEffects.setProjectName)
+
+// 关于项目更名的逻辑，可以单独抽离成一个 ProjectEditorHeader 组件
 
 export default function ProjectEditor() {
   const { id: projectId } = useParams();
   const { editingProject } = useShallowEqualSelector(projectEditorSelector);
   const dispatch = useDispatch();
 
-  useEffect(
-    () => () => {
-      dispatch(projectActions.createClearEditingProject());
-    },
-    [dispatch],
-  );
+  const changeEditingProjectName = useCallback((evt: any) => {
+    dispatch(projectActions.createSnapshotEditingpProject());
+    dispatch(projectActions.createChangeEditingProjectName(evt.target.value));
+  }, [dispatch]);
+
+  const saveEdtingProjectName = useCallback(() => {
+    dispatch(projectEffects.saveEditingProjectName())
+  }, [dispatch]);
 
   useEffect(() => {
-    if (projectId != null && (editingProject == null || editingProject.id !== projectId)) {
+    if (projectId == null) return;
+    if (editingProject == null || editingProject.id !== projectId) {
+      dispatch(projectActions.createClearEditingHistory());
       dispatch(projectEffects.getEditingProject(projectId));
-    }
+    } 
   }, [projectId, editingProject, dispatch]);
 
   const [taskName, setTaskName] = useState('');
@@ -48,6 +55,7 @@ export default function ProjectEditor() {
 
   const createTask = useCallback(() => {
     if (taskName.trim() === '' || editingProject == null) return;
+    dispatch(projectActions.createSnapshotEditingpProject());
     dispatch(projectEffects.createTask(editingProject.id, taskName));
     setTaskName('');
   }, [taskName, setTaskName, dispatch, editingProject]);
@@ -57,18 +65,21 @@ export default function ProjectEditor() {
       const KEY_ENTER_CODE = 13;
       const { keyCode: keyUp = -1 } = evt;
       if (keyUp === KEY_ENTER_CODE) {
+        dispatch(projectActions.createClearEditingProjectFuture());
         createTask();
       }
     },
-    [createTask],
+    [dispatch, createTask],
   );
 
   const deleteTask = useCallback(
     (taskId: string) => {
+      dispatch(projectActions.createSnapshotEditingpProject());
       dispatch(projectEffects.delTask(taskId));
     },
     [dispatch],
   );
+
 
   if (projectId == null) return <Redirect to="/" />;
 
@@ -77,8 +88,13 @@ export default function ProjectEditor() {
   return (
     <div className="project-editor">
       <List>
-        <ListItem>
-          <Typography variant="h4">{editingProject.name}</Typography>
+        <ListItem className="project-editor-input">
+          <TextField onChange={changeEditingProjectName} value={editingProject.name} />
+          <ListItemIcon>
+            <IconButton onClick={saveEdtingProjectName}>
+              <SaveIcon />
+            </IconButton>
+          </ListItemIcon>
         </ListItem>
         {editingProject.tasks.map(t => (
           <ListItem key={t.id}>

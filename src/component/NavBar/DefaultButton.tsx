@@ -13,6 +13,6 @@ export default function DefaultButton() {
     <Button style={{
       backgroundColor: Color.BLUE,
       color: '#fff',
-    }} onClick={showAsideMenu} fullWidth variant="outlined">开始一个任务项</Button>
+    }} onClick={showAsideMenu} fullWidth variant="outlined">开始一个项目</Button>
   );
 }

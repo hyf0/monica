@@ -1,0 +1,13 @@
+.account-page {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex-flow: column nowrap;
+  .account-page-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+}

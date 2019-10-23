@@ -3,7 +3,7 @@ import * as projectEffects from './project/effects';
 
 import { IReduxState } from './reducers';
 import { IAction } from './action';
-// import * as globalEffects from './global/effects';
+import * as globalEffects from './global/effects';
 
 
 export type TReduxThunk = (dispatch: TDispatch, getState: () => IReduxState) => Promise<unknown>;
@@ -12,5 +12,5 @@ type TDispatch = <ARG_TYPE = IAction | ((...args: unknown[]) => TReduxThunk)>(ac
 export {
     userEffects,
     projectEffects,
-    // globalEffects,
+    globalEffects,
 }

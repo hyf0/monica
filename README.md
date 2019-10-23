@@ -1,68 +1,86 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 简介
 
-## Available Scripts
 
-In the project directory, you can run:
+Monica 是一个即时备忘录清单应用，其目的在于解决忘记准备某项物品或事物的问题。
 
-### `yarn start`
+应用地址：http://iheyunfei.github.io/monica/
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+本应用针对的人群有以下特点：
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- 有需要准备各种东西的重复任务
+- 这些任务可能会重复、大量出现
+- 经常发现忘记带某样东西，或者没带某样东西的后果很严重
 
-### `yarn test`
+## 小计
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+本应用的使用场景:
 
-### `yarn build`
+- 一个是我经常去健身房，每次去回我都要准备大量的东西，换洗的衣物、洗漱用品和各种补品。倘若忘记某些东西，会对我造成很大困扰，比如，无法洗澡、中途乏力，甚至受伤。
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 另一个，我早上去实验室和晚上回寝室的时候，需要携带各种东西，钥匙、校园卡，还有些小东西，如果忘记了类似钥匙或校园卡这种东西，会打乱我的生活节奏，进而导致一系列混乱。
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+为了尽量避免以上两个原因，我使用过其他应用，类似Google的Keep和滴答清单。它们的问题在于，其设计目的是一次性的，每次使用后都要手动重新创建相应的任务，所以，为了满足自己的需求，我写了这个应用。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Todo
 
-### `yarn eject`
+## 用户
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [x] 云同步
+- [ ] 修改密码
+- [ ] 找回密码
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 项目
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- [x] 添加项目
+- [x] 删除项目
+- [x] 编辑界面快捷入口
+- [x] 任务重命名
+- [ ] 任务排序
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 任务
 
-## Learn More
+- [x] 增添任务
+- [x] 删除任务
+- [x] 撤销重做功能(对应服务端功能暂未实现)
+- [x] 任务页面快捷编辑按钮
+- [ ] 任务重命名
+- [ ] 任务排序
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 主页
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [ ] 最近任务(重构后没想好是做到服务端，还是本地，暂时没写)
+- [x] 置顶任务
 
-### Code Splitting
+## 杂项
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- [x] 全局通知提醒
+- [x] 为防止误触，主页按钮需双击才能返回主页
 
-### Analyzing the Bundle Size
+# 使用场景
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## 每天早上出门上班
 
-### Making a Progressive Web App
+你可以创建一个 _早上上班出门_ 任务，带有以下任务项：
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- 拿钥匙
+- 钱包
+- 手机
+- 眼镜
 
-### Advanced Configuration
+## 周期性的去健身房
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+你可以创建一个 _去健身房_ 任务，记录每次出发需要带的东西：
 
-### Deployment
+- 换洗衣物
+- 沐浴露
+- 洗发露
+- 水杯
+- 健身卡
+- 雨伞
+- 耳机
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+以及，创建一个 _离开健身房_ 任务，防止离开时忘记一些物品。
 
-### `yarn build` fails to minify
+# 最后
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+使用本应用的唯一需要注意的事情：你需要培养出做任何事情前，先想想这件事有准备流程吗？

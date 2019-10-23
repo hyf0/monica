@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, SyntheticEvent } from 'react';
+import React, { useState, useCallback, SyntheticEvent } from 'react';
 import { ListItem, List, ListItemText, ListSubheader, IconButton, Switch, Slide } from '@material-ui/core';
 import { Delete as DeleteIcon, BorderColor as EditIcon, StarBorder as UnpinnedIcon } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
@@ -72,7 +72,7 @@ const ProjectList = React.memo(function ProjectList() {
             }}
           >
             <span style={{ flex: '1' }} className="title">
-              任务项
+              项目
             </span>
             <div className="edit-button">
               编辑 <Switch checked={isEdited} onChange={toggleIsEdited} />

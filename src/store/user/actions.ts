@@ -1,5 +1,6 @@
 import { IAction } from '../action';
 import { userActionTypes } from '../actionTypes';
+import { IUser } from './reducer';
 
 export function createSetIsLoginning(status: boolean): IAction {
   return {
@@ -8,9 +9,15 @@ export function createSetIsLoginning(status: boolean): IAction {
   };
 }
 
-export function createSetUser(user: null | { id: string; username: string }): IAction {
+export function createSetUser(user: IUser): IAction {
   return {
     type: userActionTypes.SET_USER,
     payload: user,
   };
+}
+
+export function createLogout(): IAction {
+  return {
+    type: userActionTypes.LOGOUT,
+  }
 }

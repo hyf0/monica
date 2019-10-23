@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { AppBar, Toolbar, IconButton, Button } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { useHistory, Switch, Route } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { globalActions } from '../../store/action';
 import HomeButton from '../HomeButton';
 import DefaultButton from './DefaultButton';
 import TodoProjectButton from './TodoProjectButton';
+import TaskEditorButton from './TaskEditorButton';
 
 export default function NavBar() {
   const history = useHistory();
@@ -33,6 +34,7 @@ export default function NavBar() {
         </IconButton>
         <Switch>
           <Route path="/todo-project" component={TodoProjectButton} />
+          <Route path="/project-editor" component={TaskEditorButton} />
           <Route path="*" component={DefaultButton} />
         </Switch>
         <HomeButton needDoubleClick onClick={onClickHomeButton} />

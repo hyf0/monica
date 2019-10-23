@@ -1,9 +1,10 @@
 import gql from 'gql-tag';
 
-import { TReduxThunk } from '../effects';
+import { TReduxThunk, globalEffects } from '../effects';
 import { projectActions } from '../action';
 import { reqGQL } from '../../util/request';
 import API from '../../API';
+import { NotificationType } from '../../util/constants';
 
 export function getProjects(): TReduxThunk {
   return async (dispatch, getState) => {
@@ -43,23 +44,33 @@ export function getProjects(): TReduxThunk {
 }
 
 export function getTodoProject(id: string): TReduxThunk {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { project: { isFetchingTodoProject } } = getState();
+    if (isFetchingTodoProject) return;
     try {
+      dispatch(projectActions.createSetIsFetchingTodoProject(true));
       const project = await API.project.getProject(id);
       dispatch(projectActions.createSetTodoProject(project));
     } catch (err) {
       console.error(err);
+    } finally {
+      dispatch(projectActions.createSetIsFetchingTodoProject(false));
     }
   };
 }
 
 export function getEditingProject(id: string): TReduxThunk {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { project: { isFetchingEditingProject } } = getState();
+    if (isFetchingEditingProject) return;
     try {
+      dispatch(projectActions.createSetIsFetchingEditingProject(true));
       const project = await API.project.getProject(id);
       dispatch(projectActions.createSetEditingProject(project));
     } catch (err) {
       console.error(err);
+    } finally {
+      dispatch(projectActions.createSetIsFetchingEditingProject(false));
     }
   };
 }
@@ -158,20 +169,41 @@ export function setProjectIsPinned(
   isPinned: boolean,
 ): TReduxThunk {
   return async dispatch => {
-    const {
-      data: { data },
-    } = await reqGQL({
-      variables: { id: projectId, patcher: {isPinned} },
-      query: gql`
-        mutation($id: String!, $patcher: patchProjectInput!) {
-          patchProject(id: $id, patcher: $patcher) {
-            id
-            isPinned
-          }
-        }
-      `,
+    const patchedProject = await API.project.patchProject(projectId, {
+      isPinned,
     });
-    if (data == null) throw new Error('pinOneProjectById 失败');
-    dispatch(projectActions.createSetOneProjectIsPinnedById(projectId, isPinned));
+    if (patchedProject == null) throw new Error('setProjectIsPinned 失败');
+    dispatch(
+      projectActions.createSetOneProjectIsPinnedById(projectId, isPinned),
+    );
+  };
+}
+
+export function saveEditingProjectName(): TReduxThunk {
+  return async (dispatch, getState) => {
+    const { project: {editingProject: { current }} } = getState();
+    if (current == null) return;
+    const { id: projectId, name } = current;
+    const patchedProject = await API.project.patchProject(projectId, {
+      name,
+    });
+    if (patchedProject == null) throw new Error('saveEditingProjectName 失败');
+    dispatch(projectActions.createChangeProjectNameById(projectId, name));
+    dispatch(globalEffects.pushNotification({
+      type: NotificationType.SUCCESS,
+      title: '成功更改项目名称',
+    }, 1500));
+  };
+}
+
+export function redoEditingProject(): TReduxThunk {
+  return async dispatch => {
+    dispatch(projectActions.createRedoEditingProject());
+  };
+}
+
+export function undoEditingProject(): TReduxThunk {
+  return async dispatch => {
+    dispatch(projectActions.createUndoEditingProject());
   };
 }
