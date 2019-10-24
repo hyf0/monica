@@ -1,6 +1,6 @@
 import React, { useState, useCallback, SyntheticEvent } from 'react';
 import { ListItem, List, ListItemText, ListSubheader, IconButton, Switch, Slide } from '@material-ui/core';
-import { Delete as DeleteIcon, BorderColor as EditIcon, StarBorder as UnpinnedIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, BorderColor as EditIcon, StarBorder as UnpinnedIcon, Star as PinnedIcon } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { TransitionGroup } from 'react-transition-group';
@@ -52,7 +52,10 @@ const ProjectList = React.memo(function ProjectList() {
 
   const pinOneProject = useCallback((projectId: string) => {
     dispatch(projectEffects.setProjectIsPinned(projectId, true))
-    console.log('pinOneProject', projectId);
+  }, [dispatch]);
+
+  const unpinOneProject = useCallback((projectId: string) => {
+    dispatch(projectEffects.setProjectIsPinned(projectId, false))
   }, [dispatch]);
 
   // 编辑按钮相关
@@ -111,7 +114,16 @@ const ProjectList = React.memo(function ProjectList() {
                     <DeleteIcon />
                   </IconButton>
                 </>
-              ) : p.isPinned ? null : (
+              ) : p.isPinned ? (
+                <IconButton
+                  onClick={(evt: SyntheticEvent) => {
+                    evt.stopPropagation();
+                    unpinOneProject(p.id);
+                  }}
+                >
+                  <PinnedIcon />
+                </IconButton>
+              ) : (
                 <IconButton
                   onClick={(evt: SyntheticEvent) => {
                     evt.stopPropagation();

@@ -11,7 +11,7 @@ export function useForceUpdate() {
 }
 
 export function useUnmount(callback: () => void) {
-  useEffect(() => callback, []);
+  useEffect(() => callback, [callback]);
 }
 
 // export const useShallowEqualSelector = curry(flip(useSelector))

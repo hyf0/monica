@@ -34,7 +34,6 @@ export function getProjects(): TReduxThunk {
           }
         `,
       });
-      console.log('resp', data);
       if (data == null) throw new Error('getProjects失败');
       dispatch(projectActions.createSetProjects(data.projects));
     } catch (err) {
