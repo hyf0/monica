@@ -1,0 +1,8 @@
+.basic-layout {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  .basic-layout-content {
+    flex: 1;
+  }
+}

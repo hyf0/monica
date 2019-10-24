@@ -1,0 +1,9 @@
+.default-layout {
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  .default-layout-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
