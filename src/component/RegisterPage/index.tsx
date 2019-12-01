@@ -99,7 +99,7 @@ export default function LoginPage() {
             value={password}
             onChange={updatePassword}
             fullWidth
-            type="text"
+            type="password"
             label="密码"
             margin="normal"
           />

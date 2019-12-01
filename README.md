@@ -3,13 +3,21 @@
 
 Monica 是一个即时备忘录清单应用，其目的在于解决忘记准备某项物品或事物的问题。
 
-应用地址：http://iheyunfei.github.io/monica/
+- 服务端实现：[https://github.com/iheyunfei/monica-server](https://github.com/iheyunfei/monica-server)
+
+- 应用地址：[http://iheyunfei.github.io/monica/](http://iheyunfei.github.io/monica/)
 
 本应用针对的人群有以下特点：
 
 - 有需要准备各种东西的重复任务
 - 这些任务可能会重复、大量出现
 - 经常发现忘记带某样东西，或者没带某样东西的后果很严重
+
+## 技术栈
+
+- typescript
+- immer
+
 
 ## 小计
 
@@ -54,6 +62,10 @@ Monica 是一个即时备忘录清单应用，其目的在于解决忘记准备�
 
 - [x] 全局通知提醒
 - [x] 为防止误触，主页按钮需双击才能返回主页
+
+## BUG
+
+- [ ] 项目编辑之间没有清除上次编辑的数据，会出现暂时闪屏的现象，先显示以前的数据，再显示旧的数据
 
 # 使用场景
 
